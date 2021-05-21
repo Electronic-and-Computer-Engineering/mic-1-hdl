@@ -18,3 +18,15 @@ The CPU will be designed via Vivado and tested on a Basys-3 Artix-7 FPGA board.
 | Team member      | Paul Sinabell      |
 
 # Repository
+
+## verilog/
+
+This directory contains the various submodules and the top-level module.
+
+## documentation/
+
+Here you can find documentation about the function and interfaces of the submodules.
+
+## examples/
+
+This directory hosts general verilog examples usable as a reference.
