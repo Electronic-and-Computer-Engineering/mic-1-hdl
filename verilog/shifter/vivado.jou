@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:33 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Wed Oct 20 20:05:08 2021
+# Process ID: 17568
+# Current directory: C:/Users/mlang/Desktop/mic-1-project/verilog/shifter
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent8640 C:\Users\mlang\Desktop\mic-1-project\verilog\shifter\shifter.xpr
+# Log file: C:/Users/mlang/Desktop/mic-1-project/verilog/shifter/vivado.log
+# Journal file: C:/Users/mlang/Desktop/mic-1-project/verilog/shifter\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/mlang/Desktop/mic-1-project/verilog/shifter/shifter.xpr
