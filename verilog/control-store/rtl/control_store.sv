@@ -8,7 +8,7 @@ module control_store (
     output reg [31:0] rdata
     );
 
-    reg [31:0] mem [0:511];
+    reg [35:0] mem [0:511];
     always @(posedge clk) begin
          if (wen)
             mem[waddr] <= wdata;
