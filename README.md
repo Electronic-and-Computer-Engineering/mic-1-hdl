@@ -12,7 +12,7 @@ The CPU will be designed via Vivado and tested on a Basys-3 Artix-7 FPGA board.
 | Position         | Name               |
 |------------------|--------------------|
 | Team leader      | Leo Moser          |
-| Team Coordinator | Florian Zwittnigg  |
+| Team coordinator | Florian Zwittnigg  |
 | Team member      | Michael Lang       |
 | Team member      | Michael Stangl     |
 | Team member      | Paul Sinabell      |
