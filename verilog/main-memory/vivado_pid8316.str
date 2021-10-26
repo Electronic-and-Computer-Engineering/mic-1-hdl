@@ -1,0 +1,113 @@
+/*
+
+Xilinx Vivado v2020.1 (64-bit) [Major: 2020, Minor: 1]
+SW Build: 2902540 on Wed May 27 19:54:49 MDT 2020
+IP Build: 2902112 on Wed May 27 22:43:36 MDT 2020
+
+Process ID (PID): 8316
+License: Customer
+
+Current time: 	Tue Oct 26 12:53:49 CEST 2021
+Time zone: 	Central European Standard Time (Europe/Berlin)
+
+OS: Windows 10
+OS Version: 10.0
+OS Architecture: amd64
+Available processors (cores): 12
+
+Screen size: 2560x1440
+Screen resolution (DPI): 100
+Available screens: 2
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	9.0.4 64-bit
+Java home: 	D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/tps/win64/jre9.0.4
+Java executable location: 	D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/tps/win64/jre9.0.4/bin/java.exe
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	user
+User home directory: C:/Users/user
+User working directory: C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory
+User country: 	GB
+User language: 	en
+User locale: 	en_GB
+
+RDI_BASEROOT: D:/Tools/FH/Xilinx/Vivado/Vivado
+HDI_APPROOT: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1
+RDI_DATADIR: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/data
+RDI_BINDIR: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/bin
+
+Vivado preferences file location: C:/Users/user/AppData/Roaming/Xilinx/Vivado/2020.1/vivado.xml
+Vivado preferences directory: C:/Users/user/AppData/Roaming/Xilinx/Vivado/2020.1/
+Vivado layouts directory: C:/Users/user/AppData/Roaming/Xilinx/Vivado/2020.1/data/layouts
+PlanAhead jar file location: 	D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/lib/classes/planAhead.jar
+Vivado log file location: 	C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory/vivado.log
+Vivado journal file location: 	C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory/vivado.jou
+Engine tmp dir: 	C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory/.Xil/Vivado-8316-Paulis-PC
+
+Xilinx Environment Variables
+----------------------------
+XILINX: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/ids_lite/ISE
+XILINX_DSP: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/ids_lite/ISE
+XILINX_PLANAHEAD: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1
+XILINX_VIVADO: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1
+XILINX_VIVADO_HLS: D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1
+
+
+GUI allocated memory:	185 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,020 MB
+
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 96 MB (+98588kb) [00:00:04]
+// [Engine Memory]: 1,020 MB (+918317kb) [00:00:04]
+// bz (cs):  Open Project : addNotify
+// Opening Vivado Project: C:\Users\user\OneDrive - FH JOANNEUM\5_Semester\ECE-Project\mic-1-project\verilog\main-memory\main-memory.xpr. Version: Vivado v2020.1 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_project {C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory/main-memory.xpr} 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory' 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 124 MB (+23813kb) [00:00:08]
+// WARNING: HEventQueue.dispatchEvent() is taking  1859 ms.
+// Tcl Message: open_project {C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory/main-memory.xpr} 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory' 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Tools/FH/Xilinx/Vivado/Vivado/2020.1/data/ip'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,020 MB. GUI used memory: 98 MB. Current time: 10/26/21, 12:53:49 PM CEST
+// Project name: main-memory; location: C:/Users/user/OneDrive - FH JOANNEUM/5_Semester/ECE-Project/mic-1-project/verilog/main-memory; part: xc7a35tcpg236-1
+dismissDialog("Open Project"); // bz (cs)
+// Tcl Command: 'rdi::info_commands {device::*}'
+// Tcl Command: 'rdi::info_commands {debug::*}'
+// Tcl Command: 'rdi::info_commands {*}'
+// Tcl Message: update_compile_order -fileset sources_1 
+// [GUI Memory]: 139 MB (+9375kb) [00:02:39]
+// Elapsed time: 149 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 1, true); // B (F, cs) - Node
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 1); // B (F, cs)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, main-memory.sv]", 2, false); // B (F, cs)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, main-memory.sv]", 2, false); // B (F, cs)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, main-memory.sv]", 2, false, false, false, false, false, true); // B (F, cs) - Double Click
