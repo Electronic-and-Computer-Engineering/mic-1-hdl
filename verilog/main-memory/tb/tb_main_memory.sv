@@ -1,4 +1,4 @@
-module tb_main-memory;
+module tb_main_memory;
 
 initial begin
 
