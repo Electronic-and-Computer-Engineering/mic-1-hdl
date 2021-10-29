@@ -14,6 +14,6 @@ begin
      if (wen)
         mem[waddr] <= wdata;
      if (ren)
-        rdata <= mem[raddr]
+        rdata <= mem[raddr];
 end
 endmodule
