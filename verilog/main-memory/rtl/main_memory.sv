@@ -3,12 +3,12 @@
 module main_memory (
     input clk, wen, ren,    
     input [8:0] waddr, raddr,
-    input [31:0] wdata,
+    input [8:0] wdata,
     
-    output reg [31:0] rdata
+    output reg [8:0] rdata
     );
 
-reg [35:0] mem [0:511];
+reg [8:0] mem [0:16000];
 always @(posedge clk)
 begin
      if (wen)
