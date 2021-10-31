@@ -1,23 +1,24 @@
 module alu( 
     // INPUTS
-    input [31:0] A,
-    input [31:0] B,
-    input F0,
-    input F1,
-    input ENA,
-    input ENB,
-    input INVA,
-    input INC,
+    input logic [31:0] A,
+    input logic [31:0] B,
+    input logic F0,
+    input logic F1,
+    input logic ENA,
+    input logic ENB,
+    input logic INVA,
+    input logic INC,
     
     // OUTPUTS
-    output [31:0] ALU_out,
-    output N,
-    output Z);
+    output logic [31:0] ALU_out,
+    output logic N,
+    output logic Z);
 
     logic [5:0] control_lines = {F0, F1, ENA, ENB, INVA, INC};
     logic [31:0] result;
     
-    always @(*)
+    
+    always @(F0 or F1 or ENA or ENB or INVA or INC)
     begin
         case(control_lines)
         6'b011000:  //A
@@ -55,6 +56,7 @@ module alu(
         default: 
             result = 0;
         endcase
+        ALU_out = result;
     end
 
 endmodule
