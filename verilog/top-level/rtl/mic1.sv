@@ -78,7 +78,7 @@ module mic1 (
     // TODO MIR?
     always_ff @(negedge clk) begin
         if (!resetn) begin
-
+            
         end else begin
 
         end
