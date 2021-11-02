@@ -6,7 +6,7 @@ reg [31:0]out = 32'h0;
 
 shifter DUT(.ALU_out(in), .SET(set), .Shift(out));
 
-always 
+always
 begin
     #250ns set++;
 end
