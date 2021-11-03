@@ -14,8 +14,8 @@ module alu(
     output logic N,
     output logic Z);
 
-    logic [5:0] control_lines = {F0, F1, ENA, ENB, INVA, INC};
-    
+ logic [5:0] control_lines;
+ assign control_lines = {F0, F1, ENA, ENB, INVA, INC};   
     
     always_comb
     begin
@@ -51,10 +51,18 @@ module alu(
         6'b110001:  //1
             ALU_out = 1;
         6'b110010:  //-1
-            ALU_out = -1;
+            ALU_out = -1;      
         default: 
             ALU_out = 32'hABCABCAB;
+            
         endcase
+        
+        if (ALU_out == 0) Z=1;
+        else Z = 0;
+        
+        if ($signed(ALU_out) < 0) N = 1;
+        else N = 0;
+        
     end
 
 endmodule
