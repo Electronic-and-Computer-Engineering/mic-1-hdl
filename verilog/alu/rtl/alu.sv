@@ -15,48 +15,46 @@ module alu(
     output logic Z);
 
     logic [5:0] control_lines = {F0, F1, ENA, ENB, INVA, INC};
-    logic [31:0] result;
     
     
-    always @(F0 or F1 or ENA or ENB or INVA or INC)
+    always_comb
     begin
         case(control_lines)
         6'b011000:  //A
-            result = A;
+            ALU_out = A;
         6'b010100:  //B
-            result = B;
+            ALU_out = B;
         6'b011010:  //negate A
-            result = ~A;
+            ALU_out = ~A;
         6'b101100:  //negate B
-            result = ~B;
+            ALU_out = ~B;
         6'b111100:  //A+B
-            result = A+B;
+            ALU_out = A+B;
         6'b111101:  //A+B+1
-            result = A+B+1;
+            ALU_out = A+B+1;
         6'b111001:  //A+1
-            result = A+1;
+            ALU_out = A+1;
         6'b110101:  //B+1
-            result = B+1;
+            ALU_out = B+1;
         6'b111111:  //B-A
-            result = B-A;
+            ALU_out = B-A;
         6'b110110:  //B-1
-            result = B-1;
+            ALU_out = B-1;
         6'b111011:  //-A
-            result = -A;
+            ALU_out = -A;
         6'b001100:  //A AND B
-            result = A&B;
+            ALU_out = A&B;
         6'b011100:  //A OR B
-            result = A|B;
+            ALU_out = A|B;
         6'b010000:  //0
-            result = 0;
+            ALU_out = 0;
         6'b110001:  //1
-            result = 1;
+            ALU_out = 1;
         6'b110010:  //-1
-            result = -1;
+            ALU_out = -1;
         default: 
-            result = 0;
+            ALU_out = 32'hABCABCAB;
         endcase
-        ALU_out = result;
     end
 
 endmodule
