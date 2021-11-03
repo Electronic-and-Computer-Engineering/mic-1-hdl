@@ -8,6 +8,18 @@ shifter DUT(.ALU_out(in), .SET(set), .Shift(out));
 
 always
 begin
-    #250ns set++;
+
+    set =2'b00;
+    #1 assert (out == 32'haaaaaaaa) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b01;
+    #1 assert (out == 32'haaaaaa00) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b10;
+    #1 assert (out == 32'hd5555555) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b11;
+    #1 assert (out == 32'haaaaaaaa) $display ("PASS");
+    else $error("FAIL");
 end
 endmodule
