@@ -3,16 +3,22 @@
 module control_store (
     input clk, wen, ren,
 
-    input [8:0] waddr, raddr
-    input [31:0] wdata,
-    output reg [31:0] rdata
+    input [8:0] waddr, raddr,
+    input [35:0] wdata,
+    output reg [35:0] rdata
     );
 
     reg [35:0] mem [0:511];
+
+    initial begin
+        $display("Loading memory file into bram_basic.");
+        $readmemh("some_values.mem", mem);
+    end
+
     always @(posedge clk) begin
          if (wen)
             mem[waddr] <= wdata;
          if (ren)
-            rdata <= mem[raddr]
-
+            rdata <= mem[raddr];
+    end
 endmodule
