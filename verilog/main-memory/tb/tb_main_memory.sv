@@ -1,4 +1,4 @@
-`define assert(mem_value, written_value) \
+`define mem_assert(mem_value, written_value) \
         if (mem_value !== written_value) begin \
             $display("ASSERTION FAILED in %m: mem_value != written_value"); \
             $finish; \
@@ -23,7 +23,7 @@ initial begin
     
        
     #10ns
-    `assert(test_memory[waddr], wdata)
+    `mem_assert(test_memory[waddr], wdata)
           
     #10ns
     for (i = 0; i <= 10; i = i + 1) begin
