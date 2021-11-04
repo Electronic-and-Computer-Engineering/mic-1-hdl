@@ -25,6 +25,10 @@ initial begin
     assert (wdata == rdata) $display ("Memory Cell Check completed");
       else $error("Memory Cell Check gone wrong");
     
+    for (int i = 0; i <= 511; i++) begin
+            $display ("%h", control_store.mem[i]);
+    end
+    
     #10
     $finish;
 end

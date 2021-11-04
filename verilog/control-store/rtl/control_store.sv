@@ -13,10 +13,6 @@ module control_store (
     initial begin
         $display("Loading memory file into bram_basic.");
         $readmemh("some_values.mem", mem);
-
-        for (int i = 0; i <= 511; i++) begin
-            $display ("%h", mem[i]);
-        end
     end
 
     always @(posedge clk) begin
