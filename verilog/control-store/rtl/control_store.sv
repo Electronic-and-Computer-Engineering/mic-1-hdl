@@ -9,14 +9,16 @@ module control_store (
     );
 
     reg [35:0] mem [0:511];
-    
+
     initial begin
-        if ("some_values.mem" != 0) begin
-            $display("Loading memory file '%s' into bram_basic.", "some_values.mem");
-            $readmemh("some_values.mem", mem);
+        $display("Loading memory file into bram_basic.");
+        $readmemh("some_values.mem", mem);
+
+        for (int i = 0; i <= 511; i++) begin
+            $display ("%h", mem[i]);
         end
     end
-    
+
     always @(posedge clk) begin
          if (wen)
             mem[waddr] <= wdata;

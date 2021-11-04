@@ -12,8 +12,6 @@ always begin
     #1
     clk =! clk;
 end
-
-reg [35:0] mem [512];
   
 initial begin
     #10ns
@@ -26,7 +24,7 @@ initial begin
     
     assert (wdata == rdata) $display ("Memory Cell Check completed");
       else $error("Memory Cell Check gone wrong");
-
+    
     #10
     $finish;
 end
@@ -39,6 +37,6 @@ control_store control_store (
 .raddr(raddr),
 .wdata(wdata),
 .rdata(rdata)
-);    
+);
 
 endmodule
