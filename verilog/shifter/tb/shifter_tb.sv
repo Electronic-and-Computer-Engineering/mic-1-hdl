@@ -18,7 +18,7 @@ begin
     #1 assert (out == 32'hd5555555) $display ("PASS");
     else $error("FAIL");
     #250ns set = 2'b11;
-    #1 assert (out == 32'hXXXXXXXX) $display ("PASS");
+    #1 assert (out === 32'hXXXXXXXX) $display ("PASS");
     else $error("FAIL");
     #250 $finish;
 end
