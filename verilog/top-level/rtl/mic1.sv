@@ -38,10 +38,28 @@ module mic1 (
     // ALU output
     wire [31:0] ALU_out;
     
-    // TODO assign from MIR
+    reg N_ff = 0;
+    reg Z_ff = 0;
+
+    wire N, Z;
+    
+    wire [3:0] B_select;
+    wire [2:0] memory_ctrl;
+    wire [8:0] C_select;
     wire [5:0] ALU_ctrl;
     wire [1:0] shifter_ctrl;
-
+    wire [2:0] jump_ctrl;
+    wire [8:0] next_address;
+    
+    // Disassemble MIR
+    assign B_select     = MIR[3:0];
+    assign memory_ctrl  = MIR[6:4];
+    assign C_select     = MIR[15:7];
+    assign ALU_ctrl     = MIR[21:16];
+    assign shifter_ctrl = MIR[23:22];
+    assign jump_ctrl    = MIR[26:24];
+    assign next_address = MIR[35:27];
+    
     /*ALU ALU (
         .A(H),
         .B(B),
@@ -60,25 +78,11 @@ module mic1 (
         .control(shifter_ctrl)
     );*/
     
-    reg N_ff = 0;
-    reg Z_ff = 0;
-
-    wire N, Z;
-    
-    // Disassemble MIR
-    assign B_select     = MIR[3:0];
-    assign memory_ctrl  = MIR[6:4];
-    assign C_select     = MIR[15:7];
-    assign ALU_ctrl     = MIR[21:16];
-    assign shifter_ctrl = MIR[23:22];
-    assign jump_ctrl    = MIR[26:24];
-    assign next_address = MIR[35:27];
-    
     // Write to B bus
-    // TODO MIR?
+    // TODO load MIR?
     always_ff @(negedge clk) begin
         if (!resetn) begin
-
+            
         end else begin
 
         end
@@ -86,7 +90,7 @@ module mic1 (
     
     // Write from C bus into registers
     // Set N and Z
-    // TODO
+    // TODO set MPC?
     always_ff @(posedge clk) begin
         if (!resetn) begin
 
@@ -94,7 +98,9 @@ module mic1 (
             N_ff <= N;
             Z_ff <= Z;
 
-
+            if (C_select & 1<<0) begin
+            
+            end
             
         end
     end

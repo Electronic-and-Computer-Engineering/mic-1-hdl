@@ -1,6 +1,8 @@
 default: simulation-iverilog
 
-RTL = $(wildcard verilog/top-level/rtl/*.sv)
+RTL = $(wildcard verilog/top-level/rtl/*.sv) \
+	$(wildcard verilog/alu/rtl/*.sv) \
+	$(wildcard verilog/shifter/rtl/*.sv)
 TB = verilog/top-level/tb/mic1_icebreaker_tb.sv
 
 
