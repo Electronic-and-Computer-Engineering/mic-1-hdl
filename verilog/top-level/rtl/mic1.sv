@@ -91,16 +91,16 @@ module mic1 (
 
         end else begin
             case (B_select)
-                4'd0: B = MDR;
-                4'd1: B = PC;
-                4'd2: B = $signed(MBR);
-                4'd3: B = MBR; // MBRU
-                4'd4: B = SP;
-                4'd5: B = LV;
-                4'd6: B = CPP;
-                4'd7: B = TOS;
-                4'd8: B = OPC;
-                default: B = 'X;
+                4'd0: B <= MDR;
+                4'd1: B <= PC;
+                4'd2: B <= $signed(MBR);
+                4'd3: B <= MBR; // MBRU
+                4'd4: B <= SP;
+                4'd5: B <= LV;
+                4'd6: B <= CPP;
+                4'd7: B <= TOS;
+                4'd8: B <= OPC;
+                default: B <= 'X;
             endcase
         end
     end
@@ -157,7 +157,7 @@ module mic1 (
         end
     end
 
-    reg [35:0] mem [0:511];
+    reg [35:0] mem [512];
 
     initial begin
         $display("Loading memory file into microprogram.");
