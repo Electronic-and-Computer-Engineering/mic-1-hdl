@@ -11,7 +11,7 @@ module mic1_icebreaker_tb;
     wire [4:0] leds;
     wire led_r;
     wire led_g;
-    
+
     wire ser_tx;
     reg  ser_rx = 0;
 
@@ -22,7 +22,7 @@ module mic1_icebreaker_tb;
 
     mic1_icebreaker mic1_icebreaker (
         .CLK          (clk   ),
-        
+
         .TX       (ser_tx   ),
 	    .RX       (ser_rx   ),
 
@@ -34,6 +34,6 @@ module mic1_icebreaker_tb;
 
 	    .LEDR_N       (led_r   ),
 	    .LEDG_N       (led_g   )
-    );  
+    );
 
 endmodule

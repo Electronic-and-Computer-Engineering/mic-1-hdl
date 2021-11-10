@@ -6,10 +6,10 @@ module mic1_soc (
 
     input ser_tx,
     input ser_rx,
-    
+
     output [31:0] out
 );
-    
+
      // Main memory
     wire [31:0] mem_addr;
     wire [31:0] mem_wdata;
@@ -24,7 +24,7 @@ module mic1_soc (
     mic1 mic1 (
         .clk          (clk   ),
         .resetn       (resetn),
-    
+
         .mem_addr     (mem_addr   ),
         .mem_wdata    (mem_wdata  ),
         .mem_rdata    (mem_rdata  ),
@@ -32,7 +32,7 @@ module mic1_soc (
         .mp_mem_addr     (mp_mem_addr   ),
         .mp_mem_wdata    (mp_mem_wdata  ),
         .mp_mem_rdata    (mp_mem_rdata  ),
-        
+
         .out(out)
     );
 
