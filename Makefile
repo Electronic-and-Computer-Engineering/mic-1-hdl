@@ -13,7 +13,7 @@ FPGA_TYPE = up5k
 PCF = icebreaker.pcf
 TOP = mic1_icebreaker
 
-all: top.rpt top.bin
+all: mic1_icebreaker.rpt mic1_icebreaker.bin
 
 Vtop.vvp: $(RTL) $(TB)
 	iverilog -o $@ -g2012 $(RTL) $(TB)
@@ -21,8 +21,8 @@ Vtop.vvp: $(RTL) $(TB)
 simulation-iverilog: Vtop.vvp
 	vvp $^
 
-%.json: %.sv
-	yosys -ql $(subst .json,,$@)-yosys.log -p 'synth_ice40 -top $(TOP) -json $@' $< $(RTL)
+%.json: $(RTL) $(TB)
+	yosys -ql $(subst .json,,$@)-yosys.log -p 'synth_ice40 -top $(TOP) -json $@' $(RTL) # -dsp -abc2 -noflatten # techmap -D ALU_RIPPLE;;
 
 %.asc: $(PCF) %.json
 	nextpnr-ice40 --${FPGA_TYPE} --package ${FPGA_PKG} --json $(word 2,$^) --pcf $< --asc $@

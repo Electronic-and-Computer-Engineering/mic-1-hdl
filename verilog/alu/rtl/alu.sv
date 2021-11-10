@@ -1,7 +1,7 @@
 module alu( 
     // INPUTS
-    input logic [31:0] A,
-    input logic [31:0] B,
+    input logic [20:0] A, // TODO back to 32
+    input logic [20:0] B, // TODO back to 32
     input logic F0,
     input logic F1,
     input logic ENA,
@@ -13,8 +13,8 @@ module alu(
     output logic N,
     output logic Z);
 
- logic [5:0] control_lines;
- assign control_lines = {F0, F1, ENA, ENB, INVA, INC};   
+    logic [5:0] control_lines;
+    assign control_lines = {F0, F1, ENA, ENB, INVA, INC};
     
     always_comb
     begin

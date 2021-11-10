@@ -45,11 +45,11 @@ module mic1_icebreaker (
     
     wire [31:0] out;
     
-    assign LED1 = out[0];
-    assign LED2 = out[1];
-    assign LED3 = out[2];
-    assign LED4 = out[3];
-    assign LED5 = out[4];
+    assign LED1 = out[16];
+    assign LED2 = out[17];
+    assign LED3 = out[18];
+    assign LED4 = out[19];
+    assign LED5 = out[20];
     
     assign LEDR_N = 0;
     assign LEDG_N = 1;
