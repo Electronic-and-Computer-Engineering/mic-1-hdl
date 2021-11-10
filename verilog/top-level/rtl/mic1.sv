@@ -12,7 +12,9 @@ module mic1 (
     // Microprogram memory
     output reg [8:0]  mp_mem_addr,
     output reg [35:0] mp_mem_wdata,
-    input      [35:0] mp_mem_rdata
+    input      [35:0] mp_mem_rdata,
+    
+    output [31:0] out
 );
 
     reg [31:0] MAR = 0;
@@ -168,5 +170,8 @@ module mic1 (
          if (ren && resetn)
             MIR <= mem[MPC];
     end
+    
+    // TODO remove
+    assign out = H;
 
 endmodule

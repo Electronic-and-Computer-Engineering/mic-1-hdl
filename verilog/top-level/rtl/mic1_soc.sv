@@ -5,7 +5,9 @@ module mic1_soc (
     input resetn,
 
     input ser_tx,
-    input ser_rx
+    input ser_rx,
+    
+    output [31:0] out
 );
     
      // Main memory
@@ -29,7 +31,9 @@ module mic1_soc (
 
         .mp_mem_addr     (mp_mem_addr   ),
         .mp_mem_wdata    (mp_mem_wdata  ),
-        .mp_mem_rdata    (mp_mem_rdata  )
+        .mp_mem_rdata    (mp_mem_rdata  ),
+        
+        .out(out)
     );
 
 endmodule

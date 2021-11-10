@@ -1,20 +1,30 @@
 `timescale 1 ns / 1 ps
 
 module mic1_icebreaker (
-    input clk,
+	input CLK,
+
+	input  RX,
+	output TX,
+
+	output LED1,
+	output LED2,
+	output LED3,
+	output LED4,
+	output LED5,
+
+    input  BTN_N,
+	output LEDR_N,
+	output LEDG_N
+);  
+    // TODO PLL
     
-    output ser_tx,
-	input ser_rx,
-
-    output led1,
-	output led2,
-	output led3,
-	output led4,
-	output led5,
-
-	output ledr_n,
-	output ledg_n
-);    
+    
+    wire clk;
+    assign clk = CLK;
+    
+    wire ser_tx, ser_rx;
+    assign ser_tx = TX;
+    assign ser_rx = RX;
     
     reg [5:0] reset_cnt = 0;
     wire resetn = &reset_cnt;
@@ -28,7 +38,22 @@ module mic1_icebreaker (
 		.resetn       (resetn),
 		
 		.ser_tx       (ser_tx),
-		.ser_rx       (ser_rx)
+		.ser_rx       (ser_rx),
+		
+		.out (out)
     );
+    
+    wire [31:0] out;
+    
+    assign LED1 = out[0];
+    assign LED2 = out[1];
+    assign LED3 = out[2];
+    assign LED4 = out[3];
+    assign LED5 = out[4];
+    
+    assign LEDR_N = 0;
+    assign LEDG_N = 1;
+    
+    assign TX = 1;
 
 endmodule
