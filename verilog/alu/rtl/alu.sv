@@ -1,7 +1,7 @@
 module alu( 
     // INPUTS
-    input logic [20:0] A, // TODO back to 32
-    input logic [20:0] B, // TODO back to 32
+    input logic [31:0] A,
+    input logic [31:0] B,
     input logic F0,
     input logic F1,
     input logic ENA,

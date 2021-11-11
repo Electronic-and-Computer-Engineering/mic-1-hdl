@@ -16,11 +16,18 @@ module mic1_icebreaker (
 	output LEDR_N,
 	output LEDG_N
 );
-    // TODO PLL
+    reg clk;
+    //assign clk = cnt[8];
+    
+    // Initialize the high speed oscillator
+    // Divide the oscillator down to 6 MHz
+    SB_HFOSC #(.CLKHF_DIV("0b11")) clock (
+        .CLKHFEN(1'b1), // Enable the output  
+        .CLKHFPU(1'b1), // Power up the oscillator  
+        .CLKHF(clk) // Oscillator output  
+    );
 
 
-    wire clk;
-    assign clk = CLK;
 
     wire ser_tx, ser_rx;
     assign ser_tx = TX;

@@ -39,4 +39,4 @@ prog: top.bin
 .PHONY: all clean
 
 clean:
-	rm -f *.vvp *.fst *.vcd top*.json top*.asc top*.rpt top*.bin top*yosys.log
+	rm -f *.vvp *.fst *.vcd *.json *.asc *.rpt *.bin *yosys.log
