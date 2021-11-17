@@ -1,10 +1,10 @@
-module 16bit_decoder(
+module decoder(
 input logic[3:0] decoder_in,       // 4-Bit Eingangskanal
 output logic[15:0] decoder_out);   // 16-Bit Ausgang
 
 always_comb
     begin                           // Definition des Outputs je nach Input
-        case(data_in)
+        case(decoder_in)
             4'b0000: decoder_out = 16'b0000000000000001;
             4'b0001: decoder_out = 16'b0000000000000010;
             4'b0010: decoder_out = 16'b0000000000000100;
