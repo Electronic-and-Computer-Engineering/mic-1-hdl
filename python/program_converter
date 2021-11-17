@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import sys
+import argparse
+
+#parsing commandline
+parser = argpars.ArgumentParser(description=)
+parser.add_argument('filemane', help='filename of binaryfile')
+
+args
+try:
+    f = open(args.filename, mode='rb')
+        fileContent = f.read()
+
+    while True:
+        try:
+            line = f.
+            #with open(fileName, mode='rb') as file: # b is important -> binary
+            #    fileContent = file.read()
+
+
+        except IndexError:
+            print('Umwandlung kann nicht durchgeführt werden')
