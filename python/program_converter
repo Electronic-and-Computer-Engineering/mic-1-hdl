@@ -1,23 +1,44 @@
 #!/usr/bin/env python3
 
+"""
+ECE Project Mic-1
+Title: Program Converter
+Author: Florian Zwittnigg
+Date: 17.11.2021
+Rev.: 1.0 
+"""
+
 import sys
 import argparse
 
 #parsing commandline
-parser = argpars.ArgumentParser(description=)
+parser = argpars.ArgumentParser(description='Convert Binary to ASCII')
 parser.add_argument('filemane', help='filename of binaryfile')
+args = parser.parse_args()
 
-args
-try:
-    f = open(args.filename, mode='rb')
+def(read_file):
+    try:
+        f = open(args.filename, mode='rb')
         fileContent = f.read()
+    except:
+        print("File can't be read or not exist!")
 
-    while True:
-        try:
-            line = f.
-            #with open(fileName, mode='rb') as file: # b is important -> binary
-            #    fileContent = file.read()
+def(convert_file):
+    try:
+        binary_int = int("11000010110001001100011", 2)
+        byte_number = binary_int.bit_length() + 7 // 8
 
+        binary_array = binary_int.to_bytes(byte_number, "big")
+        ascii_text = binary_array.decode()
+        
+        print(ascii_text)
+    
+    except:
+        print("File can't be converted!")
 
-        except IndexError:
-            print('Umwandlung kann nicht durchgeführt werden')
+def(write_file):
+    try:
+    
+    except:
+        print("Error occured during writing to hex-file!")
+      
