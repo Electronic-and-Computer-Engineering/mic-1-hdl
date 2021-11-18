@@ -7,7 +7,7 @@ module main_memory (
     output reg [8:0] rdata_A,
 	output reg [8:0] rdata_B
     );
-   
+
    reg [8:0] test_memory [10];
 
 initial $readmemh("init_memory_test.mem", test_memory);
@@ -19,13 +19,11 @@ always @(posedge clk) begin
         test_memory[addr_A] <= wdata_A;
     if (ren_A)
         rdata_A <= test_memory[addr_A];
-       
-    end
+end
 
 // PORT B - Read
 always @(posedge clk) begin
     if (ren_B)
         rdata_B <= test_memory[addr_B];
-       
-	end
+end
 endmodule
