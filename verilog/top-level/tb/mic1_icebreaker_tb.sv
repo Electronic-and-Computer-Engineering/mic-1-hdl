@@ -8,11 +8,11 @@ module mic1_icebreaker_tb;
         $dumpvars(0, mic1_icebreaker_tb);
     end
 
-    wire [4:0] leds = 0;
-    wire led_r = 0;
-    wire led_g = 0;
-    
-    wire ser_tx = 0;
+    wire [4:0] leds;
+    wire led_r;
+    wire led_g;
+
+    wire ser_tx;
     reg  ser_rx = 0;
 
     reg clk = 0;
@@ -21,19 +21,19 @@ module mic1_icebreaker_tb;
     initial #1000 $finish;
 
     mic1_icebreaker mic1_icebreaker (
-        .clk          (clk   ),
-        
-        .ser_tx       (ser_tx   ),
-	    .ser_rx       (ser_rx   ),
+        .CLK          (clk   ),
 
-        .led1         (leds[0] ),
-	    .led2         (leds[1] ),
-	    .led3         (leds[2] ),
-	    .led4         (leds[3] ),
-	    .led5         (leds[4] ),
+        .TX       (ser_tx   ),
+	    .RX       (ser_rx   ),
 
-	    .ledr_n       (led_r   ),
-	    .ledg_n       (led_g   )
-    );  
+        .LED1         (leds[0] ),
+	    .LED2         (leds[1] ),
+	    .LED3         (leds[2] ),
+	    .LED4         (leds[3] ),
+	    .LED5         (leds[4] ),
+
+	    .LEDR_N       (led_r   ),
+	    .LEDG_N       (led_g   )
+    );
 
 endmodule

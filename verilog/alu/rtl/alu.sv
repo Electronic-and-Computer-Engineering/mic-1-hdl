@@ -13,8 +13,8 @@ module alu(
     output logic N,
     output logic Z);
 
- logic [5:0] control_lines;
- assign control_lines = {F0, F1, ENA, ENB, INVA, INC};   
+    logic [5:0] control_lines;
+    assign control_lines = {F0, F1, ENA, ENB, INVA, INC};
     
     always_comb
     begin
