@@ -49,7 +49,7 @@ tb_memory[9] = 8'hEE;
         #10ns
         tb_ren_A = 0;
     end
-    
+
     // write last 5 memory cells
     #10ns
     for (i = 5; i < 10; i++) begin
@@ -61,7 +61,7 @@ tb_memory[9] = 8'hEE;
         #10ns
         tb_wen_A = 0;
     end
- 
+
     if (DEBUG) begin
         $display("TEST_MEMORY:");
         for (i = 0; i < 10; i = i + 1) begin
@@ -73,16 +73,14 @@ tb_memory[9] = 8'hEE;
             $display("index =%2.d: %2.h", i, tb_memory[i]);
         end
     end
-    
-        
+ 
+   
     // checking if init_memory was loaded right
     for (i = 0; i < 10; i = i + 1) begin
         assert(main_memory.test_memory[i]== tb_memory[i]) $display ("index =%2.d: PASS", i);
             else $error("index =%2.d: FAIL", i);
     end
-    
-    
+
+
 end
 endmodule
-
-
