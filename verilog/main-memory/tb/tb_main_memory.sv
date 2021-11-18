@@ -27,8 +27,7 @@ main_memory main_memory(.clk(tb_clk),
                         .addr_B(tb_addr_B),
                         .wdata_A(tb_wdata_A),
                         .rdata_A(tb_rdata_A),
-                        .rdata_B(tb_rdata_B)
-                        );
+                        .rdata_B(tb_rdata_B));
 
 initial
 begin
