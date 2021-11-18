@@ -68,7 +68,7 @@ begin
             $display("index =%2.d: %2.h", i, main_memory.test_memory[i]);
         end
 
-        $display("TB_MEMORY:");     
+        $display("TB_MEMORY:");  
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, tb_memory[i]);
         end
