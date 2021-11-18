@@ -11,7 +11,7 @@ logic tb_ren_B = 0;
 
 logic [8:0] tb_addr_A, tb_addr_B, tb_wdata_A;
 
-reg [8:0] tb_memory [0:9];
+reg [8:0] tb_memory [10];
 reg [8:0] tb_rdata_A;
 reg [8:0] tb_rdata_B;
 
@@ -30,7 +30,7 @@ main_memory main_memory(.clk(tb_clk),
                         .rdata_B(tb_rdata_B)
                         );
 
-initial 
+initial
 begin
 
 tb_memory[5] = 8'hAA;
@@ -48,7 +48,7 @@ tb_memory[9] = 8'hEE;
         #10ns
         tb_memory[i] <= tb_rdata_A;
         #10ns
-        tb_ren_A = 0;        
+        tb_ren_A = 0;
     end
     
     // write last 5 memory cells
@@ -60,16 +60,16 @@ tb_memory[9] = 8'hEE;
         #10ns
         tb_wdata_A = tb_memory[i];
         #10ns
-        tb_wen_A = 0;        
+        tb_wen_A = 0;
     end
  
  if (DEBUG) begin
-        $display("TEST_MEMORY:");             
+        $display("TEST_MEMORY:");       
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, main_memory.test_memory[i]);
         end
         
-        $display("TB_MEMORY:");             
+        $display("TB_MEMORY:");           
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, tb_memory[i]);
         end
@@ -84,6 +84,6 @@ tb_memory[9] = 8'hEE;
     
     
 end
-endmodule 
+endmodule
 
 

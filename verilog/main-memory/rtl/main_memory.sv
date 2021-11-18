@@ -8,7 +8,7 @@ module main_memory (
 	output reg [8:0] rdata_B
     );
    
-   reg [8:0] test_memory [0:9];
+   reg [8:0] test_memory [10];
 
 initial $readmemh("init_memory_test.mem", test_memory);
 
