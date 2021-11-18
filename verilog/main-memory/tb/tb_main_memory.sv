@@ -32,11 +32,11 @@ main_memory main_memory(.clk(tb_clk),
 initial
 begin
 
-tb_memory[5] = 8'hAA;
-tb_memory[6] = 8'hBB;
-tb_memory[7] = 8'hCC;
-tb_memory[8] = 8'hDD;
-tb_memory[9] = 8'hEE;
+    tb_memory[5] = 8'hAA;
+    tb_memory[6] = 8'hBB;
+    tb_memory[7] = 8'hCC;
+    tb_memory[8] = 8'hDD;
+    tb_memory[9] = 8'hEE;
 
     // read first 5 memory cells
     #10ns
@@ -67,14 +67,14 @@ tb_memory[9] = 8'hEE;
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, main_memory.test_memory[i]);
         end
-        
+
         $display("TB_MEMORY:");     
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, tb_memory[i]);
         end
     end
- 
-   
+
+
     // checking if init_memory was loaded right
     for (i = 0; i < 10; i = i + 1) begin
         assert(main_memory.test_memory[i]== tb_memory[i]) $display ("index =%2.d: PASS", i);
