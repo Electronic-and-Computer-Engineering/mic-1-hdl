@@ -17,7 +17,7 @@ reg [8:0] tb_rdata_B;
 
 integer i;
 
-always #2ns tb_clk = ~tb_clk; 
+always #2ns tb_clk = ~tb_clk;
 
 main_memory main_memory(.clk(tb_clk),
                         .wen_A(tb_wen_A),
@@ -62,13 +62,13 @@ tb_memory[9] = 8'hEE;
         tb_wen_A = 0;
     end
  
- if (DEBUG) begin
-        $display("TEST_MEMORY:");       
+    if (DEBUG) begin
+        $display("TEST_MEMORY:");
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, main_memory.test_memory[i]);
         end
         
-        $display("TB_MEMORY:");           
+        $display("TB_MEMORY:");     
         for (i = 0; i < 10; i = i + 1) begin
             $display("index =%2.d: %2.h", i, tb_memory[i]);
         end
