@@ -11,34 +11,34 @@ Rev.: 1.0
 import sys
 import argparse
 
-#parsing commandline
-parser = argpars.ArgumentParser(description='Convert Binary to ASCII')
-parser.add_argument('filemane', help='filename of binaryfile')
-args = parser.parse_args()
-
-def(read_file):
-    try:
-        f = open(args.filename, mode='rb')
+def read_file(filename:str):
+        f = open(f'{filename}.mic1', mode='rb')
         fileContent = f.read()
-    except:
-        print("File can't be read or not exist!")
+        f.close()
 
-def(convert_file):
-    try:
-        binary_int = int("11000010110001001100011", 2)
-        byte_number = binary_int.bit_length() + 7 // 8
+        return fileContent
 
-        binary_array = binary_int.to_bytes(byte_number, "big")
-        ascii_text = binary_array.decode()
+def convert_content(fileContent:bytes):
+        hex_string = fileContent.hex()
         
-        print(ascii_text)
-    
-    except:
-        print("File can't be converted!")
+        n = 9
+        split_strings = [hex_string[index : index + n] + "\n" for index in range(0, len(hex_string), n)]
 
-def(write_file):
-    try:
+        return split_strings
+
+def write_file(fileContent, filename):
+        file = open(f'{filename}.txt', "w")
+
+        file.writelines(fileContent)
+        
+        file.close()
+
+if __name__=='__main__':
+    #parsing commandline
+    parser = argparse.ArgumentParser(description='Convert Binary to ASCII')
+    parser.add_argument('filename', help='filename of binaryfile without file extension')
+    args = parser.parse_args()
     
-    except:
-        print("Error occured during writing to hex-file!")
-      
+    content_of_file = read_file(args.filename)
+    writable_content = convert_content(content_of_file)      
+    write_file(writable_content, args.filename)
