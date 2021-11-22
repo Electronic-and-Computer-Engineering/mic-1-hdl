@@ -21,7 +21,7 @@ def read_file(filename:str):
 def convert_content(fileContent:bytes):
         hex_string = fileContent.hex()
         
-        n = 9
+        n = 8
         split_strings = [hex_string[index : index + n] + "\n" for index in range(0, len(hex_string), n)]
 
         return split_strings
