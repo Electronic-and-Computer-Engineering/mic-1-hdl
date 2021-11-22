@@ -2,7 +2,7 @@
 
 """
 ECE Project Mic-1
-Title: Program Converter for mic1 files
+Title: Program Converter for ijvm-files
 Author: Florian Zwittnigg
 Date: 17.11.2021
 Rev.: 1.0 
@@ -13,7 +13,7 @@ import argparse
 
 # Reading the file and hand over the content to main
 def read_file(filename:str):
-        f = open(f'{filename}.mic1', mode='rb')
+        f = open(f'{filename}.ijvm', mode='rb')
         fileContent = f.read()
         f.close()
 
