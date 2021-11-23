@@ -11,7 +11,8 @@ module uart_tx(
     output logic tx_done);
     
     enum {IDLE, START, TRANSMIT, STOP}state, next_state;
-    logic [2:0]index, next_index; //index 0-7
+    logic[2:0] index;
+    logic[2:0] next_index; //index 0-7
     localparam LAST_BIT = 3'd7; //8 data bits: last index = 7
     
     always_ff@(posedge clk)
@@ -29,7 +30,7 @@ module uart_tx(
     begin
         data_out = 1'b1;
         next_state = IDLE;
-        index = 0;
+        next_index = 0;
         tx_busy = (state != IDLE);
         tx_done = (state == STOP);//next data
         

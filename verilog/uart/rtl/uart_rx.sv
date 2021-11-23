@@ -21,7 +21,8 @@ begin
     end
 end
 
-logic [2:0] idx, next_idx;
+logic[2:0] idx;
+logic[2:0] next_idx;
 localparam LAST_BIT = 3'd7;
 logic bit_done, bit_done_next;
 logic sample, sample_next;
@@ -53,14 +54,14 @@ always_comb begin
         IDLE: begin
             if(rx == 0) //start bit
             begin
-               next_state = DATA;
-               idx=0;
+               next_state = START;
+               next_idx = 0;
             end            
         end
         START: begin
             if(baud)begin
             next_state = DATA;
-            next_idx =0;
+            next_idx = 0;
             end               
         end
         
