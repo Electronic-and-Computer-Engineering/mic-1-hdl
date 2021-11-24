@@ -13,7 +13,7 @@ logic tb_send;
 logic [7:0] tb_uart_tx;
 
 // set clock
-always #2ns tb_clk = ~tb_clk;
+always #1ns tb_clk = ~tb_clk;
 
 // link parameters
 state_machine state_machine(.clk(tb_clk),
@@ -37,7 +37,7 @@ begin
     
     // trigger state changing
     tb_recv = 1;
-    #1ns
+    #2ns
     tb_recv = 0;
     // UART_TX
         
@@ -50,7 +50,7 @@ begin
     
     // trigger state changing
     tb_recv = 1;
-    #1ns
+    #2ns
     tb_recv = 0;
     
     #5ns
@@ -63,7 +63,7 @@ begin
     
     // trigger data reading
     tb_recv = 1;
-    #1ns
+    #2ns
     tb_recv = 0;
         
     // DISPLAY
