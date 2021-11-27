@@ -18,8 +18,20 @@ module mic1_icebreaker_tb;
     reg clk = 0;
     always #1 clk = !clk;
 
-    initial #1000 $finish;
+    initial begin
+        #2000
 
+        $display("Memory contents:");
+        for (int i=0; i<20; i++) begin
+            $display("mem[%4d] = %h", i, mic1_icebreaker.mic1_soc.main_memory.test_memory[i]);
+        end
+        
+        
+        
+        $display("Completed simulation.");
+        $finish;
+    end
+    
     mic1_icebreaker mic1_icebreaker (
         .CLK          (clk   ),
 

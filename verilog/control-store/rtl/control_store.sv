@@ -12,7 +12,7 @@ module control_store (
 
     initial begin
         $display("Loading microprogram into control_store.");
-        $readmemb("microcode.mem", mem, 0, 2);
+        $readmemb("microcode.mem", mem, 0, 15);
     end
 
     always @(posedge clk) begin

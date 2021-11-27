@@ -30,7 +30,7 @@ module mic1 (
     reg [7:0]  MBR = 0;
     reg [31:0] SP  = 0;
     reg [31:0] LV  = 0;
-    reg [31:0] CPP = 0;
+    reg [31:0] CPP = `CONSTANTPOOL_ADDRESS;
     reg [31:0] TOS = 0;
     reg [31:0] OPC = 0;
     reg [31:0] H   = 0;
@@ -125,8 +125,6 @@ module mic1 (
         end else begin
             N_ff <= N;
             Z_ff <= Z;
-            
-            
 
             if (C_select & 9'b000000001) begin
                 MAR <= C;
