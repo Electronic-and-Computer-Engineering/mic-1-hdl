@@ -10,7 +10,7 @@ module main_memory (
 
     reg [31:0] test_memory [512];
 
-    initial $readmemh("program.mem", test_memory, 0, 4);
+    initial $readmemh("program.mem", test_memory, 0, 9);
 
 
     // PORT A - Read/Write

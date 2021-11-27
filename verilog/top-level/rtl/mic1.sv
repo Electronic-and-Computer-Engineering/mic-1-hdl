@@ -26,7 +26,7 @@ module mic1 (
 
     reg [31:0] MAR = 0;
     reg [31:0] MDR = 0;
-    reg [31:0] PC  = 0;
+    reg [31:0] PC  = -1;
     reg [7:0]  MBR = 0;
     reg [31:0] SP  = 0;
     reg [31:0] LV  = 0;
@@ -54,7 +54,7 @@ module mic1 (
 
     wire [3:0] B_select;
     wire [2:0] memory_ctrl;
-    reg [2:0] old_memory_ctrl;
+    reg  [2:0] old_memory_ctrl;
     wire [8:0] C_select;
     wire [5:0] ALU_ctrl;
     wire [1:0] shifter_ctrl;
