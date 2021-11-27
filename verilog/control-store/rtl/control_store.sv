@@ -3,16 +3,16 @@
 module control_store (
     input clk, wen, ren,
 
-    input [8:0] waddr, raddr,
-    input [35:0] wdata,
-    output reg [35:0] rdata
+    input wire [8:0] waddr, raddr,
+    input wire [35:0] wdata,
+    output reg [35:0] rdata = 0
     );
 
-    reg [35:0] mem [0:511];
+    reg [35:0] mem [512];
 
     initial begin
-        $display("Loading memory file into bram_basic.");
-        $readmemh("some_values.mem", mem);
+        $display("Loading microprogram into control_store.");
+        $readmemb("microcode.mem", mem, 0, 2);
     end
 
     always @(posedge clk) begin

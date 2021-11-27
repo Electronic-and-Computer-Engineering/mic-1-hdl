@@ -18,7 +18,7 @@ module alu(
     
     always_comb
     begin
-        case(control_lines)
+        case (control_lines)
             6'b011000:  //A
                 ALU_out = A;
             6'b010100:  //B
