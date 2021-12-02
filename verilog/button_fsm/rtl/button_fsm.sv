@@ -13,33 +13,33 @@
 // led_4 -> STATE_3
 // led_5 -> STATE_4
 
-module state_machine (  input logic clk, reset_,
-                        input logic [4:0] button,
-    
-                        output logic [5:0] led);
+module button_fsm (input logic clk, resetn,
+                   input logic [4:0] button,
+
+                   output logic [5:0] led);
  
 localparam IDLE = 0;
 localparam RUN =  1;
-localparam STOP =  2;
+localparam STEP = 2;
 
-reg [1:0] current_state, next_state;
-reg [4:0] db_button = 0;
+logic [1:0] current_state, next_state;
+logic [4:0] db_button;
 
-Button_Debouncer (.clk(clk), .pushed_button(button[0]),.button_state(db_button[0]));
-Button_Debouncer (.clk(clk), .pushed_button(button[1]),.button_state(db_button[1]));
-Button_Debouncer (.clk(clk), .pushed_button(button[2]),.button_state(db_button[2]));
-Button_Debouncer (.clk(clk), .pushed_button(button[3]),.button_state(db_button[3]));
-Button_Debouncer (.clk(clk), .pushed_button(button[4]),.button_state(db_button[4]));
+Button_Debouncer Button_Debouncer_0 (.clk(clk), .pushed_button(button[0]),.button_state(db_button[0]));
+Button_Debouncer Button_Debouncer_1 (.clk(clk), .pushed_button(button[1]),.button_state(db_button[1]));
+Button_Debouncer Button_Debouncer_2 (.clk(clk), .pushed_button(button[2]),.button_state(db_button[2]));
+Button_Debouncer Button_Debouncer_3 (.clk(clk), .pushed_button(button[3]),.button_state(db_button[3]));
+Button_Debouncer Button_Debouncer_4 (.clk(clk), .pushed_button(button[4]),.button_state(db_button[4]));
 
 always_comb begin
     next_state = current_state;
    
 	// BUTTON DETECTION
-	if(db_button[0]) current_state = RUN;	// STOP
-	if(db_button[1]) current_state = STOP;	// STOP
-	//if(db_button[2]) current_state = ;	// STOP
-	if(db_button[3]) current_state = IDLE;	// STOP
-	//if(db_button[4]) current_state = ;	// STOP
+	if(db_button[0]) next_state = RUN;	// STOP
+	
+	//if(db_button[2]) next_state = ;	// STOP
+	//if(db_button[3]) next_state = IDLE;	// STOP
+	//if(db_button[4]) next_state = ;	// STOP
 
 
     case(current_state)
@@ -48,13 +48,14 @@ always_comb begin
     	end
         
         RUN: begin
-		  led = 'b100000;
+		  led = 'b000001;
+		  if(db_button[1]) next_state = IDLE;	// STOP
         end
-        
-        STOP: begin
-		  led = 'b000000;
+                 
+        STEP: begin
+            next_state = IDLE;
         end
-         
+                 
         default: begin
 		  led = 'b011111;
 		end
@@ -64,7 +65,7 @@ end
 always @(posedge clk) begin
     current_state <= next_state;
 
-    if(!reset_) begin
+    if(!resetn) begin
         current_state <= IDLE;
     end
 end

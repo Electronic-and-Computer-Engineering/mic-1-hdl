@@ -23,7 +23,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
 set_property PACKAGE_PIN W18 [get_ports {led[4]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {led[4]}]
 # STATE_4
-set_property PACKAGE_PIN W18 [get_ports {led[5]}]
+set_property PACKAGE_PIN U15 [get_ports {led[5]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {led[5]}]
 
 
