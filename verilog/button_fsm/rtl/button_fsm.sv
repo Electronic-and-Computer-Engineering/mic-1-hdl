@@ -35,7 +35,11 @@ always_comb begin
     next_state = current_state;
    
 	// BUTTON DETECTION
+	if(db_button[0]) current_state = RUN;	// STOP
+	if(db_button[1]) current_state = STOP;	// STOP
+	//if(db_button[2]) current_state = ;	// STOP
 	if(db_button[3]) current_state = IDLE;	// STOP
+	//if(db_button[4]) current_state = ;	// STOP
 
 
     case(current_state)
