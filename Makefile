@@ -18,7 +18,7 @@ TOP = mic1_icebreaker
 all: mic1_icebreaker.rpt mic1_icebreaker.bin
 
 Vtop.vvp: $(RTL) $(TB)
-	iverilog -o $@ -g2012 $(RTL) $(TB) `yosys-config --datdir/ice40/cells_sim.v`
+	iverilog -o $@ -g2012 $(RTL) $(TB) `yosys-config --datdir/ice40/cells_sim.v` -D CONSTANTPOOL_ADDRESS=\'h0001
 
 simulation-iverilog: Vtop.vvp
 	vvp $^

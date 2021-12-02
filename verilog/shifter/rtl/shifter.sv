@@ -9,9 +9,9 @@ module shifter (
 
     always_comb begin
         case(SET)
-            2'b00:  Shift = $signed(ALU_out);  
-            2'b01:  Shift = $signed(ALU_out) << 8;       
-            2'b10:  Shift = $signed(ALU_out) >>> 1;  
+            2'b00:  Shift = $signed(ALU_out);
+            2'b01:  Shift = $signed(ALU_out) >>> 1;
+            2'b10:  Shift = $signed(ALU_out) << 8;
             default: Shift = 32'hXXXXXXXX;
         endcase
     end  

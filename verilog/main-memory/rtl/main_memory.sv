@@ -10,8 +10,7 @@ module main_memory (
 
     reg [31:0] test_memory [512];
 
-    initial $readmemh("program.mem", test_memory, 0, 4);
-
+    initial $readmemh("program.mem", test_memory, 0, 9);
 
     // PORT A - Read/Write
     always @(posedge clk) begin
@@ -29,7 +28,7 @@ module main_memory (
             rdata_B_tmp <= test_memory[addr_B >> 2];
     end
     
-    // TODO check order
+    // Split up into bytes
     always_comb begin
         case (addr_B & 2'b11)
         2'b00:
