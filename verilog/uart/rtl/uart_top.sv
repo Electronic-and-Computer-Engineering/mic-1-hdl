@@ -24,7 +24,7 @@ module uart_top(
                 .clk(clk),
                 .baud(baud),
                 .rst(!button_rst),
-                .data_in(uart_rx),
+                .data_in(uart_RX),
                 .data_out(received),
                 .rx_done);
 
@@ -35,7 +35,7 @@ module uart_top(
                 .rst(!button_rst),
                 .tx_start,
                 .data_in(received),
-                .data_out(uart_tx),
+                .data_out(uart_TX),
                 .tx_busy,
                 .tx_done);
         

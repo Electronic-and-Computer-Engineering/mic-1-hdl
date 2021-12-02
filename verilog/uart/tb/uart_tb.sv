@@ -12,7 +12,6 @@ uart_top DUT(   .uart_RX(RX),
                 .button_rst(rst));
             
 logic[23:0] cnt;
-
 always_comb begin
     baud<=DUT.baud_gen.baud;
     cnt<=DUT.baud_gen.cnt;
@@ -23,12 +22,35 @@ always begin
     clk<=~clk;
 end        
 
+logic data_rec[0:7] = {1'b0,1'b1,1'b1,1'b0,1'b1,1'b0,1'b1,1'b0};
+logic data_send[0:7];
 initial begin
    RX=1;
    #20ns
    rst =0;
    #20ns
    rst =1;  
+   #100ns
+   @(posedge baud) RX<=1'b0; //Startbit
+   @(posedge baud) RX<=data_rec[0];
+   @(posedge baud) RX<=data_rec[1];
+   @(posedge baud) RX<=data_rec[2];
+   @(posedge baud) RX<=data_rec[3];
+   @(posedge baud) RX<=data_rec[4];
+   @(posedge baud) RX<=data_rec[5];
+   @(posedge baud) RX<=data_rec[6];
+   @(posedge baud) RX<=data_rec[7];
+   @(posedge baud) RX<=1'b1; //Stopbit
+   @(posedge DUT.tx_busy);
+   @(posedge baud)#100ns data_send[0] = TX;
+   @(posedge baud)#100ns data_send[1] = TX;
+   @(posedge baud)#100ns data_send[2] = TX;
+   @(posedge baud)#100ns data_send[3] = TX;
+   @(posedge baud)#100ns data_send[4] = TX;
+   @(posedge baud)#100ns data_send[5] = TX;
+   @(posedge baud)#100ns data_send[6] = TX;
+   @(posedge baud)#100ns data_send[7] = TX;
 
+assert (data_rec == data_send) $display ("PASS"); 
 end
 endmodule

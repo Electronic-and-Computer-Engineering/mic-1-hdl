@@ -11,8 +11,7 @@ module uart_rx(
 enum {IDLE, START, DATA, STOP} state, next_state;
 
 logic rx_0, rx;
-always_ff @(posedge clk)
-begin
+always_ff @(posedge clk) begin
     rx_0 <= data_in;
     rx <= rx_0;
     if(rst) begin  // default of UART is HIGH
@@ -27,9 +26,9 @@ localparam LAST_BIT = 3'd7;
 logic bit_done, bit_done_next;
 logic sample, sample_next;
 logic rx_done_next;
+logic first_bit;
 
-always_ff @(posedge clk) 
-begin
+always_ff @(posedge clk) begin
         state <= next_state;
         idx <= next_idx;
         sample <= sample_next;
@@ -52,34 +51,33 @@ always_comb begin
     
     case(state)
         IDLE: begin
-            if(rx == 0) //start bit
-            begin
+            if(rx == 0) begin //start bit
                next_state = START;
                next_idx = 0;
+               first_bit <=1;
             end            
         end
         START: begin
-            if(baud)begin
-            next_state = DATA;
-            next_idx = 0;
+            if(baud) begin
+                next_state = DATA;
+                next_idx = 0;
             end               
         end
-        
         DATA: begin
             if(baud) begin
                 sample_next =rx;
-                bit_done_next = 1;
-                next_idx = idx+1;
                 if(idx==LAST_BIT) next_state=STOP;
+                else bit_done_next = 1;
+                if(first_bit) first_bit <= 0;
+                else next_idx = idx+1;          
             end
         end
         STOP: begin
             if(baud) begin
-            next_state = IDLE;
-            rx_done_next = 1;
+                next_state = IDLE;
+                rx_done_next = 1;
             end
         end
-    
     endcase
 end   
  

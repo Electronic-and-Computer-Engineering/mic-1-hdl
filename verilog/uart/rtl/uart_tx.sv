@@ -17,9 +17,10 @@ module uart_tx(
     
     always_ff@(posedge clk)
     begin
-        state <= next_state;
-        index <= next_index;
-        
+        if(baud) begin
+            state <= next_state;
+            index <= next_index;
+        end    
         if(rst) begin
             state = IDLE;
             index = 0;
