@@ -74,11 +74,9 @@ begin
     else $error("FAIL (-A)");
     
     #50ns control = 6'b001100;
-    #1ns assert (ALU_out == 32'h1288F840) $display ("PASS"); //workaround A&B doesn't  match
+    #1ns assert (ALU_out == $unsigned(A&B)) $display ("PASS");
     else begin 
         $error("FAIL (A&B)");
-        $display (ALU_out);
-        $display (A&B);
     end    
     #50ns control = 6'b011100;
     #1 assert (ALU_out == A|B) $display ("PASS");
