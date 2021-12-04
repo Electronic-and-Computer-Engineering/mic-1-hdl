@@ -171,9 +171,9 @@ module mic1 (
     end
     
     // Start memory operation after MAR and/or PC are loaded
-    assign mem_read = memory_ctrl[1];
-    assign mem_write = memory_ctrl[2];
-    assign mem_fetch = memory_ctrl[0];
+    assign mem_read = old_memory_ctrl[1];
+    assign mem_write = old_memory_ctrl[2];
+    assign mem_fetch = old_memory_ctrl[0];
 
     // Set MPC
     always_comb begin
