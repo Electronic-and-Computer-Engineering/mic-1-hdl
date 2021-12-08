@@ -3,13 +3,18 @@ module uart_tb();
 logic RX;
 logic TX;
 logic clk = 1;
-logic rst = 1;
+logic rst = 0;
 logic baud;
+
+logic [7:0]seg;
+logic[3:0]digit;
 
 uart_top DUT(   .uart_RX(RX),
                 .uart_TX(TX),
                 .clk(clk),
-                .button_rst(rst));
+                .button_rst(rst),
+                .digit,
+                .seg);
             
 logic[23:0] cnt;
 always_comb begin
@@ -27,9 +32,9 @@ logic data_send[0:7];
 initial begin
    RX=1;
    #20ns
-   rst =0;
+   rst =1;
    #20ns
-   rst =1;  
+   rst =0;  
    #100ns
    @(posedge baud) RX<=1'b0; //Startbit
    @(posedge baud) RX<=data_rec[0];
