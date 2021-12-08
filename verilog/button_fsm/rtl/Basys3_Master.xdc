@@ -41,5 +41,5 @@ set_property IOSTANDARD LVCMOS33 [get_ports {button[2]}]
 set_property PACKAGE_PIN U17 [get_ports {button[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {button[3]}]
 # Button_Center
-set_property PACKAGE_PIN U18 [get_ports {button[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {button[4]}]
+set_property PACKAGE_PIN U18 [get_ports {resetn}]
+set_property IOSTANDARD LVCMOS33 [get_ports {resetn}]

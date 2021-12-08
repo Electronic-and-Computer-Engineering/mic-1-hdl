@@ -26,10 +26,15 @@ button_fsm button_fsm(.clk(tb_clk),
 initial
 begin
     #10ns
-    tb_resetn = 0;
+    tb_resetn = 1;
     #10ns
     tb_button[0] = 1;
-    #10ns
+    #100ns
     tb_button[0] = 0;
+    
+    #100ns
+    tb_button[2] = 1;
+    #100ns
+    tb_button[2] = 0;
 end
 endmodule    
