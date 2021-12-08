@@ -1,3 +1,5 @@
+`timescale 1 ns / 1 ps
+
 module Button_Debouncer(input logic clk,
 	input logic pushed_button,	// asynchronous, active low
 	

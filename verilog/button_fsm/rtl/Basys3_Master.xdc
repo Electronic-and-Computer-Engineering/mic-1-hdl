@@ -8,23 +8,23 @@ set_property IOSTANDARD LVCMOS33 [get_ports clk]
 
 ## LEDs
 # RUN
-set_property PACKAGE_PIN U16 [get_ports {led[0]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}]
+set_property PACKAGE_PIN U16 [get_ports {led_start_stop}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_start_stop}]
 # STOP
-set_property PACKAGE_PIN E19 [get_ports {led[1]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}]
+set_property PACKAGE_PIN E19 [get_ports {led_step}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_step}]
 # STATE_1
-set_property PACKAGE_PIN U19 [get_ports {led[2]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[2]}]
+set_property PACKAGE_PIN U19 [get_ports {led_run[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_run[0]}]
 # STATE_2
-set_property PACKAGE_PIN V19 [get_ports {led[3]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}]
+set_property PACKAGE_PIN V19 [get_ports {led_run[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_run[1]}]
 # STATE_3
-set_property PACKAGE_PIN W18 [get_ports {led[4]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[4]}]
+set_property PACKAGE_PIN W18 [get_ports {led_run[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_run[2]}]
 # STATE_4
-set_property PACKAGE_PIN U15 [get_ports {led[5]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {led[5]}]
+set_property PACKAGE_PIN U15 [get_ports {led_run[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {led_run[3]}]
 
 
 ## BUTTONS
