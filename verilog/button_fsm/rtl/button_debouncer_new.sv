@@ -22,9 +22,9 @@ endmodule
 module clock_enable(input Clk_100M,
                     output slow_clk_en);
                     
-localparam MAX_CNT = 16;
+localparam MAX_CNT = 15;
 
-logic [4:0] counter = 0;
+logic [3:0] counter = 0;
 
 always @(posedge Clk_100M)
 begin

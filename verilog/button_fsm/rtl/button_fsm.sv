@@ -16,9 +16,9 @@
 module button_fsm (input logic clk, resetn,
                    input logic [3:0] button,
 
-                   output logic led_start_stop,
-                   output logic led_step,
-                   output logic [3:0] led_run);
+                   output logic led_run_status,
+                   output logic led_idle,
+                   output logic [3:0] led_run_step);
  
 localparam IDLE = 0;
 localparam RUN =  1;
@@ -45,37 +45,43 @@ always_comb begin
 
     case(current_state)
         IDLE: begin
-		  led_start_stop = 0;
-		  led_run = 0;
+          cnt = 0;
+          led_idle = 1;
+		  led_run_status = 0;
+		  led_run_step = 0;
 		  mic1_run = 0;
     	end
         
         RUN: begin
-		  led_start_stop = 1;
+		  led_run_status = 1;
+		  led_idle = 0;
 		  mic1_run = 1;
-		  led_run = cnt;
+		  //led_run = cnt;
 		  if(db_button[2]) next_state = STEP;	// STEP		  
         end
                  
         STEP: begin
-            led_run = cnt;
+            led_run_step = cnt;
             mic1_run = 1;
             next_state = RUN;
+            
+            cnt = cnt + 1;
         end
                  
         default: begin
-		  led_start_stop = 0;
-		  led_run = LED_DEFAULT;
+		  led_run_status = 0;
+		  led_idle = 0;
+		  led_run_step = LED_DEFAULT;
 		end
     endcase
     
-    if(mic1_run) cnt = cnt + 4'b1;
+    //if(mic1_run) cnt = cnt + 4'b1;
 end
 
 always @(posedge clk) begin
     current_state <= next_state;
 
-    if(!db_resetn) begin
+    if(db_resetn) begin
         current_state <= IDLE;
     end
 end
