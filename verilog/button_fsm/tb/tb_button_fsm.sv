@@ -25,6 +25,7 @@ button_fsm button_fsm(.clk(tb_clk),
 
 initial
 begin
+    #10ns
     tb_resetn = 1;
     #10ns
     tb_button[0] = 1;
