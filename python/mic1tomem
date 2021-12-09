@@ -25,9 +25,10 @@ def convert_content(fileContent:bytes):
         hex_string = fileContent.hex()
         
         n = 9
-        split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
-        split_strings = ''.join(split_strings)
-        new_string = ([split_strings[index*10 : index * 10 + 9] + "\n" for index in range(0, len(split_strings)//10)])
+        #split_strings = [hex_string[index : index + n] for index in range(8, len(hex_string), n)]
+        split_strings = ''.join(hex_string)
+        split_strings = split_strings[8 : -1]
+        new_string = ([split_strings[index * 10 : index * 10 + 9] + "\n" for index in range(0, len(split_strings)//10 +1)])
        
         return new_string
 
