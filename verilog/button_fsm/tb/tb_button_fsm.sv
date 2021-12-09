@@ -25,16 +25,15 @@ button_fsm button_fsm(.clk(tb_clk),
 
 initial
 begin
-    #10ns
     tb_resetn = 1;
     #10ns
     tb_button[0] = 1;
-    #100ns
+    #40ns   // 2ns for one clk cycle + 4Bit cnt -> 16 cycles = min. 32ns 
     tb_button[0] = 0;
     
     #100ns
     tb_button[2] = 1;
-    #100ns
+    #40ns
     tb_button[2] = 0;
 end
 endmodule    

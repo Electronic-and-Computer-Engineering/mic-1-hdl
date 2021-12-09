@@ -8,7 +8,7 @@ module Button_Debouncer(input logic clk,
 reg button_sync_0;	always @(posedge clk) button_sync_0 <= ~pushed_button;	// invert button -> sync_0 is active high
 reg button_sync_1;	always @(posedge clk) button_sync_1 <= button_sync_0;
 
-reg [7:0] button_cnt;
+reg [3:0] button_cnt;
 
 wire button_idle = (button_state == button_sync_1);
 wire button_cnt_max = &button_cnt;
@@ -19,7 +19,7 @@ always @(posedge clk)
 		button_state <= 0;
 	end
 	else begin
-		button_cnt <= button_cnt + 8'd1;
+		button_cnt <= button_cnt + 4'd1;
 		if(button_cnt_max) button_state <= 1;
 		else button_state <= 0;
 	end

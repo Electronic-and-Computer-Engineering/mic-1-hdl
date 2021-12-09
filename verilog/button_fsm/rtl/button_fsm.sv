@@ -54,8 +54,7 @@ always_comb begin
 		  led_start_stop = 1;
 		  mic1_run = 1;
 		  led_run = cnt;
-		  if(db_button[2]) next_state = STEP;	// STOP  
-		  
+		  if(db_button[2]) next_state = STEP;	// STEP		  
         end
                  
         STEP: begin
