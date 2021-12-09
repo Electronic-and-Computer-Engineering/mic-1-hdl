@@ -2,7 +2,7 @@
 
 """
 ECE Project Mic-1
-Title: Program Converter for ijvm-files
+Title: Program Converter for mic1 files
 Author: Florian Zwittnigg
 Date: 17.11.2021
 Rev.: 1.0 
@@ -15,7 +15,6 @@ import argparse
 # Reading the file and hand over the content to main
 def read_file(filename:str):
         f = open(f'{filename}', mode='rb')
-
         fileContent = f.read()
         f.close()
 
@@ -25,22 +24,18 @@ def read_file(filename:str):
 def convert_content(fileContent:bytes):
         hex_string = fileContent.hex()
         
-        n = 8
-        # file_header = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
-        file_header = hex_string[0 : n]
-
-        if(file_header != "1deadfad"):
-                print("Falsches File geladen!")
-
+        n = 9
         split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
-
-        return split_strings
+        split_strings = ''.join(split_strings)
+        new_string = ([split_strings[index*10 : index * 10 + 9] + "\n" for index in range(0, len(split_strings)//10)])
+       
+        return new_string
 
 # create .txt-File in same directory and write the converted data into it
 def write_file(fileContent, filename):
         base = os.path.basename(filename)
         output_filename = os.path.splitext(base)[0]
-       
+        
         file = open(f'{output_filename}.txt', "w")
 
         file.writelines(fileContent)
