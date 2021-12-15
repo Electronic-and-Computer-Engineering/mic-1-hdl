@@ -25,8 +25,7 @@ def read_file(filename:str):
 def convert_content(fileContent:bytes):
         hex_string = fileContent.hex()
         
-        n = 8
-        # file_header = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
+        n = 8           # size of one row
         file_header = hex_string[0 : n]
         mem_addr_pool = hex_string[n : 2*n] # represent the place of the constant pool in the memory
         mem_addr_pool_int = int(mem_addr_pool, 16)
