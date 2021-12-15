@@ -27,6 +27,27 @@ module mic1_soc (
     wire [35:0] mp_mem_wdata;
     wire [35:0] mp_mem_rdata;
 
+    mic1 mic1 (
+        .clk          (clk   ),
+        .resetn       (resetn),
+
+        .mem_read     (mem_read   ),
+        .mem_write    (mem_write  ),
+        .mem_addr     (mem_addr   ),
+        .mem_wdata    (mem_wdata  ),
+        .mem_rdata    (mem_rdata  ),
+        
+        .mem_fetch       (mem_fetch   ),
+        .mem_addr_instr  (mem_addr_instr),
+        .mem_rd_instr    (mem_rd_instr  ),
+
+        .mp_mem_addr     (mp_mem_addr   ),
+        .mp_mem_wdata    (mp_mem_wdata  ),
+        .mp_mem_rdata    (mp_mem_rdata  ),
+
+        .out(out)
+    );
+
     control_store control_store (
         .clk (clk),
         .wen (1'b0), 
@@ -50,26 +71,17 @@ module mic1_soc (
         .rdata_A (mem_rdata),
         .rdata_B (mem_rd_instr)
     );
-
-    mic1 mic1 (
-        .clk          (clk   ),
-        .resetn       (resetn),
-
-        .mem_read     (mem_read   ),
-        .mem_write    (mem_write  ),
-        .mem_addr     (mem_addr   ),
-        .mem_wdata    (mem_wdata  ),
-        .mem_rdata    (mem_rdata  ),
-        
-        .mem_fetch       (mem_fetch   ),
-        .mem_addr_instr  (mem_addr_instr),
-        .mem_rd_instr    (mem_rd_instr  ),
-
-        .mp_mem_addr     (mp_mem_addr   ),
-        .mp_mem_wdata    (mp_mem_wdata  ),
-        .mp_mem_rdata    (mp_mem_rdata  ),
-
-        .out(out)
-    );
+    
+    always_ff @(negedge mem_write) begin
+        if (mem_addr == 'hFFFFFFFD) begin
+            $display("IO write access");
+        end
+    end
+    
+    always_ff @(negedge mem_read) begin
+        if (mem_addr == 'hFFFFFFFD) begin
+            $display("IO read access");
+        end
+    end
 
 endmodule
