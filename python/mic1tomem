@@ -26,6 +26,8 @@ def convert_content(fileContent:bytes):
         
         n = 9
         #split_strings = [hex_string[index : index + n] for index in range(8, len(hex_string), n)]
+        file_header = hex_string[0 : n]
+        print(file_header)
         split_strings = ''.join(hex_string)
         split_strings = split_strings[8 : -1]
         new_string = ([split_strings[index * 10 : index * 10 + 9] + "\n" for index in range(0, len(split_strings)//10 +1)])

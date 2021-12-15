@@ -28,14 +28,42 @@ def convert_content(fileContent:bytes):
         n = 8
         # file_header = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
         file_header = hex_string[0 : n]
+        mem_addr_pool = hex_string[n : 2*n] # represent the place of the constant pool in the memory
+        mem_addr_pool_int = int(mem_addr_pool, 16)
+        con_poolsize = hex_string[2*n : 3*n]
+        size_pooldata = int(con_poolsize, 16)
+
+        k = 3*n+(size_pooldata*2)           # end of pooldata 
+        pooldata = hex_string[3*n : k]      
+
+        mem_addr_text = hex_string[k : k + n] # represent the place of the text in the memory
+        mem_addr_text_int = int(mem_addr_text, 16)
+        con_textsize = hex_string[k + n : k + 2*n]
+        size_textdata = int(con_textsize, 16)
+
+        m = k +  2*n +(size_textdata*2) # end of textdata
+        textdata = hex_string[k + 2*n : m]
+
+        print("Fileheader: " + file_header)
+        print("Adresse Pool: " + mem_addr_pool)
+        print("Adresse Pool in Dezimal: ", mem_addr_pool_int)
+        print("Größe des Pools in Hexadezimal: " + con_poolsize)
+        print("Größe des Pools in Dezimal: ",  size_pooldata)
+        print("Pooldaten: " + pooldata)
+
+        print("Adresse Text: " + mem_addr_text)
+        print("Adresse Textes in Dezimal: ", mem_addr_text_int)
+        print("Größe des Textes in Hexadezimal: " + con_textsize)
+        print("Größe des Textes in Dezimal: ",  size_textdata)
+        print("Textdaten: " + textdata)
 
         if(file_header != "1deadfad"):
                 print("Falsches File geladen!")
 
         split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
-        new_string = .join([split_strings[index*10 : index * 10 +9] for index in range(0,len(split_strings), 10]
+        # new_string = .join([split_strings[index*10 : index * 10 +9] for index in range(0,len(split_strings), 10]
 
-        return new_string
+        return split_strings
 
 # create .txt-File in same directory and write the converted data into it
 def write_file(fileContent, filename):
