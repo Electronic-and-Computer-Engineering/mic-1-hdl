@@ -10,7 +10,7 @@ module main_memory (
 
     reg [31:0] test_memory [512];
 
-    initial $readmemh("program.mem", test_memory, 0, 73);
+    initial $readmemh("program.mem", test_memory, 0, 39);
 
     // PORT A - Read/Write
     always @(negedge clk) begin

@@ -8,11 +8,11 @@ module control_store (
     output reg [35:0] rdata = 0
     );
 
-    reg [35:0] mem [512];
+    reg [35:0] mem [0:511];
 
     initial begin
         $display("Loading microprogram into control_store.");
-        $readmemb("microcode.mem", mem, 0, 12);
+        $readmemh("microcode.mem", mem);
     end
 
     always @(posedge clk) begin
