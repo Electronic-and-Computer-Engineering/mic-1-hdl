@@ -23,6 +23,7 @@ module button_fsm (input logic clk, resetn,
 localparam IDLE = 0;
 localparam RUN =  1;
 localparam STEP = 2;
+localparam RESET = 3;
 localparam LED_DEFAULT = 'b1001;
 
 logic [1:0] current_state, next_state;
@@ -39,43 +40,55 @@ Button_Debouncer Button_Debouncer_4 (.clk(clk), .pushed_button(resetn),.button_s
 
 always_comb begin
     next_state = current_state;
+    
+    if(db_button[4]) next_state = RESET;
    
-	// BUTTON DETECTION
-	if(db_button[0]) next_state = RUN;	// STOP
-
     case(current_state)
         IDLE: begin
-          cnt = 0;
-          led_idle = 1;
-		  led_run_status = 0;
-		  led_run_step = 0;
-		  mic1_run = 0;
+            led_idle = 1;
+		    led_run_status = 0;
+		    led_run_step = cnt;
+		    mic1_run = 0;
+		  
+		    if(db_button[0]) next_state = RUN;
+		    else if(db_button[2]) next_state = STEP;		  
     	end
         
         RUN: begin
-		  led_run_status = 1;
-		  led_idle = 0;
-		  mic1_run = 1;
-		  //led_run = cnt;
-		  if(db_button[2]) next_state = STEP;	// STEP		  
+		    led_run_status = 1;
+		    led_idle = 0;
+		    led_run_step = cnt;
+		    mic1_run = 1;		
+		      
+		    if(db_button[3]) next_state = IDLE;	// return to idle	
+		    else cnt = cnt + 1;  
         end
                  
         STEP: begin
+            cnt = cnt + 1;
             led_run_step = cnt;
             mic1_run = 1;
-            next_state = RUN;
             
-            cnt = cnt + 1;
+            next_state = IDLE;           
         end
                  
-        default: begin
-		  led_run_status = 0;
-		  led_idle = 0;
-		  led_run_step = LED_DEFAULT;
+        RESET: begin
+            mic1_run = 0;
+		    led_run_status = 0;
+		    led_idle = 0;
+		    led_run_step = 0;
+		    
+		    next_state = IDLE;
+		end
+		
+		default: begin
+		    mic1_run = 0;
+            led_run_status = 0;
+            led_idle = 0;
+            led_run_step = 0;		
 		end
     endcase
     
-    //if(mic1_run) cnt = cnt + 4'b1;
 end
 
 always @(posedge clk) begin
