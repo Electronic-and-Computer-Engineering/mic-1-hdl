@@ -24,13 +24,14 @@ localparam IDLE = 0;
 localparam RUN =  1;
 localparam STEP = 2;
 localparam RESET = 3;
-localparam LED_DEFAULT = 'b1001;
+localparam LED_DEFAULT = 4'b1001;
+localparam CNT_MAX = 16;
 
 logic [1:0] current_state, next_state;
 logic mic1_run;
 logic [3:0] db_button;
 logic db_resetn;
-logic [3:0] cnt = 0;
+logic [3:0] cnt = 4'b0;
 
 Button_Debouncer Button_Debouncer_0 (.clk(clk), .pushed_button(button[0]),.button_state(db_button[0]));
 Button_Debouncer Button_Debouncer_1 (.clk(clk), .pushed_button(button[1]),.button_state(db_button[1]));
@@ -59,12 +60,11 @@ always_comb begin
 		    mic1_run = 1;		
 		      
 		    if(db_button[3]) next_state = IDLE;	// return to idle	
-		    else cnt = cnt + 1;  
+		    else cnt = cnt + 1'b1;  
         end
                  
         STEP: begin
-            cnt = cnt + 1;
-            led_run_step = cnt;
+            cnt = cnt + 1'b1;
             mic1_run = 1;
             
             next_state = IDLE;           
@@ -84,6 +84,8 @@ always_comb begin
 		end
     endcase
     
+    if(cnt == CNT_MAX) cnt = 0;
+    
 end
 
 always @(posedge clk) begin
@@ -100,8 +102,9 @@ end
     always_comb begin
         case(current_state)
             IDLE:       cur_state_text  = "IDLE";
-            RUN:       cur_state_text  = "RUN";
+            RUN:        cur_state_text  = "RUN";
             STEP:       cur_state_text  = "STEP";
+            RESET:      cur_state_text = "RESET";
         endcase
     end
 `endif
