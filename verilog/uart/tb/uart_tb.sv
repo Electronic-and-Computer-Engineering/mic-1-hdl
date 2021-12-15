@@ -55,6 +55,28 @@ initial begin
    @(posedge baud)#100ns data_send[5] = TX;
    @(posedge baud)#100ns data_send[6] = TX;
    @(posedge baud)#100ns data_send[7] = TX;
+   
+   #200us
+   data_rec[0:7] = {1'b1,1'b1,1'b0,1'b0,1'b1,1'b0,1'b0,1'b1};
+   @(posedge baud) RX<=1'b0; //Startbit
+   @(posedge baud) RX<=data_rec[0];
+   @(posedge baud) RX<=data_rec[1];
+   @(posedge baud) RX<=data_rec[2];
+   @(posedge baud) RX<=data_rec[3];
+   @(posedge baud) RX<=data_rec[4];
+   @(posedge baud) RX<=data_rec[5];
+   @(posedge baud) RX<=data_rec[6];
+   @(posedge baud) RX<=data_rec[7];
+   @(posedge baud) RX<=1'b1; //Stopbit
+   @(posedge DUT.tx_busy);
+   @(posedge baud)#100ns data_send[0] = TX;
+   @(posedge baud)#100ns data_send[1] = TX;
+   @(posedge baud)#100ns data_send[2] = TX;
+   @(posedge baud)#100ns data_send[3] = TX;
+   @(posedge baud)#100ns data_send[4] = TX;
+   @(posedge baud)#100ns data_send[5] = TX;
+   @(posedge baud)#100ns data_send[6] = TX;
+   @(posedge baud)#100ns data_send[7] = TX;
 
 assert (data_rec == data_send) $display ("PASS"); 
 end

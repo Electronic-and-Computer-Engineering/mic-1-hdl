@@ -54,7 +54,7 @@ always_comb begin
             if(rx == 0) begin //start bit
                next_state = START;
                next_idx = 0;
-               first_bit <=1;
+               first_bit <= 1;
             end            
         end
         START: begin
