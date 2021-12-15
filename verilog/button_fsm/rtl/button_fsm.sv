@@ -41,8 +41,6 @@ Button_Debouncer Button_Debouncer_4 (.clk(clk), .pushed_button(resetn),.button_s
 always_comb begin
     next_state = current_state;
     
-    if(db_button[4]) next_state = RESET;
-   
     case(current_state)
         IDLE: begin
             led_idle = 1;
@@ -73,10 +71,7 @@ always_comb begin
         end
                  
         RESET: begin
-            mic1_run = 0;
-		    led_run_status = 0;
-		    led_idle = 0;
-		    led_run_step = 0;
+		    cnt = 0;
 		    
 		    next_state = IDLE;
 		end
@@ -95,7 +90,7 @@ always @(posedge clk) begin
     current_state <= next_state;
 
     if(db_resetn) begin
-        current_state <= IDLE;
+        current_state <= RESET;
     end
 end
 
