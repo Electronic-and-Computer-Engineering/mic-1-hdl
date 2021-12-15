@@ -13,12 +13,12 @@ module alu(
     output logic N,
     output logic Z);
 
- logic [5:0] control_lines;
- assign control_lines = {F0, F1, ENA, ENB, INVA, INC};   
+    logic [5:0] control_lines;
+    assign control_lines = {F0, F1, ENA, ENB, INVA, INC};
     
     always_comb
     begin
-        case(control_lines)
+        case (control_lines)
             6'b011000:  //A
                 ALU_out = A;
             6'b010100:  //B

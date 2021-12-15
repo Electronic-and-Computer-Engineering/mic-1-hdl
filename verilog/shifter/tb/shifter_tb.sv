@@ -2,21 +2,24 @@ module shifter_tb;
 
 reg [31:0]in = 32'hAAAAAAAA;
 logic [1:0] set = 2'b00;
-reg [31:0]out = 32'sh0;
+reg [31:0]out = 32'h0;
 
-//shifter DUT( .ALU_out(in), .set(set), .Shifter_out(out));
+shifter DUT(.ALU_out(in), .SET(set), .Shift(out));
 
-initial begin
-    #50ns;
-    set = 2'b01;
-    out = $signed(in) << 8;
-    #100ns;
-    set = 2'b10;
-    out = $signed(in) >>> 1'b1;
-    #150ns;
-    out = in;
-    set = 2'b11;
-    #200ns;
-    $finish;
+always
+begin
+    set = 2'b00;
+    #1 assert (out == 32'haaaaaaaa) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b01;
+    #1 assert (out == 32'haaaaaa00) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b10;
+    #1 assert (out == 32'hd5555555) $display ("PASS");
+    else $error("FAIL");
+    #250ns set = 2'b11;
+    #1 assert (out === 32'hXXXXXXXX) $display ("PASS");
+    else $error("FAIL");
+    #250 $finish;
 end
 endmodule
