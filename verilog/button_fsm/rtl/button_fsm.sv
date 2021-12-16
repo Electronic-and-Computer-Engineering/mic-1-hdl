@@ -64,7 +64,7 @@ always_comb begin
         end
                  
         STEP: begin
-            cnt = cnt + 1'b1;
+            cnt = cnt + 1;
             mic1_run = 1;
             
             next_state = IDLE;           
@@ -84,7 +84,7 @@ always_comb begin
 		end
     endcase
     
-    if(cnt == CNT_MAX) cnt = 0;
+    if(cnt == CNT_MAX) cnt = 4'b0;
     
 end
 
@@ -101,10 +101,10 @@ end
 
     always_comb begin
         case(current_state)
-            IDLE:       cur_state_text  = "IDLE";
-            RUN:        cur_state_text  = "RUN";
-            STEP:       cur_state_text  = "STEP";
-            RESET:      cur_state_text = "RESET";
+            IDLE:   cur_state_text  = "IDLE";
+            RUN:    cur_state_text  = "RUN";
+            STEP:   cur_state_text  = "STEP";
+            RESET:  cur_state_text = "RES";
         endcase
     end
 `endif

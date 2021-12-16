@@ -9,11 +9,11 @@ logic [3:0] tb_button = 0;
 
 // outputs
 logic tb_led_run_status;
-logic tb_idle = 0;
+logic tb_idle;
 logic [3:0] tb_led_run_step;
 
 // set clock
-always #1ns tb_clk = ~tb_clk;
+always #1ns tb_clk = ~tb_clk;   //6MHz
 
 // link parameters
 button_fsm button_fsm(.clk(tb_clk),
@@ -25,19 +25,45 @@ button_fsm button_fsm(.clk(tb_clk),
 
 initial
 begin
-    #10ns
-    tb_resetn = 1;
-    #40ns
-    tb_resetn = 0;
+//    #10ns
+//    tb_resetn = 1;
+//    #40ns
+//    tb_resetn = 0;
     
-    #10ns
+    // RUN
+    #100ns
     tb_button[0] = 1;
-    #40ns   // 2ns for one clk cycle + 4Bit cnt -> 16 cycles = min. 32ns 
+    #40ns
     tb_button[0] = 0;
     
-    #100ns
+    #400ns
+    tb_button[3] = 1;
+    #40ns
+    tb_button[3] = 0;
+    
+    #200ns
     tb_button[2] = 1;
     #40ns
     tb_button[2] = 0;
+    
+    #80ns
+    tb_button[2] = 1;
+    #40ns
+    tb_button[2] = 0;
+    
+    #80ns
+    tb_button[2] = 1;
+    #40ns
+    tb_button[2] = 0;
+    
+    #100ns
+    tb_button[0] = 1;
+    #40ns
+    tb_button[0] = 0;
+    
+    #400ns
+    tb_button[3] = 1;
+    #40ns
+    tb_button[3] = 0;
 end
 endmodule    
