@@ -53,7 +53,7 @@ def convert_content(fileContent:bytes):
         print("Adresse Text: " + mem_addr_text)
         print("Adresse Textes in Dezimal: ", mem_addr_text_int)
         print("Größe des Textes in Hexadezimal: " + con_textsize)
-        print("Größe des Textes in Dezimal: ",  size_textdata)
+        print("Größe des Textes in Dezimal: ",  textsize)
         print("Textdaten: " + textdata)
 
         if(file_header != "1deadfad"):
