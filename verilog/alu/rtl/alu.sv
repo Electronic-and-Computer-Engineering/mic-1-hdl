@@ -27,6 +27,8 @@ module alu(
                 ALU_out = ~A;
             6'b101100:  //negate B
                 ALU_out = ~B;
+            6'b100100:  //negate B
+                ALU_out = ~B;
             6'b111100:  //A+B
                 ALU_out = A+B;
             6'b111101:  //A+B+1
@@ -39,6 +41,8 @@ module alu(
                 ALU_out = B-A;
             6'b110110:  //B-1
                 ALU_out = B-1;
+            6'b110111:  //B-1
+                ALU_out = B-1;
             6'b111011:  //-A
                 ALU_out = -A;
             6'b001100:  //A AND B
@@ -47,10 +51,14 @@ module alu(
                 ALU_out = A|B;
             6'b010000:  //0
                 ALU_out = 0;
+            6'b010001:  //1
+                ALU_out = 1;
             6'b110001:  //1
                 ALU_out = 1;
             6'b110010:  //-1
-                ALU_out = -1;      
+                ALU_out = -1;
+            6'b010010:  //-1
+                ALU_out = -1;
             default: 
                 ALU_out = 32'hXXXXXXXX;               
         endcase
