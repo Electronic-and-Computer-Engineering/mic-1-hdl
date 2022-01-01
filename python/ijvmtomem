@@ -46,20 +46,34 @@ def convert_content(fileContent:bytes):
         print("Fileheader: " + file_header)
         print("Adresse Pool: " + mem_addr_pool)
         print("Adresse Pool in Dezimal: ", mem_addr_pool_int)
-        print("Größe des Pools in Hexadezimal: " + con_poolsize)
-        print("Größe des Pools in Dezimal: ",  size_pooldata)
+        print("Größe der Pooldaten (Konstanten) in Hexadezimal: " + con_poolsize)
+        print("Größe des Pooldaten (Konstanten) in Dezimal: ",  size_pooldata)
         print("Pooldaten: " + pooldata)
 
         print("Adresse Text: " + mem_addr_text)
         print("Adresse Textes in Dezimal: ", mem_addr_text_int)
         print("Größe des Textes in Hexadezimal: " + con_textsize)
         print("Größe des Textes in Dezimal: ",  textsize)
-        print("Textdaten: " + textdata)
+        print("Textdaten Vor dem Padding: " + textdata)
+
+        rest_of_textdata = textsize % 4
+        textsize_correct_data = textsize - rest_of_textdata
+
+        last_row = hex_string[k + 2* (n + textsize_correct_data) : m]
+        last_row_length = len(last_row)
+        correct_last_row = last_row.rjust(8,"0")        # padding last row
+
+        print("Letzte Zeile: ", last_row)
+        print("Länge letzte Zeile: ", last_row_length)
+        print("gepaddete letzte Zeile: ", correct_last_row)
+
+        hex_string_padded = hex_string[0 : len(hex_string)-last_row_length] + correct_last_row
 
         if(file_header != "1deadfad"):
                 print("Falsches File geladen!")
 
-        split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
+        split_strings = [hex_string_padded[index : index + n] + "\n" for index in range(8, len(hex_string_padded), n)]
+        # split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
         # new_string = .join([split_strings[index*10 : index * 10 +9] for index in range(0,len(split_strings), 10]
 
         return split_strings
