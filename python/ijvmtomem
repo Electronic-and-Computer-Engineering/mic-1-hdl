@@ -83,10 +83,12 @@ def write_file(fileContent, filename):
        
         file = open(f'{output_filename}.txt', "w")
 
+        file.writelines("// This file was created with ijvmtomem.py from " + base +  "\n")
         file.writelines(fileContent)
         
         file.close()
 
+# bring the textdata in correct sequence
 def reverse_commands(commands):
         reversed_word_buffer = ''
 
