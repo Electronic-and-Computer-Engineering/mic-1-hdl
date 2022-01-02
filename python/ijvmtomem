@@ -14,8 +14,10 @@ to 4 commands)
 """
 
 import os
+from posixpath import split
 import sys
 import argparse
+import math
 
 # Reading the file and hand over the content to main
 def read_file(filename:str):
@@ -60,24 +62,15 @@ def convert_content(fileContent:bytes):
         print("Größe des Textes in Hexadezimal: " + con_textsize)
         print("Größe des Textes in Dezimal: ",  textsize)
         print("Textdaten Vor dem Padding: " + textdata)
+        
+        reversed_textdata = reverse_commands(textdata)
 
-        rest_of_textdata = textsize % 4
-        textsize_correct_data = textsize - rest_of_textdata
-
-        last_row = hex_string[k + 2* (n + textsize_correct_data) : m]
-        last_row_length = len(last_row)
-        correct_last_row = last_row.rjust(8,"0")        # padding last row
-
-        print("Letzte Zeile: ", last_row)
-        print("Länge letzte Zeile: ", last_row_length)
-        print("gepaddete letzte Zeile: ", correct_last_row)
-
-        hex_string_padded = hex_string[0 : len(hex_string)-last_row_length] + correct_last_row
+        new_hex_string = reversed_textdata + pooldata   # add constants at the end of string
 
         if(file_header != "1deadfad"):
                 print("Falsches File geladen!")
 
-        split_strings = [hex_string_padded[index : index + n] + "\n" for index in range(8, len(hex_string_padded), n)]
+        split_strings = [new_hex_string[index : index + n] + "\n" for index in range(0, len(new_hex_string), n)]
         # split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
         # new_string = .join([split_strings[index*10 : index * 10 +9] for index in range(0,len(split_strings), 10]
 
@@ -93,6 +86,30 @@ def write_file(fileContent, filename):
         file.writelines(fileContent)
         
         file.close()
+
+def reverse_commands(commands):
+        reversed_word_buffer = ''
+
+        for i in range(math.ceil(len(commands)/8)):
+                word = commands[i*8:i*8+8]
+
+                reversed_word = []
+
+                for i in range(4):
+                        byte = word[i*2:i*2+2]
+                
+                        if byte != '':  
+                                reversed_word.append(byte)
+                        else:
+                                reversed_word.append('00')
+
+                reversed_word = reversed_word[::-1]               
+                reversed_word = ''.join(reversed_word)
+                reversed_word_buffer = reversed_word_buffer + reversed_word
+        
+        # print(reversed_word_buffer)
+
+        return reversed_word_buffer
 
 if __name__=='__main__':
     #parsing commandline
