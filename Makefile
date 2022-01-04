@@ -16,7 +16,7 @@ PCF = icebreaker.pcf
 TOP = mic1_icebreaker
 
 # Memory
-PROGRAM = programs/branch.mem
+PROGRAM = programs/add.mem
 MICROCODE = microcode.mem
 CONSTANTPOOL_ADDRESS = \'h0048
 LOCALVARIABLEFRAME_ADDRESS = \'h0050

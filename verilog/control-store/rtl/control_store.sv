@@ -23,7 +23,7 @@ module control_store #(
          if (wen)
             mem[waddr] <= wdata;
          if (ren)
-            $display("MPC= %h", raddr);
+            //$display("MPC= %h", raddr);
             rdata <= mem[raddr];
     end
 endmodule

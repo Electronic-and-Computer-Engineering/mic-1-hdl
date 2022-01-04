@@ -50,25 +50,25 @@ module mic1_soc (
     
     logic [31:0] mem_rdata_io;
     
-    logic [7:0] my_input = 8'h0a;
+    logic [7:0] my_input = 8'h00;
     
-    /*initial begin
+    initial begin
         #100;
         my_input = 8'h33;
-        #1000;
+        #300;
         my_input = 8'h34;
-        #1000;
+        #300;
         my_input = 8'h0A;
         #200;
         my_input = 8'h35;
-        #1000;
+        #300;
         my_input = 8'h36;
-        #1000;
+        #300;
         my_input = 8'h0A;
         #200;
         my_input = 8'h00;
         #1000;
-    end*/
+    end
     
     always_comb begin
         case (mem_addr)
@@ -107,6 +107,8 @@ module mic1_soc (
         .rdata_B (mem_rd_instr)
     );
     
+    `ifndef SYNTHESIS
+    
     always_ff @(negedge clk) begin
         if (mem_addr == 'hFFFFFFFD && mem_write) begin
             $display("IO write access: %h %c", mem_wdata, mem_wdata);
@@ -115,8 +117,10 @@ module mic1_soc (
     
     always_ff @(negedge clk) begin
         if (mem_addr == 'hFFFFFFFD && mem_read) begin
-            $display("IO read access:  %h %c", mem_rdata, mem_rdata);
+            $display("IO read access:  %h %c", mem_rdata_io, mem_rdata_io);
         end
     end
+    
+    `endif
 
 endmodule
