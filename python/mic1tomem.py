@@ -27,7 +27,12 @@ def convert_content(fileContent:bytes):
         n = 9
         #split_strings = [hex_string[index : index + n] for index in range(8, len(hex_string), n)]
         file_header = hex_string[0 : n]
-        print(file_header)
+        if(file_header != "123456780"):
+                print("Header is not OK")
+                quit()
+        else:
+                print("Header is OK")        
+
         split_strings = ''.join(hex_string)
         split_strings = split_strings[8 : -1]
         new_string = ([split_strings[index * 10 : index * 10 + 9] + "\n" for index in range(0, len(split_strings)//10 +1)])
@@ -41,9 +46,12 @@ def write_file(fileContent, filename):
         
         file = open(f'{output_filename}.txt', "w")
 
+        file.writelines("// mic1tomem: convert .mic1-files to .mem-files \n" + "// Loading " + base +  "\n")
         file.writelines(fileContent)
         
         file.close()
+
+        return base
 
 if __name__=='__main__':
     #parsing commandline
@@ -53,4 +61,6 @@ if __name__=='__main__':
     
     content_of_file = read_file(args.filename)
     writable_content = convert_content(content_of_file)      
-    write_file(writable_content, args.filename)
+    base = write_file(writable_content, args.filename)
+
+    print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".txt")

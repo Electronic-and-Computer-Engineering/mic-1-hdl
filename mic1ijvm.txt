@@ -1,3 +1,5 @@
+// mic1tomem: convert .mic1-files to .mem-files 
+// Loading mic1ijvm.mic1
 010000000
 200350201
 004350211
