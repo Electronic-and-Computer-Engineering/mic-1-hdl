@@ -34,6 +34,13 @@ def convert_content(fileContent:bytes):
         
         n = 8           # size of one row
         file_header = hex_string[0 : n]
+
+        if(file_header != "1deadfad"):
+                print("Header is not OK")
+                quit()
+        else:
+                print("Header is OK") 
+
         mem_addr_pool = hex_string[n : 2*n] # represent the place of the constant pool in the memory
         mem_addr_pool_int = int(mem_addr_pool, 16)
         con_poolsize = hex_string[2*n : 3*n]
@@ -50,29 +57,24 @@ def convert_content(fileContent:bytes):
         m = k +  2*n +(textsize*2) # end of textdata
         textdata = hex_string[k + 2*n : m]
 
-        print("Fileheader: " + file_header)
-        print("Adresse Pool: " + mem_addr_pool)
-        print("Adresse Pool in Dezimal: ", mem_addr_pool_int)
-        print("Größe der Pooldaten (Konstanten) in Hexadezimal: " + con_poolsize)
-        print("Größe des Pooldaten (Konstanten) in Dezimal: ",  size_pooldata)
-        print("Pooldaten: " + pooldata)
+        # print("Fileheader: " + file_header)
+        # print("Adresse Pool: " + mem_addr_pool)
+        # print("Adresse Pool in Dezimal: ", mem_addr_pool_int)
+        # print("Größe der Pooldaten (Konstanten) in Hexadezimal: " + con_poolsize)
+        # print("Größe des Pooldaten (Konstanten) in Dezimal: ",  size_pooldata)
+        # print("Pooldaten: " + pooldata)
 
-        print("Adresse Text: " + mem_addr_text)
-        print("Adresse Textes in Dezimal: ", mem_addr_text_int)
-        print("Größe des Textes in Hexadezimal: " + con_textsize)
-        print("Größe des Textes in Dezimal: ",  textsize)
-        print("Textdaten Vor dem Padding: " + textdata)
+        # print("Adresse Text: " + mem_addr_text)
+        # print("Adresse Textes in Dezimal: ", mem_addr_text_int)
+        # print("Größe des Textes in Hexadezimal: " + con_textsize)
+        # print("Größe des Textes in Dezimal: ",  textsize)
+        # print("Textdaten Vor dem Padding: " + textdata)
         
         reversed_textdata = reverse_commands(textdata)
 
         new_hex_string = reversed_textdata + pooldata   # add constants at the end of string
 
-        if(file_header != "1deadfad"):
-                print("Falsches File geladen!")
-
         split_strings = [new_hex_string[index : index + n] + "\n" for index in range(0, len(new_hex_string), n)]
-        # split_strings = [hex_string[index : index + n] + "\n" for index in range(8, len(hex_string), n)]
-        # new_string = .join([split_strings[index*10 : index * 10 +9] for index in range(0,len(split_strings), 10]
 
         return split_strings
 
@@ -87,6 +89,8 @@ def write_file(fileContent, filename):
         file.writelines(fileContent)
         
         file.close()
+
+        return base
 
 # bring the textdata in correct sequence
 def reverse_commands(commands):
@@ -121,4 +125,7 @@ if __name__=='__main__':
     
     content_of_file = read_file(args.filename)
     writable_content = convert_content(content_of_file)      
-    write_file(writable_content, args.filename)
+
+    base = write_file(writable_content, args.filename)
+
+    print("Conversion successfully done. Saved as " + os.path.splitext(base)[0] + ".txt")

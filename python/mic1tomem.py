@@ -6,6 +6,9 @@ Title: Program Converter for mic1 files
 Author: Florian Zwittnigg
 Date: 17.11.2021
 Rev.: 1.0 
+
+This program convert a .mic1 into a .txt, which can be later
+interpreted by a mic1 processor.
 """
 
 import os
