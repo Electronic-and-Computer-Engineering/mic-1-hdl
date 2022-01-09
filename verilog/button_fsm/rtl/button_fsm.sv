@@ -24,7 +24,6 @@ localparam IDLE = 0;
 localparam RUN =  1;
 localparam STEP = 2;
 localparam RESET = 3;
-localparam LED_DEFAULT = 4'b1001;
 localparam CNT_MAX = 16;
 
 logic [1:0] current_state, next_state;
@@ -50,28 +49,37 @@ always_comb begin
 		    mic1_run = 0;
 		  
 		    if(db_button[0]) next_state = RUN;
-		    else if(db_button[2]) next_state = STEP;		  
+		    if(db_button[2]) next_state = STEP;		  
     	end
         
         RUN: begin
+		    //cnt = cnt + 1'b1;
+		    cnt = 8;
+		    
 		    led_run_status = 1;
 		    led_idle = 0;
 		    led_run_step = cnt;
 		    mic1_run = 1;		
 		      
-		    if(db_button[3]) next_state = IDLE;	// return to idle	
-		    else cnt = cnt + 1'b1;  
+		    if(db_button[3]) begin
+		      cnt = 2; 
+		      next_state = IDLE;	// return to idle	
+		    end   
         end
                  
         STEP: begin
-            cnt = cnt + 1;
+            //cnt = cnt + 1;
+            cnt = 4;
+            
+            led_run_status = 1;
+            led_run_step = cnt;
             mic1_run = 1;
             
             next_state = IDLE;           
         end
                  
         RESET: begin
-		    cnt = 0;
+		    cnt = 1;
 		    
 		    next_state = IDLE;
 		end
@@ -84,7 +92,7 @@ always_comb begin
 		end
     endcase
     
-    if(cnt == CNT_MAX) cnt = 4'b0;
+    if(cnt >= CNT_MAX) cnt = 4'b0;
     
 end
 

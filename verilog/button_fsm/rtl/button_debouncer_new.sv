@@ -14,7 +14,7 @@ my_dff_en d1(clk, slow_clk_en, Q0, Q1);
 my_dff_en d2(clk, slow_clk_en, Q1, Q2);
 
 assign Q2_bar = ~Q2;
-assign button_state = Q1 & Q2_bar;
+assign button_state = Q1 & Q2_bar & slow_clk_en;
 
 endmodule
 
