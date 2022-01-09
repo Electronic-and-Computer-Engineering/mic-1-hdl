@@ -23,7 +23,7 @@ always_comb begin
 end       
          
 always begin
-    #10ns
+    #5ns
     clk<=~clk;
 end        
 

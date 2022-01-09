@@ -7,7 +7,16 @@ module uart_top(
     output logic uart_TX,
     
     output logic [7:0]seg,
-    output logic[3:0]digit);
+    output logic[3:0]digit,
+    
+    //OUTPUTS FOR TESTING
+    output logic uart_rec,
+    output logic uart_trans,
+    output logic rx_d,
+    output logic tx_s,
+    output logic tx_d,
+    output logic baudrate,
+    output logic CLOCK);
     
     localparam CNT_INC = 24'd1611;   //Depending on baud rate and clock
     localparam CNT_WIDTH = 24;   //Depending on baud rate and clock
@@ -47,6 +56,14 @@ module uart_top(
         if (baud) tx_start <= 0;
     end
 
+    assign uart_rec = RX.data_in;
+    assign uart_trans = TX.data_out;
+    assign rx_d = rx_done;
+    assign tx_d = tx_done;
+    assign tx_s = tx_start;
+    assign baudrate = baud;
+    assign CLOCK = clk;
+    
     //************* OUTPUT RECEIVED DATA *************
     logic[3:0] digit_0, digit_1,digit_2 = 0, digit_3 = 0;        
     assign {digit_0, digit_1} = received;

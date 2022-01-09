@@ -20,9 +20,9 @@ always_ff @(posedge clk) begin
     end
 end
 
-logic[2:0] idx;
-logic[2:0] next_idx;
-localparam LAST_BIT = 3'd7;
+logic[3:0] idx;///////2
+logic[3:0] next_idx;////////2
+localparam LAST_BIT = 4'd8;///////////3'd7
 logic bit_done, bit_done_next;
 logic sample, sample_next;
 logic rx_done_next;
@@ -65,11 +65,11 @@ always_comb begin
         end
         DATA: begin
             if(baud) begin
-                sample_next =rx;
+                sample_next = rx;
                 if(idx==LAST_BIT) next_state=STOP;
                 else bit_done_next = 1;
                 if(first_bit) first_bit <= 0;
-                else next_idx = idx+1;          
+                else next_idx = idx+1;
             end
         end
         STOP: begin
@@ -82,6 +82,6 @@ always_comb begin
 end   
  
 always @(posedge clk) begin
-    if (bit_done) data_out[idx] <= (sample) ? 1 : 0;
+    if (bit_done) data_out[idx-1] <= (sample) ? 1 : 0;
 end
 endmodule
