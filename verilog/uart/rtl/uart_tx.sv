@@ -27,8 +27,7 @@ module uart_tx(
         end                
     end
     
-    always_comb
-    begin
+    always_comb begin
         data_out = 1'b1;
         next_state = IDLE;
         next_index = 0;
@@ -38,7 +37,7 @@ module uart_tx(
         case(state)
             IDLE: next_state = tx_start ? START : IDLE;
             START: begin
-                data_out = 1'b0; 
+                data_out = 0; 
                 next_state = TRANSMIT;
             end
             TRANSMIT: begin

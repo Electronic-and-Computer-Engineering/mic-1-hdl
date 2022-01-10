@@ -7,7 +7,7 @@ module uart_baud #(
     //OUTPUTS   
     output logic baud);
      
-    logic [CNT_WIDTH-2:0]cnt;
+    logic [CNT_WIDTH-1:0]cnt;
         
     always_ff @(posedge clk) begin
        {baud, cnt} <= cnt + CNT_INC;
