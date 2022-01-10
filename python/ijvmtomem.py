@@ -128,4 +128,4 @@ if __name__=='__main__':
 
     base = write_file(writable_content, args.filename)
 
-    print("Conversion successfully done. Saved as " + os.path.splitext(base)[0] + ".txt")
+    print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".txt")
