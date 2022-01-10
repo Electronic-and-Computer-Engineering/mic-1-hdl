@@ -1,6 +1,8 @@
 `timescale 1 ns / 1 ps
 
-module main_memory (
+module main_memory #(
+    parameter INIT_F=""
+    )(
     input logic clk, wen_A, ren_A, ren_B,
     input logic [31:0] addr_A, addr_B, wdata_A,
 
@@ -10,10 +12,15 @@ module main_memory (
 
     reg [31:0] test_memory [512];
 
-    initial $readmemh("program.mem", test_memory, 0, 39);
+    initial begin
+        if (INIT_F != 0) begin
+            $display("Loading program %s into main_memory.", INIT_F);
+            $readmemh(INIT_F, test_memory, 0, 130);
+        end
+    end
 
     // PORT A - Read/Write
-    always @(negedge clk) begin
+    always_ff @(negedge clk) begin
         if (wen_A)
             test_memory[addr_A] <= wdata_A;
         if (ren_A)
@@ -23,7 +30,7 @@ module main_memory (
     reg [31:0] rdata_B_tmp;
 
     // PORT B - Read
-    always @(negedge clk) begin
+    always_ff @(negedge clk) begin
         if (ren_B)
             rdata_B_tmp <= test_memory[addr_B >> 2];
     end

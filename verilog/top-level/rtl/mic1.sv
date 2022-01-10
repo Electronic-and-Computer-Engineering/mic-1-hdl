@@ -28,8 +28,8 @@ module mic1 (
     reg [31:0] MDR = 0;
     reg [31:0] PC  = -1;
     reg [7:0]  MBR = 0;
-    reg [31:0] SP  = 0;
-    reg [31:0] LV  = 0;
+    reg [31:0] SP  = `STACKPOINTER_ADDRESS;
+    reg [31:0] LV  = `LOCALVARIABLEFRAME_ADDRESS;
     reg [31:0] CPP = `CONSTANTPOOL_ADDRESS;
     reg [31:0] TOS = 0;
     reg [31:0] OPC = 0;
@@ -181,16 +181,10 @@ module mic1 (
         if (jump_ctrl[2]) begin
             MPC = next_address | MBR;
         end else begin
-            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 9);
+            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8); // TODO _ff
         end
     end
 
-    /*reg [35:0] mem [512];
-
-    initial begin
-        $display("Loading memory file into microprogram.");
-        //$readmemb("microcode.mem", mem, 0, 2);
-    end*/
     
     assign mp_mem_addr = MPC;
     assign MIR = mp_mem_rdata;
@@ -199,13 +193,6 @@ module mic1 (
     assign mem_wdata = MDR;
     
     assign mem_addr_instr = PC;
-
-    /*reg ren = 1;
-
-    always @(posedge clk) begin
-         if (ren && resetn)
-            MIR <= mem[MPC];
-    end*/
 
     // TODO remove
     assign out = H;

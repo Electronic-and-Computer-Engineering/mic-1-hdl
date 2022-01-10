@@ -19,14 +19,12 @@ module mic1_icebreaker_tb;
     always #1 clk = !clk;
 
     initial begin
-        #2000
+        #10000
 
         $display("Memory contents:");
-        for (int i=0; i<20; i++) begin
-            $display("mem[%4d] = %h", i, mic1_icebreaker.mic1_soc.main_memory.test_memory[i]);
+        for (int i=0; i<256; i++) begin
+            $display("mem[%h] = %h", i, mic1_icebreaker.mic1_soc.main_memory.test_memory[i]);
         end
-        
-        
         
         $display("Completed simulation.");
         $finish;
@@ -35,8 +33,8 @@ module mic1_icebreaker_tb;
     mic1_icebreaker mic1_icebreaker (
         .CLK          (clk   ),
 
-        .TX       (ser_tx   ),
-	    .RX       (ser_rx   ),
+        .TX           (ser_tx   ),
+	    .RX           (ser_rx   ),
 
         .LED1         (leds[0] ),
 	    .LED2         (leds[1] ),

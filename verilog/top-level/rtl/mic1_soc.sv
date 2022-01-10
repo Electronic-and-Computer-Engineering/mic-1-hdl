@@ -35,7 +35,7 @@ module mic1_soc (
         .mem_write    (mem_write  ),
         .mem_addr     (mem_addr   ),
         .mem_wdata    (mem_wdata  ),
-        .mem_rdata    (mem_rdata  ),
+        .mem_rdata    (mem_rdata_io  ),
         
         .mem_fetch       (mem_fetch   ),
         .mem_addr_instr  (mem_addr_instr),
@@ -47,8 +47,41 @@ module mic1_soc (
 
         .out(out)
     );
+    
+    logic [31:0] mem_rdata_io;
+    
+    logic [7:0] my_input = 8'h00;
+    
+    initial begin
+        #100;
+        my_input = 8'h33;
+        #300;
+        my_input = 8'h34;
+        #300;
+        my_input = 8'h0A;
+        #200;
+        my_input = 8'h35;
+        #300;
+        my_input = 8'h36;
+        #300;
+        my_input = 8'h0A;
+        #200;
+        my_input = 8'h00;
+        #1000;
+    end
+    
+    always_comb begin
+        case (mem_addr)
+            32'hFFFFFFFD:  // IO address
+                mem_rdata_io = my_input;
+            default: 
+                mem_rdata_io = mem_rdata;            
+        endcase
+    end
 
-    control_store control_store (
+    control_store #(
+        .INIT_F(`MICROCODE)
+    ) control_store (
         .clk (clk),
         .wen (1'b0), 
         .ren (resetn),
@@ -59,7 +92,9 @@ module mic1_soc (
         .rdata (mp_mem_rdata)
     );
     
-    main_memory main_memory (
+    main_memory #(
+        .INIT_F(`PROGRAM)
+    ) main_memory (
         .clk (clk),
         .wen_A (mem_write && resetn), 
         .ren_A (mem_read && resetn),
@@ -72,16 +107,20 @@ module mic1_soc (
         .rdata_B (mem_rd_instr)
     );
     
-    always_ff @(negedge mem_write) begin
-        if (mem_addr == 'hFFFFFFFD) begin
-            $display("IO write access");
+    `ifndef SYNTHESIS
+    
+    always_ff @(negedge clk) begin
+        if (mem_addr == 'hFFFFFFFD && mem_write) begin
+            $display("IO write access: %h %c", mem_wdata, mem_wdata);
         end
     end
     
-    always_ff @(negedge mem_read) begin
-        if (mem_addr == 'hFFFFFFFD) begin
-            $display("IO read access");
+    always_ff @(negedge clk) begin
+        if (mem_addr == 'hFFFFFFFD && mem_read) begin
+            $display("IO read access:  %h %c", mem_rdata_io, mem_rdata_io);
         end
     end
+    
+    `endif
 
 endmodule
