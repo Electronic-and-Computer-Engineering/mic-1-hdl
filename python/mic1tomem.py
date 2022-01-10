@@ -47,7 +47,7 @@ def write_file(fileContent, filename):
         base = os.path.basename(filename)
         output_filename = os.path.splitext(base)[0]
         
-        file = open(f'{output_filename}.txt', "w")
+        file = open(f'{output_filename}.mem', "w")
 
         file.writelines("// mic1tomem: convert .mic1-files to .mem-files \n" + "// Loading " + base +  "\n")
         file.writelines(fileContent)
@@ -69,4 +69,4 @@ if __name__=='__main__':
     writable_content = convert_content(content_of_file)      
     write_file(writable_content, args.filename)
 
-    print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".txt")
+    print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".mem")
