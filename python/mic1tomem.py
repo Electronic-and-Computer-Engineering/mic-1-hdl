@@ -61,9 +61,12 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Convert Binary to ASCII')
     parser.add_argument('filename', help='filename of binaryfile without file extension')
     args = parser.parse_args()
+    base = os.path.basename(args.filename)
+    print("mic1tomem: convert .mic1 files to .mem files")
+    print("Loading " + base +  "\n")
     
     content_of_file = read_file(args.filename)
     writable_content = convert_content(content_of_file)      
-    base = write_file(writable_content, args.filename)
+    write_file(writable_content, args.filename)
 
     print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".txt")
