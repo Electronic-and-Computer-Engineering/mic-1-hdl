@@ -53,23 +53,18 @@ always_comb begin
     	end
         
         RUN: begin
-		    //cnt = cnt + 1'b1;
-		    cnt = 8;
+		    cnt = cnt + 1'b1;
 		    
 		    led_run_status = 1;
 		    led_idle = 0;
 		    led_run_step = cnt;
 		    mic1_run = 1;		
 		      
-		    if(db_button[3]) begin
-		      cnt = 2; 
-		      next_state = IDLE;	// return to idle	
-		    end   
+		    if(db_button[3]) next_state = IDLE;	// return to idle	
         end
                  
         STEP: begin
-            //cnt = cnt + 1;
-            cnt = 4;
+            cnt = cnt + 1;
             
             led_run_status = 1;
             led_run_step = cnt;
@@ -79,7 +74,7 @@ always_comb begin
         end
                  
         RESET: begin
-		    cnt = 1;
+		    cnt = 0;
 		    
 		    next_state = IDLE;
 		end
@@ -88,7 +83,9 @@ always_comb begin
 		    mic1_run = 0;
             led_run_status = 0;
             led_idle = 0;
-            led_run_step = 0;		
+            led_run_step = 0;	
+			
+			cnt = 0;
 		end
     endcase
     
