@@ -17,8 +17,19 @@ module mic1_icebreaker_tb;
 
     reg clk = 0;
     always #1 clk = !clk;
+    
+    logic resetn;
 
     initial begin
+        resetn = 0;
+        #100
+        resetn = 1;
+    
+        #4000
+        resetn = 0;
+        #100;
+        resetn = 1;
+    
         #10000
 
         $display("Memory contents:");
@@ -43,7 +54,8 @@ module mic1_icebreaker_tb;
 	    .LED5         (leds[4] ),
 
 	    .LEDR_N       (led_r   ),
-	    .LEDG_N       (led_g   )
+	    .LEDG_N       (led_g   ),
+	    .BTN_N        (resetn  )
     );
 
 endmodule

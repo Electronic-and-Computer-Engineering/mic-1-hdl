@@ -3,19 +3,20 @@
 module mic1 (
     input clk,
     input resetn,
+    input run,
 
     // Main memory
     output logic [31:0] mem_addr,
     output logic [31:0] mem_wdata,
-    input      [31:0] mem_rdata,
+    input        [31:0] mem_rdata,
     
     output logic [31:0] mem_addr_instr,
-    input [7:0]  mem_rd_instr,
+    input        [ 7:0] mem_rd_instr,
 
     // Microprogram memory
-    output logic [8:0]  mp_mem_addr,
+    output logic [ 8:0] mp_mem_addr,
     output logic [35:0] mp_mem_wdata,
-    input      [35:0] mp_mem_rdata,
+    input        [35:0] mp_mem_rdata,
 
     output logic mem_read,
     output logic mem_write,
@@ -24,31 +25,31 @@ module mic1 (
     output [31:0] out
 );
 
-    reg [31:0] MAR = 0;
-    reg [31:0] MDR = 0;
-    reg [31:0] PC  = -1;
-    reg [7:0]  MBR = 0;
-    reg [31:0] SP  = `STACKPOINTER_ADDRESS;
-    reg [31:0] LV  = `LOCALVARIABLEFRAME_ADDRESS;
-    reg [31:0] CPP = `CONSTANTPOOL_ADDRESS;
-    reg [31:0] TOS = 0;
-    reg [31:0] OPC = 0;
-    reg [31:0] H   = 0;
+    reg [31:0] MAR;
+    reg [31:0] MDR;
+    reg [31:0] PC;
+    reg [7:0]  MBR;
+    reg [31:0] SP;
+    reg [31:0] LV;
+    reg [31:0] CPP;
+    reg [31:0] TOS;
+    reg [31:0] OPC;
+    reg [31:0] H;
 
     wire [35:0] MIR;
-    reg [8:0]  MPC = 0;
+    reg  [8:0]  MPC;
 
     // C "bus"
     wire [31:0] C;
 
     // B "bus"
-    reg [31:0] B = 0;
+    reg [31:0] B;
 
     // ALU output
     wire [31:0] ALU_out;
 
-    reg N_ff = 0;
-    reg Z_ff = 0;
+    reg N_ff;
+    reg Z_ff;
 
     wire N, Z;
 
@@ -91,13 +92,32 @@ module mic1 (
 
         .Shift      (C)
     );
+    
+    always_ff @(posedge clk) begin
+        if (!resetn) begin
+            MAR <= 0;
+            MDR <= 0;
+            PC  <= -1;
+            MBR <= 0;
+            SP  <= `STACKPOINTER_ADDRESS;
+            LV  <= `LOCALVARIABLEFRAME_ADDRESS;
+            CPP <= `CONSTANTPOOL_ADDRESS;
+            TOS <= 0;
+            OPC <= 0;
+            H   <= 0;       
+            MPC <= 0;
+            B   <= 0;
+            N_ff <= 0;
+            Z_ff <= 0;
+            first_cycle <= 0;
+        end
+    end
+    
+    logic first_cycle;
 
     // Write to B bus
-    // TODO load MIR from memory with address MPC
     always_ff @(negedge clk) begin
-        if (!resetn) begin
-
-        end else begin
+        if (resetn && run) begin
             case (B_select)
                 4'd0: B <= MDR;
                 4'd1: B <= PC;
@@ -110,9 +130,6 @@ module mic1 (
                 4'd8: B <= OPC;
                 default: B <= 'X;
             endcase
-            
-            
-            
         end
     end
 
@@ -120,9 +137,7 @@ module mic1 (
     // Write from C bus into registers
     // Set N and Z for next instr
     always_ff @(posedge clk) begin
-        if (!resetn) begin
-
-        end else begin
+        if (resetn && run) begin
             N_ff <= N;
             Z_ff <= Z;
 
@@ -154,10 +169,7 @@ module mic1 (
                 H <= C;
             end
 
-            // TODO
-            // load MDR and MBR with the result of the last memory operations
-            // do we need the old MIR? or only last write signals?
-
+            // Load MDR and MBR with the result of the last memory operations
             if (old_memory_ctrl[1]) begin
                 MDR <= mem_rdata;
             end
@@ -181,10 +193,9 @@ module mic1 (
         if (jump_ctrl[2]) begin
             MPC = next_address | MBR;
         end else begin
-            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8); // TODO _ff
+            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8);
         end
     end
-
     
     assign mp_mem_addr = MPC;
     assign MIR = mp_mem_rdata;

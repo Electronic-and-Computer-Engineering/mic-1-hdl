@@ -39,15 +39,29 @@ module mic1_icebreaker (
     assign ser_rx = RX;
 
     reg [5:0] reset_cnt = 0;
-    wire resetn = &reset_cnt;
 
     always @(posedge clk) begin
 		reset_cnt <= reset_cnt + !resetn;
+    end
+    
+    //wire resetn = &reset_cnt;
+    wire resetn = BTN_N;
+
+    logic run = 1;
+    
+    initial begin
+        #5300
+        $display("halt");
+        run = 0;
+        #100;
+        $display("run");
+        run = 1;
     end
 
     mic1_soc mic1_soc (
         .clk          (clk   ),
 		.resetn       (resetn),
+		.run          (run   ),
 		
 		.ser_tx       (ser_tx),
 		.ser_rx       (ser_rx),

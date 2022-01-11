@@ -3,6 +3,7 @@
 module mic1_soc (
     input clk,
     input resetn,
+    input run,
 
     input ser_tx,
     input ser_rx,
@@ -26,24 +27,32 @@ module mic1_soc (
     wire [8:0]  mp_mem_addr;
     wire [35:0] mp_mem_wdata;
     wire [35:0] mp_mem_rdata;
+    
+    logic mic1_run = 0;
+    
+    // Always change mic1_run on rising edge
+    always_ff @(posedge clk) begin
+        mic1_run <= run;
+    end
 
     mic1 mic1 (
-        .clk          (clk   ),
-        .resetn       (resetn),
+        .clk            (clk           ),
+        .resetn         (resetn        ),
+        .run            (mic1_run      ),
 
-        .mem_read     (mem_read   ),
-        .mem_write    (mem_write  ),
-        .mem_addr     (mem_addr   ),
-        .mem_wdata    (mem_wdata  ),
-        .mem_rdata    (mem_rdata_io  ),
+        .mem_read       (mem_read      ),
+        .mem_write      (mem_write     ),
+        .mem_addr       (mem_addr      ),
+        .mem_wdata      (mem_wdata     ),
+        .mem_rdata      (mem_rdata_io  ),
         
-        .mem_fetch       (mem_fetch   ),
-        .mem_addr_instr  (mem_addr_instr),
-        .mem_rd_instr    (mem_rd_instr  ),
+        .mem_fetch      (mem_fetch     ),
+        .mem_addr_instr (mem_addr_instr),
+        .mem_rd_instr   (mem_rd_instr  ),
 
-        .mp_mem_addr     (mp_mem_addr   ),
-        .mp_mem_wdata    (mp_mem_wdata  ),
-        .mp_mem_rdata    (mp_mem_rdata  ),
+        .mp_mem_addr    (mp_mem_addr   ),
+        .mp_mem_wdata   (mp_mem_wdata  ),
+        .mp_mem_rdata   (mp_mem_rdata  ),
 
         .out(out)
     );
@@ -53,6 +62,7 @@ module mic1_soc (
     logic [7:0] my_input = 8'h00;
     
     initial begin
+        #4500;
         #100;
         my_input = 8'h33;
         #300;
@@ -84,7 +94,7 @@ module mic1_soc (
     ) control_store (
         .clk (clk),
         .wen (1'b0), 
-        .ren (resetn),
+        .ren (resetn && mic1_run),
 
         .waddr (mp_mem_addr),
         .raddr (mp_mem_addr),
@@ -96,9 +106,9 @@ module mic1_soc (
         .INIT_F(`PROGRAM)
     ) main_memory (
         .clk (clk),
-        .wen_A (mem_write && resetn), 
-        .ren_A (mem_read && resetn),
-        .ren_B (mem_fetch && resetn),
+        .wen_A (mem_write && resetn && mic1_run), 
+        .ren_A (mem_read && resetn && mic1_run),
+        .ren_B (mem_fetch && resetn && mic1_run),
 
         .addr_A (mem_addr),
         .addr_B (mem_addr_instr),
@@ -110,13 +120,13 @@ module mic1_soc (
     `ifndef SYNTHESIS
     
     always_ff @(negedge clk) begin
-        if (mem_addr == 'hFFFFFFFD && mem_write) begin
+        if (mem_addr == 'hFFFFFFFD && mem_write && mic1_run) begin
             $display("IO write access: %h %c", mem_wdata, mem_wdata);
         end
     end
     
     always_ff @(negedge clk) begin
-        if (mem_addr == 'hFFFFFFFD && mem_read) begin
+        if (mem_addr == 'hFFFFFFFD && mem_read && mic1_run) begin
             $display("IO read access:  %h %c", mem_rdata_io, mem_rdata_io);
         end
     end
