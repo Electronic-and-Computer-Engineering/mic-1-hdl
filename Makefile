@@ -1,8 +1,7 @@
 default: simulation-iverilog
 
 # Sources
-RTL = defines_add.sv \
-	$(wildcard verilog/top-level/rtl/*.sv) \
+RTL = $(wildcard verilog/top-level/rtl/*.sv) \
 	$(wildcard verilog/alu/rtl/*.sv) \
 	$(wildcard verilog/shifter/rtl/*.sv) \
 	$(wildcard verilog/main-memory/rtl/*.sv) \

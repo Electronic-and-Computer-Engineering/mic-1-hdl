@@ -1,6 +1,10 @@
 `timescale 1 ns / 1 ps
 
-module mic1 (
+module mic1 #(
+    parameter STACKPOINTER_ADDRESS = 'h0060,
+    parameter LOCALVARIABLEFRAME_ADDRESS = 'h0050,
+    parameter CONSTANTPOOL_ADDRESS = 'h0048
+    )(
     input clk,
     input resetn,
     input run,
@@ -99,9 +103,9 @@ module mic1 (
             MDR <= 0;
             PC  <= -1;
             MBR <= 0;
-            SP  <= `STACKPOINTER_ADDRESS;
-            LV  <= `LOCALVARIABLEFRAME_ADDRESS;
-            CPP <= `CONSTANTPOOL_ADDRESS;
+            SP  <= STACKPOINTER_ADDRESS;
+            LV  <= LOCALVARIABLEFRAME_ADDRESS;
+            CPP <= CONSTANTPOOL_ADDRESS;
             TOS <= 0;
             OPC <= 0;
             H   <= 0;       

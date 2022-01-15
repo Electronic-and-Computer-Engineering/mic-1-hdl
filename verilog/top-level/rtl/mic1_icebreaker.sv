@@ -1,5 +1,7 @@
 `timescale 1 ns / 1 ps
 
+`include "verilog/top-level/rtl/defines_add.sv"
+
 module mic1_icebreaker (
 	input CLK,
 
@@ -58,7 +60,13 @@ module mic1_icebreaker (
         run = 1;
     end
 
-    mic1_soc mic1_soc (
+    mic1_soc #(
+        .STACKPOINTER_ADDRESS(`STACKPOINTER_ADDRESS),
+        .LOCALVARIABLEFRAME_ADDRESS(`LOCALVARIABLEFRAME_ADDRESS),
+        .CONSTANTPOOL_ADDRESS(`CONSTANTPOOL_ADDRESS),
+        .MIC1_PROGRAM(`MIC1_PROGRAM),
+        .MIC1_MICROCODE(`MIC1_MICROCODE)
+    ) mic1_soc (
         .clk          (clk   ),
 		.resetn       (resetn),
 		.run          (run   ),
