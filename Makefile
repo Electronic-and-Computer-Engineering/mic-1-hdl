@@ -5,7 +5,8 @@ RTL = $(wildcard verilog/top-level/rtl/*.sv) \
 	$(wildcard verilog/alu/rtl/*.sv) \
 	$(wildcard verilog/shifter/rtl/*.sv) \
 	$(wildcard verilog/main-memory/rtl/*.sv) \
-	$(wildcard verilog/control-store/rtl/*.sv)
+	$(wildcard verilog/control-store/rtl/*.sv) \
+	$(wildcard verilog/util/rtl/*.sv)
 
 TB = verilog/top-level/tb/mic1_icebreaker_tb.sv
 

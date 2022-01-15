@@ -1,4 +1,4 @@
-module flank_detection #(
+module debouncer #(
     parameter MAX_COUNT = 512
     )(
     input   clk,

@@ -1,4 +1,4 @@
-module flank_detection #(
+module edge_detection #(
     parameter RISING_EDGE = 1,
     parameter FALLING_EDGE = 0
     )(

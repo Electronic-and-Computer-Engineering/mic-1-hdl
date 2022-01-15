@@ -1,4 +1,4 @@
-module flank_detection_tb;
+module edge_detection_tb;
 
     logic clk;
     logic in;
@@ -6,7 +6,7 @@ module flank_detection_tb;
     
     always #5 clk = !clk;
     
-    flank_detection #(
+    edge_detection #(
         .RISING_EDGE(0),
         .FALLING_EDGE(1)
     ) flank_detection (
@@ -17,8 +17,8 @@ module flank_detection_tb;
     );
     
     initial begin
-        $dumpfile("flank_detection_tb.vcd");
-        $dumpvars(0, flank_detection_tb);
+        $dumpfile("edge_detection_tb.vcd");
+        $dumpvars(0, edge_detection_tb);
     end
     
     initial begin

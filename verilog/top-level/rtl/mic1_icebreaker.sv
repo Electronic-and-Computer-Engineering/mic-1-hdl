@@ -36,22 +36,23 @@ module mic1_icebreaker (
 
     `endif
 
-    wire ser_tx, ser_rx;
+    logic ser_tx, ser_rx;
     assign ser_tx = TX;
     assign ser_rx = RX;
 
-    reg [5:0] reset_cnt = 0;
 
-    always @(posedge clk) begin
-		reset_cnt <= reset_cnt + !resetn;
-    end
+    //logic resetn = BTN_N;
     
-    //wire resetn = &reset_cnt;
-    wire resetn = BTN_N;
+    logic resetn;
 
     logic run = 1;
     
+    `ifndef SYNTHESIS
+    
     initial begin
+        resetn = 0;
+        #10 resetn = 1;
+    
         #5300
         $display("halt");
         run = 0;
@@ -59,6 +60,32 @@ module mic1_icebreaker (
         $display("run");
         run = 1;
     end
+    
+    `endif
+    
+    logic test_debounced;
+    logic test_edged;
+    logic test_triggered;
+    
+    debouncer #(.MAX_COUNT(511)) debouncer (
+        .resetn (resetn_auto),
+        .clk(clk),
+        .in(BTN_N),
+        .out(test_debounced)
+    );
+    
+    edge_detection edge_detection (
+        .clk(clk),
+        .in(test_debounced),
+        .out(test_triggered)
+    );
+    
+    T_ff T_ff (
+        .resetn (resetn_auto),
+        .clk(clk),
+        .in(test_triggered),
+        .out(LEDR_N)
+    );
 
     mic1_soc #(
         .STACKPOINTER_ADDRESS(`STACKPOINTER_ADDRESS),
@@ -85,7 +112,6 @@ module mic1_icebreaker (
     assign LED4 = out[19];
     assign LED5 = out[20];
 
-    assign LEDR_N = 0;
     assign LEDG_N = 1;
 
     assign TX = 1;
