@@ -84,7 +84,7 @@ module mic1_soc #(
     ) control_store (
         .clk (clk),
         .wen (1'b0), 
-        .ren (resetn && mic1_run),
+        .ren (1'b1),
 
         .waddr (mp_mem_addr),
         .raddr (mp_mem_addr),
@@ -96,9 +96,9 @@ module mic1_soc #(
         .INIT_F(MIC1_PROGRAM)
     ) main_memory (
         .clk (clk),
-        .wen_A (mem_write && resetn && mic1_run), 
-        .ren_A (mem_read && resetn && mic1_run),
-        .ren_B (mem_fetch && resetn && mic1_run),
+        .wen_A (mem_write), 
+        .ren_A (mem_read),
+        .ren_B (mem_fetch),
 
         .addr_A (mem_addr),
         .addr_B (mem_addr_instr),

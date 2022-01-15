@@ -29,42 +29,39 @@ module mic1 #(
     output [31:0] out
 );
 
-    reg [31:0] MAR;
-    reg [31:0] MDR;
-    reg [31:0] PC;
-    reg [7:0]  MBR;
-    reg [31:0] SP;
-    reg [31:0] LV;
-    reg [31:0] CPP;
-    reg [31:0] TOS;
-    reg [31:0] OPC;
-    reg [31:0] H;
+    logic [31:0] MAR;
+    logic [31:0] MDR;
+    logic [31:0] PC;
+    logic [7:0]  MBR;
+    logic [31:0] SP;
+    logic [31:0] LV;
+    logic [31:0] CPP;
+    logic [31:0] TOS;
+    logic [31:0] OPC;
+    logic [31:0] H;
 
-    wire [35:0] MIR;
-    reg  [8:0]  MPC;
+    logic [35:0] MIR;
+    logic  [8:0] MPC;
 
     // C "bus"
-    wire [31:0] C;
+    logic [31:0] C;
 
     // B "bus"
-    reg [31:0] B;
+    logic [31:0] B;
 
     // ALU output
-    wire [31:0] ALU_out;
+    logic [31:0] ALU_out;
 
-    reg N_ff;
-    reg Z_ff;
+    logic N, Z;
 
-    wire N, Z;
-
-    wire [3:0] B_select;
-    wire [2:0] memory_ctrl;
-    reg  [2:0] old_memory_ctrl;
-    wire [8:0] C_select;
-    wire [5:0] ALU_ctrl;
-    wire [1:0] shifter_ctrl;
-    wire [2:0] jump_ctrl;
-    wire [8:0] next_address;
+    logic [3:0] B_select;
+    logic [2:0] memory_ctrl;
+    logic [2:0] old_memory_ctrl;
+    logic [8:0] C_select;
+    logic [5:0] ALU_ctrl;
+    logic [1:0] shifter_ctrl;
+    logic [2:0] jump_ctrl;
+    logic [8:0] next_address;
 
     // Disassemble MIR
     assign B_select     = MIR[3:0];
@@ -96,31 +93,12 @@ module mic1 #(
 
         .Shift      (C)
     );
-    
-    always_ff @(posedge clk) begin
-        if (!resetn) begin
-            MAR <= 0;
-            MDR <= 0;
-            PC  <= -1;
-            MBR <= 0;
-            SP  <= STACKPOINTER_ADDRESS;
-            LV  <= LOCALVARIABLEFRAME_ADDRESS;
-            CPP <= CONSTANTPOOL_ADDRESS;
-            TOS <= 0;
-            OPC <= 0;
-            H   <= 0;       
-            MPC <= 0;
-            B   <= 0;
-            N_ff <= 0;
-            Z_ff <= 0;
-            first_cycle <= 0;
-        end
-    end
-    
-    logic first_cycle;
 
     // Write to B bus
     always_ff @(negedge clk) begin
+        if (!resetn) begin
+            B   <= 0;
+        end
         if (resetn && run) begin
             case (B_select)
                 4'd0: B <= MDR;
@@ -141,10 +119,19 @@ module mic1 #(
     // Write from C bus into registers
     // Set N and Z for next instr
     always_ff @(posedge clk) begin
-        if (resetn && run) begin
-            N_ff <= N;
-            Z_ff <= Z;
-
+        if (!resetn) begin
+            MAR <= 0;
+            MDR <= 0;
+            PC  <= -1;
+            MBR <= 0;
+            SP  <= STACKPOINTER_ADDRESS;
+            LV  <= LOCALVARIABLEFRAME_ADDRESS;
+            CPP <= CONSTANTPOOL_ADDRESS;
+            TOS <= 0;
+            OPC <= 0;
+            H   <= 0;
+        end
+        else if (resetn && run) begin
             if (C_select & 9'b000000001) begin
                 MAR <= C;
             end
