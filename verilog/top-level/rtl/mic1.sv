@@ -196,6 +196,6 @@ module mic1 #(
     assign mem_addr_instr = PC;
 
     // TODO remove
-    assign out = MBR;
+    assign out = H;
 
 endmodule

@@ -10,16 +10,16 @@ module mic1_icebreaker (
 	output TX,
 
     input  BTN_N, // Resetn
-	output LEDR_N,
-	output LEDG_N,
+	output LEDR_N, // LED idle
+	output LEDG_N, // LED run
 	
 	// PMOD 2
 	input BTN1, // Start button
 	input BTN2, // Step button
 	input BTN3, // Stop button
 	
-	output LED1, // LED idle
-	output LED2, // LED run
+	output LED1, 
+	output LED2, 
 	output LED3,
 	output LED4,
 	output LED5
@@ -66,6 +66,12 @@ module mic1_icebreaker (
         .out(button_step)
     );
     
+    edge_detection edge_detection (
+        .clk(clk),
+        .in(button_step),
+        .out(button_step_edge)
+    );
+    
     // BTN3
     debouncer #(.MAX_COUNT(511)) debouncer3 (
         .resetn (resetn),
@@ -97,15 +103,9 @@ module mic1_icebreaker (
     logic led_idle;
     logic led_run;
     
-    /*always @(posedge clk) begin
-        if(!resetn) begin
-            mic1_run <= 1;
-            led_run <= 1;
-        end
-    end*/
-    
     logic button_run;
     logic button_step;
+    logic button_step_edge;
     logic button_stop;
     
     assign led_idle = !led_run;
@@ -127,7 +127,7 @@ module mic1_icebreaker (
         case (current_state)
             IDLE: begin
 		        if(button_run)  next_state = RUN;
-		        if(button_step) next_state = STEP;		  
+		        if(button_step_edge) next_state = STEP;		  
         	end
             
             RUN: begin
@@ -173,14 +173,15 @@ module mic1_icebreaker (
 
     logic [31:0] out;
 
-    assign LED1 = led_idle;
-    assign LED2 = led_run;
-    assign LED3 = out[18];
-    assign LED4 = out[19];
+    assign LED1 = |out;
+    assign LED2 = out[0];
+    assign LED3 = out[1];
+    assign LED4 = out[2];
     assign LED5 = out[20];
 
-    assign LEDG_N = 1;
-    assign LEDR_N = 1;
+
+    assign LEDR_N = !led_idle;
+    assign LEDG_N = !led_run;
 
     assign TX = 1;
 
