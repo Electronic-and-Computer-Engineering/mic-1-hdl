@@ -34,12 +34,12 @@ module mic1_icebreaker_tb;
         
         #10;
         resetn = 1;
-        button_step = 1;
+        button_run = 1;
     
         #4000;
-        resetn = 0;
-        #10;
-        resetn = 1;
+        //resetn = 0;
+        //#10;
+        //resetn = 1;
         #4500;
 
         $display("Memory contents:");
