@@ -5,7 +5,8 @@ module mic1_soc #(
     parameter LOCALVARIABLEFRAME_ADDRESS = 'h0050,
     parameter CONSTANTPOOL_ADDRESS = 'h0048,
     parameter MIC1_PROGRAM = "programs/add.mem",
-    parameter MIC1_MICROCODE = "microcode.mem"
+    parameter MIC1_MICROCODE = "microcode.mem",
+    parameter MEMORY_SIZE = 'h0083
     )(
     input clk,
     input resetn,
@@ -34,7 +35,7 @@ module mic1_soc #(
     wire [35:0] mp_mem_wdata;
     wire [35:0] mp_mem_rdata;
     
-    logic mic1_run = 0;
+    logic mic1_run;
     
     // Always change mic1_run on rising edge
     always_ff @(posedge clk) begin
@@ -61,14 +62,19 @@ module mic1_soc #(
         .mem_rd_instr   (mem_rd_instr  ),
 
         .mp_mem_addr    (mp_mem_addr   ),
-        .mp_mem_wdata   (mp_mem_wdata  ),
         .mp_mem_rdata   (mp_mem_rdata  ),
 
         .out(out)
     );
     
     logic [31:0] mem_rdata_io;
-    logic [7:0] my_input = 8'h00;
+    logic [7:0] my_input;
+    
+    always_ff @(posedge clk) begin
+        if (!resetn) begin
+            my_input <= 8'h00;
+        end
+    end
         
     always_comb begin
         case (mem_addr)
@@ -88,12 +94,12 @@ module mic1_soc #(
 
         .waddr (mp_mem_addr),
         .raddr (mp_mem_addr),
-        .wdata (mp_mem_wdata),
         .rdata (mp_mem_rdata)
     );
     
     main_memory #(
-        .INIT_F(MIC1_PROGRAM)
+        .INIT_F(MIC1_PROGRAM),
+        .MEMORY_SIZE(MEMORY_SIZE)
     ) main_memory (
         .clk (clk),
         .wen_A (mem_write), 
@@ -110,8 +116,7 @@ module mic1_soc #(
     `ifndef SYNTHESIS
     
     initial begin
-        #4500;
-        #100;
+        #1000;
         my_input = 8'h33;
         #300;
         my_input = 8'h34;
@@ -125,7 +130,6 @@ module mic1_soc #(
         my_input = 8'h0A;
         #200;
         my_input = 8'h00;
-        #1000;
     end
     
     always_ff @(negedge clk) begin

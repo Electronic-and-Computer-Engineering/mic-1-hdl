@@ -5,20 +5,26 @@
 module mic1_icebreaker (
 	input CLK,
 
+    // On-board
 	input  RX,
 	output TX,
 
-	output LED1,
-	output LED2,
+    input  BTN_N, // Resetn
+	output LEDR_N,
+	output LEDG_N,
+	
+	// PMOD 2
+	input BTN1, // Start button
+	input BTN2, // Step button
+	input BTN3, // Stop button
+	
+	output LED1, // LED idle
+	output LED2, // LED run
 	output LED3,
 	output LED4,
-	output LED5,
-
-    input  BTN_N,
-	output LEDR_N,
-	output LEDG_N
+	output LED5
 );
-    reg clk;
+    logic clk;
     
     `ifdef SYNTHESIS
 
@@ -40,51 +46,32 @@ module mic1_icebreaker (
     assign ser_tx = TX;
     assign ser_rx = RX;
 
-
-    //logic resetn = BTN_N;
-    
+    // Reset signal
     logic resetn;
+    assign resetn = BTN_N;
 
-    logic run = 1;
-    
-    `ifndef SYNTHESIS
-    
-    initial begin
-        resetn = 0;
-        #10 resetn = 1;
-    
-        #5300
-        $display("halt");
-        run = 0;
-        #100;
-        $display("run");
-        run = 1;
-    end
-    
-    `endif
-    
-    logic test_debounced;
-    logic test_edged;
-    logic test_triggered;
-    
-    debouncer #(.MAX_COUNT(511)) debouncer (
-        .resetn (resetn_auto),
+    // BTN1
+    debouncer #(.MAX_COUNT(511)) debouncer1 (
+        .resetn (resetn),
         .clk(clk),
-        .in(BTN_N),
-        .out(test_debounced)
+        .in(BTN1),
+        .out(button_run)
     );
     
-    edge_detection edge_detection (
+    // BTN2
+    debouncer #(.MAX_COUNT(511)) debouncer2 (
+        .resetn (resetn),
         .clk(clk),
-        .in(test_debounced),
-        .out(test_triggered)
+        .in(BTN2),
+        .out(button_step)
     );
     
-    T_ff T_ff (
-        .resetn (resetn_auto),
+    // BTN3
+    debouncer #(.MAX_COUNT(511)) debouncer3 (
+        .resetn (resetn),
         .clk(clk),
-        .in(test_triggered),
-        .out(LEDR_N)
+        .in(BTN3),
+        .out(button_stop)
     );
 
     mic1_soc #(
@@ -92,27 +79,108 @@ module mic1_icebreaker (
         .LOCALVARIABLEFRAME_ADDRESS(`LOCALVARIABLEFRAME_ADDRESS),
         .CONSTANTPOOL_ADDRESS(`CONSTANTPOOL_ADDRESS),
         .MIC1_PROGRAM(`MIC1_PROGRAM),
-        .MIC1_MICROCODE(`MIC1_MICROCODE)
+        .MIC1_MICROCODE(`MIC1_MICROCODE),
+        .MEMORY_SIZE(`MEMORY_SIZE)
     ) mic1_soc (
-        .clk          (clk   ),
-		.resetn       (resetn),
-		.run          (run   ),
+        .clk          (clk     ),
+		.resetn       (resetn  ),
+		.run          (mic1_run),
 		
-		.ser_tx       (ser_tx),
-		.ser_rx       (ser_rx),
+		.ser_tx       (ser_tx  ),
+		.ser_rx       (ser_rx  ),
 		
 		.out (out)
     );
+    
+    // Control signals
+    logic mic1_run;
+    logic led_idle;
+    logic led_run;
+    
+    /*always @(posedge clk) begin
+        if(!resetn) begin
+            mic1_run <= 1;
+            led_run <= 1;
+        end
+    end*/
+    
+    logic button_run;
+    logic button_step;
+    logic button_stop;
+    
+    assign led_idle = !led_run;
 
-    wire [31:0] out;
+    // Begin of State Machine
+    //enum {IDLE, RUN, STEP} current_state, next_state;
 
-    assign LED1 = out[16];
-    assign LED2 = out[17];
+    localparam IDLE = 0;
+    localparam RUN  = 1;
+    localparam STEP = 2;
+    
+    logic [1:0] current_state, next_state;
+
+    always_comb begin
+        next_state = current_state;
+        led_run = 0;
+        mic1_run = 0;
+        
+        case (current_state)
+            IDLE: begin
+		        if(button_run)  next_state = RUN;
+		        if(button_step) next_state = STEP;		  
+        	end
+            
+            RUN: begin
+		        led_run = 1;
+		        mic1_run = 1;		
+		          
+		        if(button_stop) next_state = IDLE;
+            end
+
+            STEP: begin
+                led_run = 1;
+                mic1_run = 1;
+
+                next_state = IDLE;
+            end
+		    
+		    default: begin
+		        next_state = IDLE;
+
+		    end
+        endcase
+    end
+
+    always @(posedge clk) begin
+        current_state <= next_state;
+
+        if(!resetn) begin
+            current_state <= IDLE;
+        end
+    end
+
+    `ifndef SYNTHESIS
+    reg [255:0] cur_state_text;
+
+    always_comb begin
+        case(current_state)
+            IDLE:   cur_state_text  = "IDLE";
+            RUN:    cur_state_text  = "RUN";
+            STEP:   cur_state_text  = "STEP";
+        endcase
+    end
+    `endif
+
+    logic [31:0] out;
+
+    assign LED1 = led_idle;
+    assign LED2 = led_run;
     assign LED3 = out[18];
     assign LED4 = out[19];
     assign LED5 = out[20];
 
     assign LEDG_N = 1;
+    assign LEDR_N = 1;
 
     assign TX = 1;
 

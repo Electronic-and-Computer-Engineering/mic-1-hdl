@@ -19,7 +19,6 @@ module mic1 #(
 
     // Microprogram memory
     output logic [ 8:0] mp_mem_addr,
-    output logic [35:0] mp_mem_wdata,
     input        [35:0] mp_mem_rdata,
 
     output logic mem_read,
