@@ -173,11 +173,11 @@ module mic1_icebreaker (
 
     logic [31:0] out;
 
-    assign LED1 = |out;
-    assign LED2 = out[0];
-    assign LED3 = out[1];
-    assign LED4 = out[2];
-    assign LED5 = out[20];
+    assign LED1 = out[0];
+    assign LED2 = out[1];
+    assign LED3 = out[2];
+    assign LED4 = out[31];
+    assign LED5 = |out;
 
 
     assign LEDR_N = !led_idle;

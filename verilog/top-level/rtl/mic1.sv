@@ -40,7 +40,7 @@ module mic1 #(
     logic [31:0] H;
 
     logic [35:0] MIR;
-    logic  [8:0] MPC;
+    logic [8:0]  MPC;
 
     // C "bus"
     logic [31:0] C;
@@ -179,8 +179,11 @@ module mic1 #(
 
     // Set MPC
     always_comb begin
+        if (!resetn) begin
+            MPC = 0;
+        end
         // JMPC
-        if (jump_ctrl[2]) begin
+        else if (jump_ctrl[2]) begin
             MPC = next_address | MBR;
         end else begin
             MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8);
@@ -196,6 +199,6 @@ module mic1 #(
     assign mem_addr_instr = PC;
 
     // TODO remove
-    assign out = H;
+    assign out = MPC;//H;
 
 endmodule

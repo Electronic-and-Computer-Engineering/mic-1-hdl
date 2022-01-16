@@ -11,12 +11,12 @@ module main_memory #(
     output logic [7:0] rdata_B
     );
 
-    reg [31:0] test_memory [255];
+    reg [31:0] test_memory [0:MEMORY_SIZE-1];
 
     initial begin
         if (INIT_F != 0) begin
             $display("Loading program %s into main_memory.", INIT_F);
-            $readmemh(INIT_F, test_memory, 0, 130);
+            $readmemh(INIT_F, test_memory);
         end
     end
 

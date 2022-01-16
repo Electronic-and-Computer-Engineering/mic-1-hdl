@@ -3,7 +3,7 @@
 module control_store #(
     parameter INIT_F=""
     )(
-    input clk, wen, ren,
+    input clk, ren,
 
     input wire [8:0] waddr, raddr,
     output reg [35:0] rdata = 0

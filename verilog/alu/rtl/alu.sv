@@ -63,7 +63,7 @@ module alu(
                 ALU_out = 32'hXXXXXXXX;               
         endcase
         
-        if (ALU_out == 0) Z=1;
+        if (ALU_out == 0) Z = 1;
         else Z = 0;
         
         if ($signed(ALU_out) < 0) N = 1;
