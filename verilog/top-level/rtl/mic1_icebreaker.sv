@@ -26,10 +26,55 @@ module mic1_icebreaker (
 );
     logic clk;
     
+    logic RX_sync;
+    synchronizer synchronizer1 (
+        .clk    (clk    ),
+        .resetn (resetn ),
+        .in     (RX     ),
+
+        .out    (RX_sync    )
+    );
+    
+    logic BTN_N_sync;
+    synchronizer synchronizer2 (
+        .clk    (clk    ),
+        .resetn (1 ),
+        .in     (BTN_N     ),
+
+        .out    (BTN_N_sync    )
+    );
+    
+    logic BTN1_sync;
+    synchronizer synchronizer3 (
+        .clk    (clk    ),
+        .resetn (resetn ),
+        .in     (BTN1     ),
+
+        .out    (BTN1_sync    )
+    );
+    
+    logic BTN2_sync;
+    synchronizer synchronizer4 (
+        .clk    (clk    ),
+        .resetn (resetn ),
+        .in     (BTN2     ),
+
+        .out    (BTN2_sync    )
+    );
+    
+    logic BTN3_sync;
+    synchronizer synchronizer5 (
+        .clk    (clk    ),
+        .resetn (resetn ),
+        .in     (BTN3     ),
+
+        .out    (BTN3_sync    )
+    );
+    
     `ifdef SYNTHESIS
 
     // Initialize the high speed oscillator
-    // Divide the oscillator down to 6 MHz
+    // Divide the oscillator down to 48Mhz/8=6 MHz
     SB_HFOSC #(.CLKHF_DIV("0b11")) clock (
         .CLKHFEN(1'b1), // Enable the output  
         .CLKHFPU(1'b1), // Power up the oscillator  
@@ -42,19 +87,15 @@ module mic1_icebreaker (
 
     `endif
 
-    logic ser_tx, ser_rx;
-    assign ser_tx = TX;
-    assign ser_rx = RX;
-
     // Reset signal
     logic resetn;
-    assign resetn = BTN_N;
+    assign resetn = BTN_N_sync;
 
     // BTN1
     debouncer #(.MAX_COUNT(511)) debouncer1 (
         .resetn (resetn),
         .clk(clk),
-        .in(BTN1),
+        .in(BTN1_sync),
         .out(button_run)
     );
     
@@ -62,7 +103,7 @@ module mic1_icebreaker (
     debouncer #(.MAX_COUNT(511)) debouncer2 (
         .resetn (resetn),
         .clk(clk),
-        .in(BTN2),
+        .in(BTN2_sync),
         .out(button_step)
     );
     
@@ -76,7 +117,7 @@ module mic1_icebreaker (
     debouncer #(.MAX_COUNT(511)) debouncer3 (
         .resetn (resetn),
         .clk(clk),
-        .in(BTN3),
+        .in(BTN3_sync),
         .out(button_stop)
     );
 
@@ -92,8 +133,8 @@ module mic1_icebreaker (
 		.resetn       (resetn  ),
 		.run          (mic1_run),
 		
-		.ser_tx       (ser_tx  ),
-		.ser_rx       (ser_rx  ),
+		.ser_tx       (TX  ),
+		.ser_rx       (RX_sync  ),
 		
 		.out (out)
     );
@@ -182,7 +223,5 @@ module mic1_icebreaker (
 
     assign LEDR_N = !led_idle;
     assign LEDG_N = !led_run;
-
-    assign TX = 1;
 
 endmodule
