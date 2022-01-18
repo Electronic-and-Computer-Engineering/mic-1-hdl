@@ -4869,6 +4869,704 @@ module \$paramod$1cad5f9341b5e1c8e79f635861ce634d89ec6d64\mic1 (clk, resetn, run
   assign shifter_ctrl = mp_mem_rdata[23:22];
 endmodule
 
+module \$paramod$3e562c0c556c6b2489f290a2eaed4b56e12759b7\mic1_soc (clk, resetn, run, ser_tx, ser_rx, out);
+  wire _00_;
+  wire [7:0] _01_;
+  wire _02_;
+  wire _03_;
+  wire _04_;
+  wire _05_;
+  wire _06_;
+  wire _07_;
+  wire _08_;
+  wire _09_;
+  wire _10_;
+  wire _11_;
+  wire _12_;
+  wire _13_;
+  wire _14_;
+  wire _15_;
+  wire _16_;
+  wire _17_;
+  wire _18_;
+  wire _19_;
+  input clk;
+  wire [31:0] mem_addr;
+  wire [31:0] mem_addr_instr;
+  wire mem_fetch;
+  wire [7:0] mem_rd_instr;
+  wire [31:0] mem_rdata;
+  wire [31:0] mem_rdata_io;
+  wire mem_read;
+  wire [31:0] mem_wdata;
+  wire mem_write;
+  wire mic1_run;
+  wire [8:0] mp_mem_addr;
+  wire [35:0] mp_mem_rdata;
+  output [31:0] out;
+  wire [7:0] received;
+  wire [7:0] received_register;
+  input resetn;
+  input run;
+  wire rx_done;
+  input ser_rx;
+  output ser_tx;
+  wire stb_baud;
+  wire stb_sample;
+  wire tx_busy;
+  wire tx_next;
+  SB_LUT4 #(
+    .LUT_INIT(8'h80)
+  ) _20_ (
+    .I0(_18_),
+    .I1(_19_),
+    .I2(_15_),
+    .I3(1'h0),
+    .O(_12_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _21_ (
+    .I0(_09_),
+    .I1(_08_),
+    .I2(_11_),
+    .I3(_10_),
+    .O(_18_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _22_ (
+    .I0(mem_addr[20]),
+    .I1(mem_addr[21]),
+    .I2(mem_addr[22]),
+    .I3(mem_addr[23]),
+    .O(_09_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _23_ (
+    .I0(mem_addr[16]),
+    .I1(mem_addr[17]),
+    .I2(mem_addr[18]),
+    .I3(mem_addr[19]),
+    .O(_08_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _24_ (
+    .I0(mem_addr[28]),
+    .I1(mem_addr[29]),
+    .I2(mem_addr[30]),
+    .I3(mem_addr[31]),
+    .O(_11_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _25_ (
+    .I0(mem_addr[24]),
+    .I1(mem_addr[25]),
+    .I2(mem_addr[26]),
+    .I3(mem_addr[27]),
+    .O(_10_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _26_ (
+    .I0(_05_),
+    .I1(_04_),
+    .I2(_07_),
+    .I3(_06_),
+    .O(_19_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _27_ (
+    .I0(mem_addr[4]),
+    .I1(mem_addr[5]),
+    .I2(mem_addr[6]),
+    .I3(mem_addr[7]),
+    .O(_05_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h4000)
+  ) _28_ (
+    .I0(mem_addr[1]),
+    .I1(mem_addr[0]),
+    .I2(mem_addr[2]),
+    .I3(mem_addr[3]),
+    .O(_04_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _29_ (
+    .I0(mem_addr[12]),
+    .I1(mem_addr[13]),
+    .I2(mem_addr[14]),
+    .I3(mem_addr[15]),
+    .O(_07_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h8000)
+  ) _30_ (
+    .I0(mem_addr[8]),
+    .I1(mem_addr[9]),
+    .I2(mem_addr[10]),
+    .I3(mem_addr[11]),
+    .O(_06_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _31_ (
+    .I0(mic1_run),
+    .I1(mem_read),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_15_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'h80ff)
+  ) _32_ (
+    .I0(_18_),
+    .I1(_19_),
+    .I2(_15_),
+    .I3(_03_),
+    .O(_02_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h4)
+  ) _33_ (
+    .I0(rx_done),
+    .I1(resetn),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_03_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h4)
+  ) _34_ (
+    .I0(tx_busy),
+    .I1(run),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_00_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h80)
+  ) _35_ (
+    .I0(_18_),
+    .I1(_19_),
+    .I2(_14_),
+    .I3(1'h0),
+    .O(_13_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _36_ (
+    .I0(mem_write),
+    .I1(mic1_run),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_14_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _37_ (
+    .I0(mic1_run),
+    .I1(mem_fetch),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_16_)
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _38_ (
+    .I0(received_register[0]),
+    .I1(mem_rdata[0]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[0])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _39_ (
+    .I0(received_register[1]),
+    .I1(mem_rdata[1]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[1])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _40_ (
+    .I0(received_register[2]),
+    .I1(mem_rdata[2]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[2])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _41_ (
+    .I0(received_register[3]),
+    .I1(mem_rdata[3]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[3])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _42_ (
+    .I0(received_register[4]),
+    .I1(mem_rdata[4]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[4])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _43_ (
+    .I0(received_register[5]),
+    .I1(mem_rdata[5]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[5])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _44_ (
+    .I0(received_register[6]),
+    .I1(mem_rdata[6]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[6])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(16'haccc)
+  ) _45_ (
+    .I0(received_register[7]),
+    .I1(mem_rdata[7]),
+    .I2(_18_),
+    .I3(_19_),
+    .O(mem_rdata_io[7])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _46_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[8]),
+    .I3(1'h0),
+    .O(mem_rdata_io[8])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _47_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[9]),
+    .I3(1'h0),
+    .O(mem_rdata_io[9])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _48_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[10]),
+    .I3(1'h0),
+    .O(mem_rdata_io[10])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _49_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[11]),
+    .I3(1'h0),
+    .O(mem_rdata_io[11])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _50_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[12]),
+    .I3(1'h0),
+    .O(mem_rdata_io[12])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _51_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[13]),
+    .I3(1'h0),
+    .O(mem_rdata_io[13])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _52_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[14]),
+    .I3(1'h0),
+    .O(mem_rdata_io[14])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _53_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[15]),
+    .I3(1'h0),
+    .O(mem_rdata_io[15])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _54_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[16]),
+    .I3(1'h0),
+    .O(mem_rdata_io[16])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _55_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[17]),
+    .I3(1'h0),
+    .O(mem_rdata_io[17])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _56_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[18]),
+    .I3(1'h0),
+    .O(mem_rdata_io[18])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _57_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[19]),
+    .I3(1'h0),
+    .O(mem_rdata_io[19])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _58_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[20]),
+    .I3(1'h0),
+    .O(mem_rdata_io[20])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _59_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[21]),
+    .I3(1'h0),
+    .O(mem_rdata_io[21])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _60_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[22]),
+    .I3(1'h0),
+    .O(mem_rdata_io[22])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _61_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[23]),
+    .I3(1'h0),
+    .O(mem_rdata_io[23])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _62_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[24]),
+    .I3(1'h0),
+    .O(mem_rdata_io[24])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _63_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[25]),
+    .I3(1'h0),
+    .O(mem_rdata_io[25])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _64_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[26]),
+    .I3(1'h0),
+    .O(mem_rdata_io[26])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _65_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[27]),
+    .I3(1'h0),
+    .O(mem_rdata_io[27])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _66_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[28]),
+    .I3(1'h0),
+    .O(mem_rdata_io[28])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _67_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[29]),
+    .I3(1'h0),
+    .O(mem_rdata_io[29])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _68_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[30]),
+    .I3(1'h0),
+    .O(mem_rdata_io[30])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(8'h70)
+  ) _69_ (
+    .I0(_19_),
+    .I1(_18_),
+    .I2(mem_rdata[31]),
+    .I3(1'h0),
+    .O(mem_rdata_io[31])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _70_ (
+    .I0(rx_done),
+    .I1(received[0]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[0])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _71_ (
+    .I0(rx_done),
+    .I1(received[1]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[1])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _72_ (
+    .I0(rx_done),
+    .I1(received[2]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[2])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _73_ (
+    .I0(rx_done),
+    .I1(received[3]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[3])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _74_ (
+    .I0(rx_done),
+    .I1(received[4]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[4])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _75_ (
+    .I0(rx_done),
+    .I1(received[5]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[5])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _76_ (
+    .I0(rx_done),
+    .I1(received[6]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[6])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(4'h8)
+  ) _77_ (
+    .I0(rx_done),
+    .I1(received[7]),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_01_[7])
+  );
+  SB_LUT4 #(
+    .LUT_INIT(2'h1)
+  ) _78_ (
+    .I0(resetn),
+    .I1(1'h0),
+    .I2(1'h0),
+    .I3(1'h0),
+    .O(_17_)
+  );
+  SB_DFFESR _79_ (
+    .C(clk),
+    .D(_01_[0]),
+    .E(_02_),
+    .Q(received_register[0]),
+    .R(_12_)
+  );
+  SB_DFFESR _80_ (
+    .C(clk),
+    .D(_01_[1]),
+    .E(_02_),
+    .Q(received_register[1]),
+    .R(_12_)
+  );
+  SB_DFFESR _81_ (
+    .C(clk),
+    .D(_01_[2]),
+    .E(_02_),
+    .Q(received_register[2]),
+    .R(_12_)
+  );
+  SB_DFFESR _82_ (
+    .C(clk),
+    .D(_01_[3]),
+    .E(_02_),
+    .Q(received_register[3]),
+    .R(_12_)
+  );
+  SB_DFFESR _83_ (
+    .C(clk),
+    .D(_01_[4]),
+    .E(_02_),
+    .Q(received_register[4]),
+    .R(_12_)
+  );
+  SB_DFFESR _84_ (
+    .C(clk),
+    .D(_01_[5]),
+    .E(_02_),
+    .Q(received_register[5]),
+    .R(_12_)
+  );
+  SB_DFFESR _85_ (
+    .C(clk),
+    .D(_01_[6]),
+    .E(_02_),
+    .Q(received_register[6]),
+    .R(_12_)
+  );
+  SB_DFFESR _86_ (
+    .C(clk),
+    .D(_01_[7]),
+    .E(_02_),
+    .Q(received_register[7]),
+    .R(_12_)
+  );
+  SB_DFF _87_ (
+    .C(clk),
+    .D(_00_),
+    .Q(mic1_run)
+  );
+  \$paramod\uart_baud\CNT_W=24\CNT_INC=24'000001101000110110111001  baud_gen (
+    .clk(clk),
+    .rst(_17_),
+    .stb_baud(stb_baud),
+    .stb_sample(stb_sample)
+  );
+  \$paramod$5491c2ab475c6654d3d7e2adb0bf1a237259424a\control_store  control_store (
+    .clk(clk),
+    .raddr(mp_mem_addr),
+    .rdata(mp_mem_rdata),
+    .ren(mic1_run),
+    .waddr(mp_mem_addr)
+  );
+  \$paramod$bdd6bbf8e60441bcaf7de910a962b9c1089533d4\main_memory  main_memory (
+    .addr_A(mem_addr),
+    .addr_B(mem_addr_instr),
+    .clk(clk),
+    .rdata_A(mem_rdata),
+    .rdata_B(mem_rd_instr),
+    .ren_A(_15_),
+    .ren_B(_16_),
+    .wdata_A(mem_wdata),
+    .wen_A(_14_)
+  );
+  \$paramod$1cad5f9341b5e1c8e79f635861ce634d89ec6d64\mic1  mic1 (
+    .clk(clk),
+    .mem_addr(mem_addr),
+    .mem_addr_instr(mem_addr_instr),
+    .mem_fetch(mem_fetch),
+    .mem_rd_instr(mem_rd_instr),
+    .mem_rdata(mem_rdata_io),
+    .mem_read(mem_read),
+    .mem_wdata(mem_wdata),
+    .mem_write(mem_write),
+    .mp_mem_addr(mp_mem_addr),
+    .mp_mem_rdata(mp_mem_rdata),
+    .out(out),
+    .resetn(resetn),
+    .run(mic1_run)
+  );
+  uart_rx uart_rx_inst (
+    .clk(clk),
+    .data_in(ser_rx),
+    .data_out(received),
+    .rst(_17_),
+    .rx_done(rx_done),
+    .stb_sample(stb_sample)
+  );
+  uart_tx uart_tx_inst (
+    .clk(clk),
+    .data_in(mem_wdata[7:0]),
+    .data_out(ser_tx),
+    .rst(_17_),
+    .stb_baud(stb_baud),
+    .tx_busy(tx_busy),
+    .tx_next(tx_next),
+    .tx_start(_13_)
+  );
+endmodule
+
 module \$paramod$5491c2ab475c6654d3d7e2adb0bf1a237259424a\control_store (clk, ren, waddr, raddr, rdata);
   wire [35:0] _000_;
   wire _001_;
@@ -10321,705 +11019,7 @@ module \$paramod$5491c2ab475c6654d3d7e2adb0bf1a237259424a\control_store (clk, re
   assign \mem[9]  = 36'h050148007;
 endmodule
 
-module \$paramod$832c1d873a34f1ae74c8fa6dea345ae5876d0e9a\mic1_soc (clk, resetn, run, ser_tx, ser_rx, out);
-  wire _00_;
-  wire [7:0] _01_;
-  wire _02_;
-  wire _03_;
-  wire _04_;
-  wire _05_;
-  wire _06_;
-  wire _07_;
-  wire _08_;
-  wire _09_;
-  wire _10_;
-  wire _11_;
-  wire _12_;
-  wire _13_;
-  wire _14_;
-  wire _15_;
-  wire _16_;
-  wire _17_;
-  wire _18_;
-  wire _19_;
-  input clk;
-  wire [31:0] mem_addr;
-  wire [31:0] mem_addr_instr;
-  wire mem_fetch;
-  wire [7:0] mem_rd_instr;
-  wire [31:0] mem_rdata;
-  wire [31:0] mem_rdata_io;
-  wire mem_read;
-  wire [31:0] mem_wdata;
-  wire mem_write;
-  wire mic1_run;
-  wire [8:0] mp_mem_addr;
-  wire [35:0] mp_mem_rdata;
-  output [31:0] out;
-  wire [7:0] received;
-  wire [7:0] received_register;
-  input resetn;
-  input run;
-  wire rx_done;
-  input ser_rx;
-  output ser_tx;
-  wire stb_baud;
-  wire stb_sample;
-  wire tx_busy;
-  wire tx_next;
-  SB_LUT4 #(
-    .LUT_INIT(8'h80)
-  ) _20_ (
-    .I0(_18_),
-    .I1(_19_),
-    .I2(_15_),
-    .I3(1'h0),
-    .O(_12_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _21_ (
-    .I0(_09_),
-    .I1(_08_),
-    .I2(_11_),
-    .I3(_10_),
-    .O(_18_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _22_ (
-    .I0(mem_addr[20]),
-    .I1(mem_addr[21]),
-    .I2(mem_addr[22]),
-    .I3(mem_addr[23]),
-    .O(_09_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _23_ (
-    .I0(mem_addr[16]),
-    .I1(mem_addr[17]),
-    .I2(mem_addr[18]),
-    .I3(mem_addr[19]),
-    .O(_08_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _24_ (
-    .I0(mem_addr[28]),
-    .I1(mem_addr[29]),
-    .I2(mem_addr[30]),
-    .I3(mem_addr[31]),
-    .O(_11_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _25_ (
-    .I0(mem_addr[24]),
-    .I1(mem_addr[25]),
-    .I2(mem_addr[26]),
-    .I3(mem_addr[27]),
-    .O(_10_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _26_ (
-    .I0(_05_),
-    .I1(_04_),
-    .I2(_07_),
-    .I3(_06_),
-    .O(_19_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _27_ (
-    .I0(mem_addr[4]),
-    .I1(mem_addr[5]),
-    .I2(mem_addr[6]),
-    .I3(mem_addr[7]),
-    .O(_05_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h4000)
-  ) _28_ (
-    .I0(mem_addr[1]),
-    .I1(mem_addr[0]),
-    .I2(mem_addr[2]),
-    .I3(mem_addr[3]),
-    .O(_04_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _29_ (
-    .I0(mem_addr[12]),
-    .I1(mem_addr[13]),
-    .I2(mem_addr[14]),
-    .I3(mem_addr[15]),
-    .O(_07_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h8000)
-  ) _30_ (
-    .I0(mem_addr[8]),
-    .I1(mem_addr[9]),
-    .I2(mem_addr[10]),
-    .I3(mem_addr[11]),
-    .O(_06_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _31_ (
-    .I0(mic1_run),
-    .I1(mem_read),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_15_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'h80ff)
-  ) _32_ (
-    .I0(_18_),
-    .I1(_19_),
-    .I2(_15_),
-    .I3(_03_),
-    .O(_02_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h4)
-  ) _33_ (
-    .I0(rx_done),
-    .I1(resetn),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_03_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h4)
-  ) _34_ (
-    .I0(tx_busy),
-    .I1(run),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_00_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h80)
-  ) _35_ (
-    .I0(_18_),
-    .I1(_19_),
-    .I2(_14_),
-    .I3(1'h0),
-    .O(_13_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _36_ (
-    .I0(mem_write),
-    .I1(mic1_run),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_14_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _37_ (
-    .I0(mic1_run),
-    .I1(mem_fetch),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_16_)
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _38_ (
-    .I0(received_register[0]),
-    .I1(mem_rdata[0]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[0])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _39_ (
-    .I0(received_register[1]),
-    .I1(mem_rdata[1]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[1])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _40_ (
-    .I0(received_register[2]),
-    .I1(mem_rdata[2]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[2])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _41_ (
-    .I0(received_register[3]),
-    .I1(mem_rdata[3]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[3])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _42_ (
-    .I0(received_register[4]),
-    .I1(mem_rdata[4]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[4])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _43_ (
-    .I0(received_register[5]),
-    .I1(mem_rdata[5]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[5])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _44_ (
-    .I0(received_register[6]),
-    .I1(mem_rdata[6]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[6])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(16'haccc)
-  ) _45_ (
-    .I0(received_register[7]),
-    .I1(mem_rdata[7]),
-    .I2(_18_),
-    .I3(_19_),
-    .O(mem_rdata_io[7])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _46_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[8]),
-    .I3(1'h0),
-    .O(mem_rdata_io[8])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _47_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[9]),
-    .I3(1'h0),
-    .O(mem_rdata_io[9])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _48_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[10]),
-    .I3(1'h0),
-    .O(mem_rdata_io[10])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _49_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[11]),
-    .I3(1'h0),
-    .O(mem_rdata_io[11])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _50_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[12]),
-    .I3(1'h0),
-    .O(mem_rdata_io[12])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _51_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[13]),
-    .I3(1'h0),
-    .O(mem_rdata_io[13])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _52_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[14]),
-    .I3(1'h0),
-    .O(mem_rdata_io[14])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _53_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[15]),
-    .I3(1'h0),
-    .O(mem_rdata_io[15])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _54_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[16]),
-    .I3(1'h0),
-    .O(mem_rdata_io[16])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _55_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[17]),
-    .I3(1'h0),
-    .O(mem_rdata_io[17])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _56_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[18]),
-    .I3(1'h0),
-    .O(mem_rdata_io[18])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _57_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[19]),
-    .I3(1'h0),
-    .O(mem_rdata_io[19])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _58_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[20]),
-    .I3(1'h0),
-    .O(mem_rdata_io[20])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _59_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[21]),
-    .I3(1'h0),
-    .O(mem_rdata_io[21])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _60_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[22]),
-    .I3(1'h0),
-    .O(mem_rdata_io[22])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _61_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[23]),
-    .I3(1'h0),
-    .O(mem_rdata_io[23])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _62_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[24]),
-    .I3(1'h0),
-    .O(mem_rdata_io[24])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _63_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[25]),
-    .I3(1'h0),
-    .O(mem_rdata_io[25])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _64_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[26]),
-    .I3(1'h0),
-    .O(mem_rdata_io[26])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _65_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[27]),
-    .I3(1'h0),
-    .O(mem_rdata_io[27])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _66_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[28]),
-    .I3(1'h0),
-    .O(mem_rdata_io[28])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _67_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[29]),
-    .I3(1'h0),
-    .O(mem_rdata_io[29])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _68_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[30]),
-    .I3(1'h0),
-    .O(mem_rdata_io[30])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(8'h70)
-  ) _69_ (
-    .I0(_19_),
-    .I1(_18_),
-    .I2(mem_rdata[31]),
-    .I3(1'h0),
-    .O(mem_rdata_io[31])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _70_ (
-    .I0(rx_done),
-    .I1(received[0]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[0])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _71_ (
-    .I0(rx_done),
-    .I1(received[1]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[1])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _72_ (
-    .I0(rx_done),
-    .I1(received[2]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[2])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _73_ (
-    .I0(rx_done),
-    .I1(received[3]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[3])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _74_ (
-    .I0(rx_done),
-    .I1(received[4]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[4])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _75_ (
-    .I0(rx_done),
-    .I1(received[5]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[5])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _76_ (
-    .I0(rx_done),
-    .I1(received[6]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[6])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(4'h8)
-  ) _77_ (
-    .I0(rx_done),
-    .I1(received[7]),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_01_[7])
-  );
-  SB_LUT4 #(
-    .LUT_INIT(2'h1)
-  ) _78_ (
-    .I0(resetn),
-    .I1(1'h0),
-    .I2(1'h0),
-    .I3(1'h0),
-    .O(_17_)
-  );
-  SB_DFFESR _79_ (
-    .C(clk),
-    .D(_01_[0]),
-    .E(_02_),
-    .Q(received_register[0]),
-    .R(_12_)
-  );
-  SB_DFFESR _80_ (
-    .C(clk),
-    .D(_01_[1]),
-    .E(_02_),
-    .Q(received_register[1]),
-    .R(_12_)
-  );
-  SB_DFFESR _81_ (
-    .C(clk),
-    .D(_01_[2]),
-    .E(_02_),
-    .Q(received_register[2]),
-    .R(_12_)
-  );
-  SB_DFFESR _82_ (
-    .C(clk),
-    .D(_01_[3]),
-    .E(_02_),
-    .Q(received_register[3]),
-    .R(_12_)
-  );
-  SB_DFFESR _83_ (
-    .C(clk),
-    .D(_01_[4]),
-    .E(_02_),
-    .Q(received_register[4]),
-    .R(_12_)
-  );
-  SB_DFFESR _84_ (
-    .C(clk),
-    .D(_01_[5]),
-    .E(_02_),
-    .Q(received_register[5]),
-    .R(_12_)
-  );
-  SB_DFFESR _85_ (
-    .C(clk),
-    .D(_01_[6]),
-    .E(_02_),
-    .Q(received_register[6]),
-    .R(_12_)
-  );
-  SB_DFFESR _86_ (
-    .C(clk),
-    .D(_01_[7]),
-    .E(_02_),
-    .Q(received_register[7]),
-    .R(_12_)
-  );
-  SB_DFF _87_ (
-    .C(clk),
-    .D(_00_),
-    .Q(mic1_run)
-  );
-  \$paramod\uart_baud\CNT_W=24\CNT_INC=24'000001101000110110111001  baud_gen (
-    .clk(clk),
-    .rst(_17_),
-    .stb_baud(stb_baud),
-    .stb_sample(stb_sample)
-  );
-  \$paramod$5491c2ab475c6654d3d7e2adb0bf1a237259424a\control_store  control_store (
-    .clk(clk),
-    .raddr(mp_mem_addr),
-    .rdata(mp_mem_rdata),
-    .ren(mic1_run),
-    .waddr(mp_mem_addr)
-  );
-  \$paramod$84a59d7e9f7826b7d2f816b5d59cd3b93c748ae6\main_memory  main_memory (
-    .addr_A(mem_addr),
-    .addr_B(mem_addr_instr),
-    .clk(clk),
-    .rdata_A(mem_rdata),
-    .rdata_B(mem_rd_instr),
-    .ren_A(_15_),
-    .ren_B(_16_),
-    .wdata_A(mem_wdata),
-    .wen_A(_14_)
-  );
-  \$paramod$1cad5f9341b5e1c8e79f635861ce634d89ec6d64\mic1  mic1 (
-    .clk(clk),
-    .mem_addr(mem_addr),
-    .mem_addr_instr(mem_addr_instr),
-    .mem_fetch(mem_fetch),
-    .mem_rd_instr(mem_rd_instr),
-    .mem_rdata(mem_rdata_io),
-    .mem_read(mem_read),
-    .mem_wdata(mem_wdata),
-    .mem_write(mem_write),
-    .mp_mem_addr(mp_mem_addr),
-    .mp_mem_rdata(mp_mem_rdata),
-    .out(out),
-    .resetn(resetn),
-    .run(mic1_run)
-  );
-  uart_rx uart_rx_inst (
-    .clk(clk),
-    .data_in(ser_rx),
-    .data_out(received),
-    .rst(_17_),
-    .rx_done(rx_done),
-    .stb_sample(stb_sample)
-  );
-  uart_tx uart_tx_inst (
-    .clk(clk),
-    .data_in(mem_wdata[7:0]),
-    .data_out(ser_tx),
-    .rst(_17_),
-    .stb_baud(stb_baud),
-    .tx_busy(tx_busy),
-    .tx_next(tx_next),
-    .tx_start(_13_)
-  );
-endmodule
-
-module \$paramod$84a59d7e9f7826b7d2f816b5d59cd3b93c748ae6\main_memory (clk, wen_A, ren_A, ren_B, addr_A, addr_B, wdata_A, rdata_A, rdata_B);
+module \$paramod$bdd6bbf8e60441bcaf7de910a962b9c1089533d4\main_memory (clk, wen_A, ren_A, ren_B, addr_A, addr_B, wdata_A, rdata_A, rdata_B);
   wire _00_;
   wire _01_;
   wire _02_;
@@ -21240,42 +21240,49 @@ module mic1_icebreaker(CLK, RX, TX, BTN_N, LEDR_N, LEDG_N, BTN1, BTN2, BTN3, LED
     .O(led_run)
   );
   SB_DFFSR _29_ (
-    .C(CLK),
+    .C(clk),
     .D(next_state[0]),
     .Q(current_state[0]),
     .R(_00_)
   );
   SB_DFFSR _30_ (
-    .C(CLK),
+    .C(clk),
     .D(next_state[1]),
     .Q(current_state[1]),
     .R(_00_)
   );
+  SB_HFOSC #(
+    .CLKHF_DIV("0b11")
+  ) clock (
+    .CLKHF(clk),
+    .CLKHFEN(1'h1),
+    .CLKHFPU(1'h1)
+  );
   \$paramod\debouncer\MAX_COUNT=511  debouncer1 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN1_sync),
     .out(button_run),
     .resetn(BTN_N_sync)
   );
   \$paramod\debouncer\MAX_COUNT=511  debouncer2 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN2_sync),
     .out(button_step),
     .resetn(BTN_N_sync)
   );
   \$paramod\debouncer\MAX_COUNT=511  debouncer3 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN3_sync),
     .out(button_stop),
     .resetn(BTN_N_sync)
   );
   edge_detection edge_detection (
-    .clk(CLK),
+    .clk(clk),
     .in(button_step),
     .out(button_step_edge)
   );
-  \$paramod$832c1d873a34f1ae74c8fa6dea345ae5876d0e9a\mic1_soc  mic1_soc (
-    .clk(CLK),
+  \$paramod$3e562c0c556c6b2489f290a2eaed4b56e12759b7\mic1_soc  mic1_soc (
+    .clk(clk),
     .out(out),
     .resetn(BTN_N_sync),
     .run(led_run),
@@ -21283,31 +21290,31 @@ module mic1_icebreaker(CLK, RX, TX, BTN_N, LEDR_N, LEDG_N, BTN1, BTN2, BTN3, LED
     .ser_tx(TX)
   );
   synchronizer synchronizer1 (
-    .clk(CLK),
+    .clk(clk),
     .in(RX),
     .out(RX_sync),
     .resetn(BTN_N_sync)
   );
   synchronizer synchronizer2 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN_N),
     .out(BTN_N_sync),
     .resetn(1'h1)
   );
   synchronizer synchronizer3 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN1),
     .out(BTN1_sync),
     .resetn(BTN_N_sync)
   );
   synchronizer synchronizer4 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN2),
     .out(BTN2_sync),
     .resetn(BTN_N_sync)
   );
   synchronizer synchronizer5 (
-    .clk(CLK),
+    .clk(clk),
     .in(BTN3),
     .out(BTN3_sync),
     .resetn(BTN_N_sync)
@@ -21317,7 +21324,6 @@ module mic1_icebreaker(CLK, RX, TX, BTN_N, LEDR_N, LEDG_N, BTN1, BTN2, BTN3, LED
   assign LED3 = out[2];
   assign LED4 = out[31];
   assign LEDR_N = led_run;
-  assign clk = CLK;
   assign mic1_run = led_run;
   assign resetn = BTN_N_sync;
 endmodule

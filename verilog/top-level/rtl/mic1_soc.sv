@@ -4,7 +4,7 @@ module mic1_soc #(
     parameter STACKPOINTER_ADDRESS = 'h0060,
     parameter LOCALVARIABLEFRAME_ADDRESS = 'h0050,
     parameter CONSTANTPOOL_ADDRESS = 'h0048,
-    parameter MIC1_PROGRAM = "programs/add.mem",
+    parameter MIC1_PROGRAM = "add.mem",
     parameter MIC1_MICROCODE = "microcode.mem",
     parameter MEMORY_SIZE = 'h0083
     )(
