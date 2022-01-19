@@ -3,10 +3,9 @@
 module control_store #(
     parameter INIT_F=""
     )(
-    input clk, wen, ren,
+    input clk, ren,
 
     input wire [8:0] waddr, raddr,
-    input wire [35:0] wdata,
     output reg [35:0] rdata = 0
     );
 
@@ -20,8 +19,6 @@ module control_store #(
     end
 
     always_ff @(posedge clk) begin
-         if (wen)
-            mem[waddr] <= wdata;
          if (ren)
             //$display("MPC= %h", raddr);
             rdata <= mem[raddr];

@@ -1,21 +1,25 @@
 `timescale 1 ns / 1 ps
 
-module mic1 (
+module mic1 #(
+    parameter STACKPOINTER_ADDRESS = 'h0060,
+    parameter LOCALVARIABLEFRAME_ADDRESS = 'h0050,
+    parameter CONSTANTPOOL_ADDRESS = 'h0048
+    )(
     input clk,
     input resetn,
+    input run,
 
     // Main memory
     output logic [31:0] mem_addr,
     output logic [31:0] mem_wdata,
-    input      [31:0] mem_rdata,
+    input        [31:0] mem_rdata,
     
     output logic [31:0] mem_addr_instr,
-    input [7:0]  mem_rd_instr,
+    input        [ 7:0] mem_rd_instr,
 
     // Microprogram memory
-    output logic [8:0]  mp_mem_addr,
-    output logic [35:0] mp_mem_wdata,
-    input      [35:0] mp_mem_rdata,
+    output logic [ 8:0] mp_mem_addr,
+    input        [35:0] mp_mem_rdata,
 
     output logic mem_read,
     output logic mem_write,
@@ -24,42 +28,39 @@ module mic1 (
     output [31:0] out
 );
 
-    reg [31:0] MAR = 0;
-    reg [31:0] MDR = 0;
-    reg [31:0] PC  = -1;
-    reg [7:0]  MBR = 0;
-    reg [31:0] SP  = `STACKPOINTER_ADDRESS;
-    reg [31:0] LV  = `LOCALVARIABLEFRAME_ADDRESS;
-    reg [31:0] CPP = `CONSTANTPOOL_ADDRESS;
-    reg [31:0] TOS = 0;
-    reg [31:0] OPC = 0;
-    reg [31:0] H   = 0;
+    logic [31:0] MAR;
+    logic [31:0] MDR;
+    logic [31:0] PC;
+    logic [7:0]  MBR;
+    logic [31:0] SP;
+    logic [31:0] LV;
+    logic [31:0] CPP;
+    logic [31:0] TOS;
+    logic [31:0] OPC;
+    logic [31:0] H;
 
-    wire [35:0] MIR;
-    reg [8:0]  MPC = 0;
+    logic [35:0] MIR;
+    logic [8:0]  MPC;
 
     // C "bus"
-    wire [31:0] C;
+    logic [31:0] C;
 
     // B "bus"
-    reg [31:0] B = 0;
+    logic [31:0] B;
 
     // ALU output
-    wire [31:0] ALU_out;
+    logic [31:0] ALU_out;
 
-    reg N_ff = 0;
-    reg Z_ff = 0;
+    logic N, Z;
 
-    wire N, Z;
-
-    wire [3:0] B_select;
-    wire [2:0] memory_ctrl;
-    reg  [2:0] old_memory_ctrl;
-    wire [8:0] C_select;
-    wire [5:0] ALU_ctrl;
-    wire [1:0] shifter_ctrl;
-    wire [2:0] jump_ctrl;
-    wire [8:0] next_address;
+    logic [3:0] B_select;
+    logic [2:0] memory_ctrl;
+    logic [2:0] old_memory_ctrl;
+    logic [8:0] C_select;
+    logic [5:0] ALU_ctrl;
+    logic [1:0] shifter_ctrl;
+    logic [2:0] jump_ctrl;
+    logic [8:0] next_address;
 
     // Disassemble MIR
     assign B_select     = MIR[3:0];
@@ -93,11 +94,11 @@ module mic1 (
     );
 
     // Write to B bus
-    // TODO load MIR from memory with address MPC
     always_ff @(negedge clk) begin
         if (!resetn) begin
-
-        end else begin
+            B   <= 0;
+        end
+        if (resetn && run) begin
             case (B_select)
                 4'd0: B <= MDR;
                 4'd1: B <= PC;
@@ -110,9 +111,6 @@ module mic1 (
                 4'd8: B <= OPC;
                 default: B <= 'X;
             endcase
-            
-            
-            
         end
     end
 
@@ -121,11 +119,18 @@ module mic1 (
     // Set N and Z for next instr
     always_ff @(posedge clk) begin
         if (!resetn) begin
-
-        end else begin
-            N_ff <= N;
-            Z_ff <= Z;
-
+            MAR <= 0;
+            MDR <= 0;
+            PC  <= -1;
+            MBR <= 0;
+            SP  <= STACKPOINTER_ADDRESS;
+            LV  <= LOCALVARIABLEFRAME_ADDRESS;
+            CPP <= CONSTANTPOOL_ADDRESS;
+            TOS <= 0;
+            OPC <= 0;
+            H   <= 0;
+        end
+        else if (resetn && run) begin
             if (C_select & 9'b000000001) begin
                 MAR <= C;
             end
@@ -154,10 +159,7 @@ module mic1 (
                 H <= C;
             end
 
-            // TODO
-            // load MDR and MBR with the result of the last memory operations
-            // do we need the old MIR? or only last write signals?
-
+            // Load MDR and MBR with the result of the last memory operations
             if (old_memory_ctrl[1]) begin
                 MDR <= mem_rdata;
             end
@@ -177,14 +179,16 @@ module mic1 (
 
     // Set MPC
     always_comb begin
+        if (!resetn) begin
+            MPC = 0;
+        end
         // JMPC
-        if (jump_ctrl[2]) begin
+        else if (jump_ctrl[2]) begin
             MPC = next_address | MBR;
         end else begin
-            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8); // TODO _ff
+            MPC = next_address | ((( jump_ctrl[0] && Z ) || ( jump_ctrl[1] && N )) << 8);
         end
     end
-
     
     assign mp_mem_addr = MPC;
     assign MIR = mp_mem_rdata;
@@ -195,6 +199,6 @@ module mic1 (
     assign mem_addr_instr = PC;
 
     // TODO remove
-    assign out = H;
+    assign out = MPC;//H;
 
 endmodule
