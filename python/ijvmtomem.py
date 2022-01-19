@@ -13,6 +13,7 @@ so there are always 8 signs in one row (8 signs are equally
 to 4 commands)
 """
 
+from json.tool import main
 import os
 from posixpath import split
 import sys
@@ -29,7 +30,7 @@ def read_file(filename:str):
     return fileContent
 
 # convert binary data to hex dataformat for ASCII
-def convert_content(fileContent:bytes):
+def convert_content(fileContent:bytes, stacksize):
     hex_string = fileContent.hex()
 
     n = 8           # size of one row
@@ -73,9 +74,10 @@ def convert_content(fileContent:bytes):
     reversed_textdata = reverse_commands(textdata)
 
     new_hex_string = reversed_textdata + pooldata   # add constants at the end of string
+    stack_string = ["00000000\n" * stacksize]
 
-    split_strings = [new_hex_string[index : index + n] + "\n" for index in range(0, len(new_hex_string), n)]
-
+    split_strings = [new_hex_string[index : index + n] + "\n" for index in range(0, len(new_hex_string), n)] + stack_string
+    
     return split_strings
 
 # create .txt-File in same directory and write the converted data into it
@@ -120,15 +122,22 @@ def reverse_commands(commands):
 if __name__=='__main__':
     #parsing commandline
     parser = argparse.ArgumentParser(description='Convert Binary to ASCII')
-    parser.add_argument('filename', help='filename of binaryfile without file extension')
+    parser.add_argument('filename', help='filename of binaryfile with file extension')
+    parser.add_argument('-st', '--stacksize', type = int, metavar = '',  help = 'stacksize which will be added to .mem output file, default = 64')
     args = parser.parse_args()
     base = os.path.basename(args.filename)
     print("mic1tomem: convert .ijvm files to .mem files")
     print("Loading " + base +  "\n")
 
-    content_of_file = read_file(args.filename)
-    writable_content = convert_content(content_of_file)
+    if args.stacksize != None:
+        stacksize = args.stacksize
+    else:
+        stacksize = 64      # default value
 
+    print(stacksize, "Words added")
+
+    content_of_file = read_file(args.filename)
+    writable_content = convert_content(content_of_file, stacksize)
     write_file(writable_content, args.filename)
 
     print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".mem")

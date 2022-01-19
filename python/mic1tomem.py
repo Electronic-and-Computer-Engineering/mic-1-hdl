@@ -59,7 +59,7 @@ def write_file(fileContent, filename):
 if __name__=='__main__':
     #parsing commandline
     parser = argparse.ArgumentParser(description='Convert Binary to ASCII')
-    parser.add_argument('filename', help='filename of binaryfile without file extension')
+    parser.add_argument('filename', help='filename of binaryfile with file extension')
     args = parser.parse_args()
     base = os.path.basename(args.filename)
     print("mic1tomem: convert .mic1 files to .mem files")
