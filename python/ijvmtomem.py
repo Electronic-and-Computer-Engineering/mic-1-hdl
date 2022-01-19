@@ -5,12 +5,16 @@ ECE Project Mic-1
 Title: Program Converter for ijvm-files
 Author: Florian Zwittnigg
 Date: 17.11.2021
-Rev.: 1.0
+Rev.: 1.1
 
 This program convert a .ijvm into a .txt, which can be later
 interpreted by a mic1 processor. The last row will be padded
 so there are always 8 signs in one row (8 signs are equally
 to 4 commands)
+
+New in Rev 1.1: a stacksize is added, which can be entered
+via console and extends the .mem file with the entered stacksize
+or with a default of 64 words as zeros
 """
 
 from json.tool import main
