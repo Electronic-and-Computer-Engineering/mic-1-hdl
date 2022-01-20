@@ -36,11 +36,7 @@ module mic1_soc #(
     wire [35:0] mp_mem_rdata;
     
     logic mic1_run;
-    
-    // Always change mic1_run on rising edge
-    always_ff @(posedge clk) begin
-        mic1_run <= run && !tx_busy;
-    end
+    logic [31:0] mem_rdata_io;
 
     mic1 #(
         .STACKPOINTER_ADDRESS(STACKPOINTER_ADDRESS),
@@ -67,7 +63,6 @@ module mic1_soc #(
         .out(out)
     );
     
-    logic [31:0] mem_rdata_io;
     logic [7:0] my_input;
     
     always_ff @(posedge clk) begin
@@ -81,8 +76,7 @@ module mic1_soc #(
     
     // baud generator: 6 MHz -> 153,600 (16 x 9,600)
     // 6 MHz / 153,600 = 39,0625; 2^24/39,0625 = 429,497
-    
-    
+       
     localparam CNT_W=24;            // baud counter width
     localparam CNT_INC=24'd429497;   // baud counter increment
     logic stb_baud, stb_sample;
@@ -120,6 +114,11 @@ module mic1_soc #(
         .tx_busy,
         .tx_next
     );
+    
+    // Always change mic1_run on rising edge
+    always_ff @(posedge clk) begin
+        mic1_run <= run && !tx_busy;
+    end
     
     logic [7:0] received_register;
 
