@@ -23,10 +23,6 @@ The CPU will be designed via Vivado and tested on a Basys-3 Artix-7 FPGA board.
 
 This directory contains the various submodules and the top-level module.
 
-## documentation/
+## python/
 
-Here you can find documentation about the function and interfaces of the submodules.
-
-## examples/
-
-This directory hosts general verilog examples usable as a reference.
+This directory houses the scripts for converting the MIC-1 programs to memory files.
