@@ -34,7 +34,9 @@ def read_file(filename:str):
     return fileContent
 
 # convert binary data to hex dataformat for ASCII
-def convert_content(fileContent:bytes, stacksize):
+def convert_content(fileContent:bytes, stacksize, filename):
+    base = os.path.basename(filename)
+    output_filename = os.path.splitext(base)[0]
     hex_string = fileContent.hex()
 
     n = 8           # size of one row
@@ -81,6 +83,25 @@ def convert_content(fileContent:bytes, stacksize):
     stack_string = ["00000000\n" * stacksize]
 
     split_strings = [new_hex_string[index : index + n] + "\n" for index in range(0, len(new_hex_string), n)] + stack_string
+
+    # Constants for define file
+    CONSTANTPOOL_ADDRESS_hex = str(format(math.ceil(textsize/4), 'x'))
+    LOCALVARIABLEFRAME_ADDRESS_hex = str(format(math.ceil(textsize/4) + (size_pooldata//4), 'x'))
+    STACKPOINTER_ADDRESS_hex = str(format(math.ceil(textsize/4) + (size_pooldata//4) + 16, 'x'))
+    MEMORY_SIZE = str(format(math.ceil(textsize/4) + (size_pooldata//4) + stacksize, 'x'))
+
+    # Create define file
+    file = open(f'defines_{output_filename}.sv', "w")
+    file.writelines('`ifndef _mic1_include_\n`define _mic1_include_\n\n')
+    file.writelines("`define MIC1_PROGRAM \"" + output_filename + ".mem\"\n")
+    file.writelines("`define MIC1_MICROCODE \"microcode.mem\"\n")
+    file.writelines("`define CONSTANTPOOL_ADDRESS 'h" + CONSTANTPOOL_ADDRESS_hex + "\n")
+    file.writelines("`define LOCALVARIABLEFRAME_ADDRESS 'h" + LOCALVARIABLEFRAME_ADDRESS_hex + "\n")
+    file.writelines("`define STACKPOINTER_ADDRESS 'h" + STACKPOINTER_ADDRESS_hex + "\n")
+    file.writelines("`define MEMORY_SIZE 'h" + MEMORY_SIZE + "\n\n")
+    file.writelines("`endif")
+
+    file.close()
     
     return split_strings
 
@@ -90,10 +111,8 @@ def write_file(fileContent, filename):
     output_filename = os.path.splitext(base)[0]
 
     file = open(f'{output_filename}.mem', "w")
-
     file.writelines("// This file was created with ijvmtomem.py from " + base +  "\n")
     file.writelines(fileContent)
-
     file.close()
 
     return base
@@ -141,7 +160,8 @@ if __name__=='__main__':
     print(stacksize, "Words added")
 
     content_of_file = read_file(args.filename)
-    writable_content = convert_content(content_of_file, stacksize)
+    writable_content = convert_content(content_of_file, stacksize, args.filename)
     write_file(writable_content, args.filename)
 
     print("Conversion done. Saved as " + os.path.splitext(base)[0] + ".mem")
+    
