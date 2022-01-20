@@ -1,7 +1,7 @@
 default: simulation-iverilog
 
 # Sources
-RTL = $(wildcard verilog/top-level/rtl/*.sv) \
+RTL = $(filter-out verilog/top-level/rtl/mic1_basys3.sv, $(wildcard verilog/top-level/rtl/*.sv)) \
 	$(wildcard verilog/alu/rtl/*.sv) \
 	$(wildcard verilog/shifter/rtl/*.sv) \
 	$(wildcard verilog/main-memory/rtl/*.sv) \

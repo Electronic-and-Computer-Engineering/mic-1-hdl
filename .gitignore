@@ -1,3 +1,5 @@
+synth.v
+
 *.vcd
 *.fst
 *.vvp
