@@ -9,9 +9,9 @@ module mic1_basys3 (
 	input wire  RX,
 	output wire TX,
 
-    input wire  BTN_N, // Resetn
-	output wire LEDR_N, // LED idle
-	output wire LEDG_N, // LED run
+    input wire  BTN, // Resetn
+	output wire LEDR, // LED idle
+	output wire LEDG, // LED run
 	
 	// PMOD 2
 	input wire BTN1, // Start button
@@ -26,6 +26,12 @@ module mic1_basys3 (
 );
     logic clk;
     
+    clk_wiz_100_to_6MHz clk_100to6 (
+        .clk_out (clk ),
+        .clk_in  (CLK )
+    );
+    
+    
     logic RX_sync;
     synchronizer synchronizer1 (
         .clk    (clk    ),
@@ -39,7 +45,7 @@ module mic1_basys3 (
     synchronizer synchronizer2 (
         .clk    (clk    ),
         .resetn (1 ),
-        .in     (BTN_N     ),
+        .in     (!BTN    ),
 
         .out    (BTN_N_sync    )
     );
@@ -71,22 +77,6 @@ module mic1_basys3 (
         .out    (BTN3_sync    )
     );
     
-    `ifdef SYNTHESIS
-
-    // Initialize the high speed oscillator
-    // Divide the oscillator down to 48Mhz/8=6 MHz
-    SB_HFOSC #(.CLKHF_DIV("0b11")) clock (
-        .CLKHFEN(1'b1), // Enable the output  
-        .CLKHFPU(1'b1), // Power up the oscillator  
-        .CLKHF(clk) // Oscillator output  
-    );
-    
-    `else
-    
-    assign clk = CLK;
-
-    `endif
-
     // Reset signal
     logic resetn;
     assign resetn = BTN_N_sync;
@@ -221,7 +211,7 @@ module mic1_basys3 (
     assign LED5 = |out;
 
 
-    assign LEDR_N = !led_idle;
-    assign LEDG_N = !led_run;
+    assign LEDR = led_idle;
+    assign LEDG = led_run;
 
 endmodule

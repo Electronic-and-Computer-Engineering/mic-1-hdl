@@ -173,40 +173,4 @@ module mic1_soc #(
         .rdata_A (mem_rdata),
         .rdata_B (mem_rd_instr)
     );
-    
-    /*`ifndef SYNTHESIS
-    
-    initial begin
-        #83000;
-        my_input = 8'h33;
-        #24900;
-        my_input = 8'h34;
-        #24900;
-        my_input = 8'h0A;
-        #16600;
-        my_input = 8'h35;
-        #24900;
-        my_input = 8'h36;
-        #24900;
-        my_input = 8'h0A;
-        #16600;
-        my_input = 8'h00;
-    end
-    
-    always_ff @(negedge clk) begin
-        if (mem_addr == 'hFFFFFFFD && mem_write && mic1_run) begin
-            $display("IO write access: %h %c", mem_wdata, mem_wdata);
-        end
-    end
-    
-    always_ff @(negedge clk) begin
-        if (mem_addr == 'hFFFFFFFD && mem_read && mic1_run) begin
-            if (mem_rdata_io != 0) begin
-                $display("IO read access:  %h %c", mem_rdata_io, mem_rdata_io);
-            end
-        end
-    end
-    
-    `endif*/
-
 endmodule

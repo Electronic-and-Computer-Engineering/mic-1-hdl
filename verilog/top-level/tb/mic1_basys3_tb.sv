@@ -2,13 +2,13 @@
 
 module mic1_basys3_tb;
 
-    parameter CLOCK_PERIOD_NS = 167;
+    parameter CLOCK_PERIOD_NS = 10; //100MHz
     parameter BIT_PERIOD_NS   = 104167;
 
     initial begin
         $display("Starting MIC-1 simulation...");
-        $dumpfile("mic1_basys3_tb.fst");
-        $dumpvars(0, mic1_basys3_tb);
+//        $dumpfile("mic1_basys3_tb.vcd");
+//        $dumpvars(0, mic1_basys3_tb);
     end
 
     logic led_r;
@@ -29,14 +29,14 @@ module mic1_basys3_tb;
     logic resetn;
 
     initial begin
-        resetn = 0;
+        resetn = 1;
         button_run = 0;
         button_step = 0;
         button_stop = 0;
         ser_rx = 1;
         
         #830;
-        resetn = 1;
+        resetn = 0;
         button_run = 1;
     
         #(BIT_PERIOD_NS*10); // Wait for space
@@ -93,9 +93,9 @@ module mic1_basys3_tb;
 	    .LED4         (leds[3] ),
 	    .LED5         (leds[4] ),
 
-	    .LEDR_N       (led_r   ),
-	    .LEDG_N       (led_g   ),
-	    .BTN_N        (resetn  )
+	    .LEDR       (led_r   ),
+	    .LEDG       (led_g   ),
+	    .BTN        (resetn  )
     );
     
     logic [7:0] recv_byte = 0;
