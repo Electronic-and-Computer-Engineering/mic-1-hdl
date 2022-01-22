@@ -24,8 +24,6 @@ module mic1_icebreaker (
 	output LED4,
 	output LED5
 );
-    logic clk;
-    
     logic RX_sync;
     synchronizer synchronizer1 (
         .clk    (clk    ),
@@ -38,7 +36,7 @@ module mic1_icebreaker (
     logic BTN_N_sync;
     synchronizer synchronizer2 (
         .clk    (clk    ),
-        .resetn (1 ),
+        .resetn (1'd1 ),
         .in     (BTN_N     ),
 
         .out    (BTN_N_sync    )
@@ -72,6 +70,8 @@ module mic1_icebreaker (
     );
     
     `ifdef SYNTHESIS
+    
+    logic clk;
 
     // Initialize the high speed oscillator
     // Divide the oscillator down to 48Mhz/8=6 MHz
@@ -83,7 +83,11 @@ module mic1_icebreaker (
     
     `else
     
-    assign clk = CLK;
+    // 12 MHz to 6 Mhz
+    logic clk = 0;
+    always_ff @(posedge CLK) begin
+        clk <= !clk;
+    end
 
     `endif
 

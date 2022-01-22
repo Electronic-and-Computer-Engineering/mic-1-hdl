@@ -141,9 +141,9 @@ module mic1_soc #(
     always_comb begin
         case (mem_addr)
             32'hFFFFFFFD:  // IO address
-                mem_rdata_io = received_register;
+                mem_rdata_io = {24'd0, received_register};
             default: 
-                mem_rdata_io = mem_rdata;            
+                mem_rdata_io = mem_rdata;      
         endcase
     end
 

@@ -17,7 +17,7 @@ module synchronizer #(
         end else begin
 
             pipe[0] <= in;
-            for (i=0; i<FF_COUNT-1; i++) begin
+            for (i=0; i<FF_COUNT-1; i++) begin : loopName
                 pipe[i+1] <= pipe[i];
             end
             out <= pipe[FF_COUNT-1];

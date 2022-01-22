@@ -2,7 +2,7 @@
 
 module mic1_icebreaker_tb;
 
-    parameter CLOCK_PERIOD_NS = 167;
+    parameter CLOCK_PERIOD_NS = 83;
     parameter BIT_PERIOD_NS   = 104167;
 
     initial begin
