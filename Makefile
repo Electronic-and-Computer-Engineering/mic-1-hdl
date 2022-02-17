@@ -49,8 +49,11 @@ simulation-iverilog-gatelevel: Vtop_gatelevel.vvp
 
 prog: top.bin
 	iceprog $<
+	
+documentation/User_Manual.pdf: documentation/User_Manual.md
+	pandoc --resource-path documentation -H latex_configuration.tex -s $^ -o $@
 
 .PHONY: all clean
 
 clean:
-	rm -f *.vvp *.fst *.vcd *.json *.asc *.rpt *.bin *yosys.log synth.v
+	rm -f *.vvp *.fst *.vcd *.json *.asc *.rpt *.bin *yosys.log synth.v documentation/User_Manual.pdf

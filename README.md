@@ -19,6 +19,28 @@ It is tested to work on both the Basys-3 and the iCEBreaker FPGA boards.
 | Team member      | Michael Stangl     |
 | Team member      | Paul Sinabell      |
 
+# Simulation
+
+These instructions refer to simulation using Icarus Verilog and bitstream generation using yosys/nextpnr.
+
+To run a behavioral simulation:
+
+```
+make simulation-iverilog
+```
+
+To run a gatelevel simulation:
+
+```
+make simulation-iverilog-gatelevel
+```
+
+To flash the bitstream to the iCEBreaker board:
+
+```
+make prog
+```
+
 # Repository
 
 ## verilog/
@@ -32,6 +54,12 @@ This directory houses the scripts for converting the MIC-1 programs to memory fi
 ## documentation/
 
 Here you can find a `User Manual` on how to get the MIC-1 up and running on the Basys-3 FPGA Board.
+
+To build the documentation yourself run:
+
+```
+make documentation/User_Manual.pdf
+```
 
 ## Licenses
 
