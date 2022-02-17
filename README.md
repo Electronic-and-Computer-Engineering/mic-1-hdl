@@ -29,6 +29,10 @@ This directory contains the various submodules and the top-level module.
 
 This directory houses the scripts for converting the MIC-1 programs to memory files.
 
+## documentation/
+
+Here you can find a `User Manual` on how to get the MIC-1 up and running on the Basys-3 FPGA Board.
+
 ## Licenses
 
 Copyright the project team.
