@@ -1,11 +1,13 @@
-# MIC-1 based CPU
-Verilog description of a MIC-1 based CPU
+# MIC-1
 
----
+Verilog description of a MIC-1 based CPU.
 
-This repository contains the ongoing work for a study project at the FH Joanneum.
+# Introduction
 
-The CPU will be designed via Vivado and tested on a Basys-3 Artix-7 FPGA board.
+This repository contains the work for a study project at the FH Joanneum.
+
+The CPU is designed to work with Vivado and yosys/nextpnr.
+It is tested to work on both the Basys-3 and the iCEBreaker FPGA boards.
 
 # The Project Team
 
@@ -26,3 +28,9 @@ This directory contains the various submodules and the top-level module.
 ## python/
 
 This directory houses the scripts for converting the MIC-1 programs to memory files.
+
+## Licenses
+
+Copyright the project team.
+
+Unless otherwise specified, source code in this repository is licensed under the GNU General Public License, Version 3 (GPL-3.0). A copy is included in the LICENSE file.
