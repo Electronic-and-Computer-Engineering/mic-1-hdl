@@ -7,7 +7,18 @@
     \endorigfigure
 }
 
-
 \usepackage[export]{adjustbox}
 \let\includegraphicsbak\includegraphics
-\renewcommand*{\includegraphics}[2][]{\includegraphicsbak[frame,#1]{#2}} 
+\renewcommand*{\includegraphics}[2][]{\includegraphicsbak[frame,#1]{#2}}
+
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
+
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{FH Joanneum}
+\lhead{The MIC-1 Project}
+\cfoot{Page \thepage}
